@@ -442,7 +442,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE /*hPrevInstance*/, LPSTR /*l
     HRESULT Hr = ::CoInitialize(NULL);
     if( FAILED(Hr) ) return 0;
 
-    CWndShadow::Initialize(hInstance);
+    //CWndShadow::Initialize(hInstance);
 
     CFrameWindowWnd* pFrame = new CFrameWindowWnd();
     if( pFrame == NULL ) return 0;
