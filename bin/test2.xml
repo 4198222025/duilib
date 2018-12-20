@@ -10,8 +10,29 @@
 	
 	<VerticalLayout inset="10,6,10,6" bkcolor="#FFEA679F" colorhsl="true" bkimage="file='voice_rect.png' xtiled='true' ytiled='true' dest='40,0,200,400'">
 		<Container bkcolor="#FFCCCC00" height="200" >
-			<Button name="insertimagebtn" float="0.5,0.5,0.5,0.5" pos="-80,-30,80,30" height="60" text="删除自己" />
+			<Button name="insertimagebtn" float="0.5,0.5,0.5,0.5" pos="-80,-30,80,30" height="60" text="删除自己1" />
+			<Container bkcolor="#FFCC0000" float="0.01,0.01,0.3,0.8" pos="0,0,0,0" height="0" >
+				<Button name="insertimagebtn" float="0.5,0.5,0.5,0.5" pos="-90,-10,90,10" height="40" text="删除自己2" />
+			</Container>
 		</Container>
+		<HorizontalLayout height="90" bkcolor="#FF8DD3FF" bkcolor2="#FF60B1FE">
+			<VerticalLayout width="200">
+				<Text text="{a}{f 1}软件仓库{/f}{/a}" showhtml="true" />
+			</VerticalLayout>
+			<HorizontalLayout childpadding="20" inset="10,16,10,10" width="*" >
+				
+				<Control />
+				<Option text="游戏大厅" width="64" group="menubar" selected="true" hotimage="tab_back.bmp" selectedimage="headerctrl_down.bmp" selectedhotimage="headerctrl_hot.bmp"/>
+				<Option text="游戏商城" width="64" group="menubar" hotimage="tab_back.bmp" selectedimage="headerctrl_down.bmp" selectedhotimage="headerctrl_hot.bmp" />
+				<Option text="会员中心" width="64" group="menubar" hotimage="tab_back.bmp" selectedimage="headerctrl_down.bmp" selectedhotimage="headerctrl_hot.bmp" />
+				<Option text="客服论坛" width="64" group="menubar" hotimage="tab_back.bmp" selectedimage="headerctrl_down.bmp" selectedhotimage="headerctrl_hot.bmp" />
+			</HorizontalLayout>
+			<HorizontalLayout width="94" >
+				<Button name="changeskinbtn" height="20" text="菜单" maxwidth="120" />
+				<Button name="changeskinbtn" height="20" text="最大化" maxwidth="120" />
+				<Button name="changeskinbtn" height="20" text="关闭" maxwidth="120" />
+			</HorizontalLayout>
+		</HorizontalLayout>
 		<Slider name="alpha_controlor" min="20" max="255" value="255"/>
 		<Control height="4"/>
 		<Slider name="h_controlor" max="360" value="180"/>
