@@ -8,7 +8,7 @@
 	<Default shared="true" name="Option" value="textcolor=&quot;#FFbac0c5&quot; hottextcolor=&quot;#FF386382&quot; selectedtextcolor=&quot;#FF386382&quot; disabledtextcolor=&quot;#FFbac0c5&quot; textpadding=&quot;18,2,0,0&quot; align=&quot;left&quot; selectedimage=&quot;file='Button/RadioBtnSel.png' source='0,0,13,13' dest='0,5,14,19'&quot; normalimage=&quot;file='Button/RadioBtnNon.png' source='0,0,13,13' dest='0,5,14,19'&quot;" />
 	<Default shared="true" name="CheckBox" value="textcolor=&quot;#FFbac0c5&quot; hottextcolor=&quot;#FF386382&quot; selectedtextcolor=&quot;#FF386382&quot; disabledtextcolor=&quot;#FFbac0c5&quot; textpadding=&quot;20,2,0,0&quot; align=&quot;left&quot; selectedimage=&quot;file='Icon/checked.png' dest='0,2,16,18'&quot; normalimage=&quot;file='Icon/unchecked.png' dest='0,2,16,18'&quot;" />
 	
-	<VerticalLayout inset="10,6,10,6" bkcolor="#FFEA679F" colorhsl="true" bkimage="file='voice_rect.png' xtiled='true' ytiled='true' dest='40,0,200,400'">
+	<VerticalLayout inset="10,6,10,6" bkcolor="#FFEA679F" colorhsl="true" bkimage="file='voice_rect.png' xtiled='true' ytiled='true' dest='40,0,200,400'" vscrollbar="true">
 		<Container bkcolor="#FFCCCC00" height="200" >
 			<Button name="insertimagebtn" float="0.5,0.5,0.5,0.5" pos="-80,-30,80,30" height="60" text="删除自己1" />
 			<Container bkcolor="#FFCC0000" float="0.01,0.01,0.3,0.8" pos="0,0,0,0" height="0" >
@@ -32,6 +32,74 @@
 				<Button name="changeskinbtn" height="20" text="最大化" maxwidth="120" />
 				<Button name="changeskinbtn" height="20" text="关闭" maxwidth="120" />
 			</HorizontalLayout>
+		</HorizontalLayout>
+		<HorizontalLayout width="1089" height="680" bkcolor="#FF8DD3FF" bkcolor2="#FF60B1FE">
+			<VerticalLayout width="64" bkcolor="#FF8DD300">
+				<VerticalLayout height="64" bkcolor="#FF8DD3CC">
+					
+				</VerticalLayout>
+				<Control height="8"/>
+				<VerticalLayout  bkcolor="#FFcccccc">
+					<VerticalLayout  bkcolor="#FFcccccc">
+						<Button name="changeskinbtn" height="64" text="换肤" maxwidth="120" />
+						<Control height="4"/>
+						<Button name="changeskinbtn" height="64" text="换肤" maxwidth="120" />
+						<Control height="4"/>
+						<Button name="changeskinbtn" height="64" text="换肤" maxwidth="120" />
+					</VerticalLayout>
+					<Button name="changeskinbtn" height="64" text="换肤" maxwidth="120" />
+				</VerticalLayout>
+			</VerticalLayout>
+			<VerticalLayout width="245" bkcolor="#FF8D00FF">
+				<Text text="{a}{f 1}软件仓库{/f}{/a}" showhtml="true" />
+			</VerticalLayout>
+			<VerticalLayout width="780" bkcolor="#FF00D3FF">
+				<HorizontalLayout height = "60" >
+					<VerticalLayout width="220" bkcolor="#FF8DD3CC">
+						<Control bkcolor="#FFFFCCCC"  />
+						<Edit name="msgedit" text="中华人民共和国" height="46" showhtml="true"  bkcolor="#FF00E000" nativebkcolor="#0000E000"/>
+					</VerticalLayout>
+					<VerticalLayout  bkcolor="#FF8DD300">
+						
+					</VerticalLayout>
+					<VerticalLayout width="220" bkcolor="#FF8DD3CC">
+						<HorizontalLayout  bkcolor="#FF8DD3FF" bkcolor2="#FF60B1FE">
+							<Control bkcolor="#FFFFCCCC" />
+							<Button name="changeskinbtn" width="32" height="20" text="A" maxwidth="120" />
+							<Button name="changeskinbtn" width="32" height="20" text="B" maxwidth="120" />
+							<Button name="changeskinbtn" width="32" height="20" text="C" maxwidth="120" />
+						</HorizontalLayout>
+						<HorizontalLayout  bkcolor="#FF8DD3FF" bkcolor2="#FF60B1FE">
+							<Control bkcolor="#FFFFCCCC" />
+							<Button name="changeskinbtn" width="60" text="F" maxwidth="120" />
+						</HorizontalLayout>
+					</VerticalLayout>
+					
+				</HorizontalLayout>
+				<RichEdit name="testrichedit" bordercolor="#FF0000" bordersize="0" borderround="18,18" inset="4,2,4,2" bkcolor="#A0F2F5FA" bkcolor2="#A0FF0000" bkcolor3="#A0F2F5FA" font="1" multiline="true" vscrollbar="true" autovscroll="true" enabled="true" rich="true" readonly="false" text="1爱3">
+					
+					<Button name="insertimagebtn" float="0.5,0.5,0.5,0.5" pos="-80,-10,80,10" text="这里是聊天区！！！" />
+				</RichEdit>
+				<HorizontalLayout height = "25" >
+					<Control bkcolor="#FFFFCCCC" width="24" height="24" />
+					<Button name="changeskinbtn" width="24" height="24" text="A" />
+					<Button name="changeskinbtn" width="24" height="24"  text="B"  />
+					<Button name="changeskinbtn" width="24" height="24" text="C"  />
+					<Button name="changeskinbtn" width="24" height="24" text="D"  />
+					<Control bkcolor="#FFFFCCCC" />
+					<Button name="changeskinbtn" width="24" height="24" text="Z"  />
+				</HorizontalLayout>
+				<HorizontalLayout height = "66" >
+					<Edit name="msgedit" text="{a www.baidu.com}ddd{/a}" showhtml="true"  bkcolor="#FF00E000" nativebkcolor="#0000E000"/>
+				</HorizontalLayout>
+				<HorizontalLayout height = "43" bkcolor="#FFCCCCCC" >
+					<Control bkcolor="#FFFFCCCC" />
+					<Container bkcolor="#FFCC0000" width="150" >
+						<Button name="insertimagebtn" float="0.5,0.5,0.5,0.5" pos="-60,-15,60,15" height="30" text="发送(S)" />
+					</Container>
+				</HorizontalLayout>
+			</VerticalLayout>
+			
 		</HorizontalLayout>
 		<Slider name="alpha_controlor" min="20" max="255" value="255"/>
 		<Control height="4"/>
