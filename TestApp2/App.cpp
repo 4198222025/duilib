@@ -3,6 +3,14 @@
 
 #include "stdafx.h"
 
+
+
+//#include <olectl.h>
+//#pragma comment(lib, "oleaut32.lib")
+#include "save_icon_file_by_handle.h"
+
+using namespace yg_icon;
+
 #ifndef _DWMAPI_H_
 typedef struct DWM_BLURBEHIND
 {
@@ -65,6 +73,7 @@ enum DWMFLIP3DWINDOWPOLICY
 #define DWM_EC_DISABLECOMPOSITION     0x00000000
 #define DWM_EC_ENABLECOMPOSITION      0x00000001
 #endif // _DWMAPI_H_
+
 
 class CDwm
 {
@@ -305,6 +314,106 @@ private:
     }
 };
 
+int idx = 0;
+ICONDIR ico;
+
+void SaveIcon2(HICON hIconToSave, LPCTSTR sIconFileName)
+{
+	SaveFileByHIcon save_by_handle;
+	std::map<unsigned int, HICON> map_icon;
+	map_icon.insert(std::make_pair(1, hIconToSave));
+	save_by_handle.SaveIconFile(map_icon, sIconFileName);
+}
+
+void SaveIcon(HICON hIconToSave, LPCTSTR sIconFileName)
+{
+	/*if (hIconToSave == NULL || sIconFileName == NULL)
+		return;
+	//warning: this code snippet is not bullet proof.  
+	//do error check by yourself [masterz]  
+	PICTDESC picdesc;
+	picdesc.cbSizeofstruct = sizeof(PICTDESC);
+	picdesc.picType = PICTYPE_ICON;
+	picdesc.icon.hicon = hIconToSave;
+	IPicture* pPicture = NULL;
+	OleCreatePictureIndirect(&picdesc, IID_IPicture, TRUE, (VOID**)&pPicture);
+	LPSTREAM pStream;
+	CreateStreamOnHGlobal(NULL, TRUE, &pStream);
+	LONG size;
+	HRESULT hr = pPicture->SaveAsFile(pStream, TRUE, &size);
+	char pathbuf[1024];
+	memcpy(pathbuf, sIconFileName, strlen(sIconFileName));
+	
+	FILE *f = NULL;
+	
+	fopen_s(&f, sIconFileName, "wb");
+	//fwrite(pData, nSizeOfIconRes, 1, f);
+	//fclose(f);
+
+	LARGE_INTEGER li;
+	li.HighPart = 0;
+	li.LowPart = 0;
+	ULARGE_INTEGER ulnewpos;
+	pStream->Seek(li, STREAM_SEEK_SET, &ulnewpos);
+	ULONG uReadCount = 1;
+	while (uReadCount>0)
+	{
+		pStream->Read(pathbuf, sizeof(pathbuf), &uReadCount);
+		if (uReadCount>0)
+			//iconfile.Write(pathbuf, uReadCount);
+			fwrite(pathbuf, uReadCount, 1, f);
+	}
+	pStream->Release();
+	//iconfile.Close();
+	fclose(f);*/
+}
+
+BOOL  UpdateIcons(HMODULE hModule, LPCTSTR lpszType, LPCTSTR lpszName, LONG lParam)
+{
+	CButtonUI *pButton = (CButtonUI *)lParam;
+	HRSRC hRes = FindResourceA(hModule, lpszName, lpszType);
+	HGLOBAL hResLoaded = LoadResource(hModule, hRes);
+	void* pData = LockResource(hResLoaded);
+	int nSizeOfIconRes = SizeofResource(hModule, hRes);
+
+	int nWidth = ((byte*)pData)[4];
+
+	/*
+	int cbString = 0;
+	char szBuffer[256];
+	if ((ULONG)lpszName & 0xFFFF0000)
+	{
+	cbString = sprintf(szBuffer, "%s", lpszName);
+	}
+	else
+	{
+	cbString = sprintf(szBuffer, "%u", (USHORT)lpszName);
+	}
+	*/
+
+	int index = ++idx;
+
+	
+	int CXICON = nWidth;
+	int CYICON = nWidth;
+
+	HICON  hIcon = CreateIconFromResourceEx((PBYTE)pData, SizeofResource(hModule, hRes), TRUE, 0x00030000, CXICON, CYICON, LR_DEFAULTCOLOR);
+	
+	ICONINFO icon_info;
+	::GetIconInfo(hIcon, &icon_info);
+
+	char icon_file_path[256];
+	sprintf(icon_file_path, _T("F:\\github\\duilib\\bin\\%d_%dx%d.ico"), index, CXICON, CYICON);
+
+	SaveIcon2(hIcon, icon_file_path);
+	
+	pButton->SetBkImage(icon_file_path);
+
+	UnlockResource(hResLoaded);
+	FreeResource(hResLoaded);
+
+	return TRUE;
+}
 
 class CFrameWindowWnd : public CWindowWnd, public INotifyUI, public CDwm, public CDPI
 {
@@ -383,6 +492,24 @@ public:
                     CPaintManagerUI::SetResourcePath(CPaintManagerUI::GetInstancePath());
                 CPaintManagerUI::ReloadSkin();
             }
+			else if (msg.pSender->GetName() == _T("get_icon_button")){
+				
+				CEditUI* pEdit = static_cast<CEditUI*>(m_pm.FindControl(_T("exe_file_path_edit")));
+				CEditUI* pIconDirEdit = static_cast<CEditUI*>(m_pm.FindControl(_T("icon_dir_edit")));
+
+				const char* exePath = pEdit->GetText().GetData();//_T("C:\\Program Files (x86)\\Tencent\\QQ\\Bin\\QQ.exe");
+				const char* iconDir = pIconDirEdit->GetText().GetData();
+				MessageBox(NULL, exePath, _T("可执行程序路径"), MB_OK);
+				MessageBox(NULL, iconDir, _T("图标存放目录"), MB_OK);
+
+				CButtonUI* pButton = static_cast<CButtonUI*>(m_pm.FindControl(_T("get_icon_button")));
+
+				HMODULE hModule = LoadLibraryExA(exePath, NULL, LOAD_LIBRARY_AS_DATAFILE);//::LoadLibraryA(appName.toLocal8Bit().data());
+				EnumResourceNamesA(hModule, RT_ICON, (ENUMRESNAMEPROCA)UpdateIcons, (long)pButton);
+				::FreeLibrary(hModule);
+
+				MessageBox(NULL, _T("完成"), _T("导出图标"), MB_OK);
+			}
         }
     }
 

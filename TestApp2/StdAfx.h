@@ -10,6 +10,15 @@
 #include <windows.h>
 #include <objbase.h>
 
+
+#include <map>
+#include <vector>
+#include <string>
+#include <iostream>
+#include <shlwapi.h>
+
+#pragma comment(lib, "Shlwapi.lib")
+
 #include "..\DuiLib\UIlib.h"
 
 using namespace DuiLib;
