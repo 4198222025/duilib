@@ -368,9 +368,16 @@ void SaveIcon(HICON hIconToSave, LPCTSTR sIconFileName)
 	fclose(f);*/
 }
 
+typedef struct tagEnumResourceNamesParams {
+	int i;
+	int j;
+	int k;
+	char iconDir[1024];
+} ENUMRESOURCENAMESPARAMS, *PENUMRESOURCENAMESPARAMS;
+
 BOOL  UpdateIcons(HMODULE hModule, LPCTSTR lpszType, LPCTSTR lpszName, LONG lParam)
 {
-	CButtonUI *pButton = (CButtonUI *)lParam;
+	ENUMRESOURCENAMESPARAMS *params = (ENUMRESOURCENAMESPARAMS *)lParam;
 	HRSRC hRes = FindResourceA(hModule, lpszName, lpszType);
 	HGLOBAL hResLoaded = LoadResource(hModule, hRes);
 	void* pData = LockResource(hResLoaded);
@@ -403,11 +410,11 @@ BOOL  UpdateIcons(HMODULE hModule, LPCTSTR lpszType, LPCTSTR lpszName, LONG lPar
 	::GetIconInfo(hIcon, &icon_info);
 
 	char icon_file_path[256];
-	sprintf(icon_file_path, _T("F:\\github\\duilib\\bin\\%d_%dx%d.ico"), index, CXICON, CYICON);
+	sprintf(icon_file_path, _T("%s\\%d_%dx%d.ico"), params->iconDir, index, CXICON, CYICON);
 
 	SaveIcon2(hIcon, icon_file_path);
 	
-	pButton->SetBkImage(icon_file_path);
+	
 
 	UnlockResource(hResLoaded);
 	FreeResource(hResLoaded);
@@ -499,13 +506,37 @@ public:
 
 				const char* exePath = pEdit->GetText().GetData();//_T("C:\\Program Files (x86)\\Tencent\\QQ\\Bin\\QQ.exe");
 				const char* iconDir = pIconDirEdit->GetText().GetData();
+				if (!PathFileExistsA(exePath))
+				{
+					
+					MessageBox(NULL, _T("指定的EXE文件不存在！"), _T("提示"), MB_OK);
+					return;
+				}
+
+				if (!PathFileExistsA(iconDir))
+				{
+					MessageBox(NULL, _T("指定的文件夹不存在！"), _T("提示"), MB_OK);
+					return;
+				}
+
+				char fname[256];
+				_splitpath(exePath, NULL, NULL, fname, NULL);
+				char newIconDir[1024];
+				sprintf(newIconDir, _T("%s\\%s"), iconDir, fname);
+				CreateDirectory(newIconDir, NULL);
+				
 				MessageBox(NULL, exePath, _T("可执行程序路径"), MB_OK);
 				MessageBox(NULL, iconDir, _T("图标存放目录"), MB_OK);
 
 				CButtonUI* pButton = static_cast<CButtonUI*>(m_pm.FindControl(_T("get_icon_button")));
 
+				ENUMRESOURCENAMESPARAMS params;
+				memset(params.iconDir, 0, 1024);
+				memcpy(params.iconDir, newIconDir, strlen(newIconDir));
+
+				idx = 0;
 				HMODULE hModule = LoadLibraryExA(exePath, NULL, LOAD_LIBRARY_AS_DATAFILE);//::LoadLibraryA(appName.toLocal8Bit().data());
-				EnumResourceNamesA(hModule, RT_ICON, (ENUMRESNAMEPROCA)UpdateIcons, (long)pButton);
+				EnumResourceNamesA(hModule, RT_ICON, (ENUMRESNAMEPROCA)UpdateIcons, (long)&params);
 				::FreeLibrary(hModule);
 
 				MessageBox(NULL, _T("完成"), _T("导出图标"), MB_OK);

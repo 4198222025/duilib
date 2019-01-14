@@ -22,14 +22,14 @@
 				<Control height="16"/>
 				<Edit name="exe_file_path_edit"  height="30" text="C:\Program Files (x86)\Tencent\QQ\Bin\QQ.exe" />
 				<Control height="8"/>
-				<Edit name="icon_dir_edit" height="30" text="F:\github\duilib\bin" />
+				<Edit name="icon_dir_edit" height="30" text="F:\github\duilib\bin\IconFromPE" />
 				<Control height="8"/>
-				<Icon name="qq_icon" width="68" height="68" inset="10,10,10,10"  icon=".\qqicon\5_48x48.ico" />
+				<Icon name="qq_icon" width="68" height="68" inset="10,10,10,10"  icon=".\IconFromPE\qq\5_48x48.ico" />
 				<Control height="8" bkcolor="#FF8DD3FF" />
 				<HorizontalLayout height="160" >
-					<Icon name="wechat_icon" width="148" height="148" inset="10,10,10,10"  icon=".\wechaticon\2_128x128.ico" />					
-					<Icon name="qq_icon" width="68" height="68" inset="10,10,10,10"  icon=".\wechaticon\3_48x48.ico" />
-					<Icon name="qq_icon" width="52" height="52" inset="10,10,10,10"  icon=".\wechaticon\4_32x32.ico" />
+					<Icon name="wechat_icon" width="148" height="148" inset="10,10,10,10"  icon=".\IconFromPE\wechat\2_128x128.ico" />					
+					<Icon name="qq_icon" width="68" height="68" inset="10,10,10,10"  icon=".\IconFromPE\wechat\3_48x48.ico" />
+					<Icon name="qq_icon" width="52" height="52" inset="10,10,10,10"  icon=".\IconFromPE\wechat\4_32x32.ico" />
 				</HorizontalLayout>
 				<Control height="8"/>
 				<Edit name="icon_dir_editqqqq" height="30" text="F:\github\duilib\bin" />
