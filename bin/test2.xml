@@ -32,7 +32,13 @@
 					<Icon name="qq_icon" width="52" height="52" inset="10,10,10,10"  icon=".\IconFromPE\wechat\4_32x32.ico" />
 				</HorizontalLayout>
 				<Control height="8"/>
-				<Edit name="icon_dir_editqqqq" height="30" text="F:\github\duilib\bin" />
+				<ComboBox name="system_drive_combo" width="200" height="30" bkcolor="#FFEA679F" bordersize="1" bordercolor="0xFFFF0000" >
+					<ListLabelElement text="C:\"/>
+					<ListLabelElement text="D:\"/>
+					<ListLabelElement text="E:\" selected="true"/>
+					<ListLabelElement text="F:\"/>
+					<ListLabelElement text="G:\"/>					
+				</ComboBox>
 				<FloatButton name="get_icon_button" float="0.5,0.5,0.5,0.5" pos="-80,-30,80,30" height="60" text="导出图标" />
 				<Button name="get_icon_button"  float="0.5,0.9,0.5,0.9" pos="-80,-30,80,30"  text="导出图标" />
 			</VerticalLayout>

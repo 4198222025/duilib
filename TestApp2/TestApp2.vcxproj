@@ -278,10 +278,12 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='UnicodeDebug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='UnicodeRelease|Win32'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="SysUtil.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="save_icon_file_by_handle.h" />
     <ClInclude Include="StdAfx.h" />
+    <ClInclude Include="SysUtil.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

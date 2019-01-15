@@ -18,12 +18,18 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="save_icon_file_by_handle.cc" />
+    <ClCompile Include="SysUtil.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="StdAfx.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="save_icon_file_by_handle.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SysUtil.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

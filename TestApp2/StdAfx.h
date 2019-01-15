@@ -21,6 +21,8 @@
 
 #include "..\DuiLib\UIlib.h"
 
+#include "SysUtil.h"
+
 using namespace DuiLib;
 
 #ifdef _DEBUG

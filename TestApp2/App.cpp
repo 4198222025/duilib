@@ -430,7 +430,9 @@ public:
     UINT GetClassStyle() const { return UI_CLASSSTYLE_FRAME | CS_DBLCLKS; };
     void OnFinalMessage(HWND /*hWnd*/) { delete this; };
 
-    void Init() { }
+    void Init() {
+		int j = 0;
+	}
 
     bool OnHChanged(void* param) {
         TNotifyUI* pMsg = (TNotifyUI*)param;
@@ -480,6 +482,26 @@ public:
         if( pSilder ) pSilder->OnNotify += MakeDelegate(this, &CFrameWindowWnd::OnSChanged);
         pSilder = static_cast<CSliderUI*>(m_pm.FindControl(_T("l_controlor")));
         if( pSilder ) pSilder->OnNotify += MakeDelegate(this, &CFrameWindowWnd::OnLChanged);
+
+		// 获取系统磁盘
+		std::vector<string> systemDrives =  GetSystemDrives();
+		CComboUI* pSystemDriveComboBox = static_cast<CComboUI*>(m_pm.FindControl(_T("system_drive_combo")));
+		pSystemDriveComboBox->RemoveAll();
+		for (int i = 0; i < systemDrives.size(); ++i)
+		{
+			CListLabelElementUI* elem = new CListLabelElementUI();
+			elem->SetText(systemDrives[i].c_str());			
+			pSystemDriveComboBox->Add(elem);
+		}
+		if (systemDrives.size() > 0)
+		{
+			if (systemDrives.size() == 1)
+				pSystemDriveComboBox->SelectItem(0);
+			else
+				pSystemDriveComboBox->SelectItem(1);
+		}
+		
+		
     }
 
     void Notify(TNotifyUI& msg)
