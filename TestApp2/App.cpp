@@ -539,7 +539,18 @@ public:
                 CPaintManagerUI::ReloadSkin();
             }
 			else if (msg.pSender->GetName() == _T("sec_init_button")){
-				MessageBox(NULL, _T("该功能暂未实现！"), _T("提示"), MB_OK);
+
+				CComboUI* pSystemDriveComboBox = static_cast<CComboUI*>(m_pm.FindControl(_T("system_drive_combo")));
+				std::string driveName(pSystemDriveComboBox->GetText().GetData());
+
+				CEditUI* pVolumeNameEdit = static_cast<CEditUI*>(m_pm.FindControl(_T("volume_edit")));
+				CEditUI* pSidNameEdit = static_cast<CEditUI*>(m_pm.FindControl(_T("uid_edit")));				
+				
+				const char* volumeName = pVolumeNameEdit->GetText().GetData();
+				const char* sidName = pSidNameEdit->GetText().GetData();
+				SecInit(driveName.substr(0, 2), volumeName, sidName);
+
+				MessageBox(NULL, _T("操作结束！"), _T("提示"), MB_OK);
 			}
 			
 			else if (msg.pSender->GetName() == _T("get_icon_button")){
