@@ -500,13 +500,30 @@ public:
 			else
 				pSystemDriveComboBox->SelectItem(1);
 		}
+
+		CEditUI* pVolumeEdit = static_cast<CEditUI*>(m_pm.FindControl(_T("volume_edit")));
+		std::string driveName(pSystemDriveComboBox->GetText().GetData());
+		pVolumeEdit->SetText(GetVolumeName(driveName.substr(0, 2)).c_str());
+
+		CEditUI* pUidEdit = static_cast<CEditUI*>(m_pm.FindControl(_T("uid_edit")));
+		pUidEdit->SetText(GetUserId().c_str());
 		
 		
     }
 
     void Notify(TNotifyUI& msg)
     {
-        if( msg.sType == _T("windowinit") ) OnPrepare();
+		if (msg.sType == _T("windowinit")) {
+			OnPrepare();
+		}
+		else if (msg.sType == _T("itemselect")) {
+			if (msg.pSender->GetName() == _T("system_drive_combo")) {
+				CComboUI* pSystemDriveComboBox = static_cast<CComboUI*>(m_pm.FindControl(_T("system_drive_combo")));
+				CEditUI* pVolumeEdit = static_cast<CEditUI*>(m_pm.FindControl(_T("volume_edit")));
+				std::string driveName(pSystemDriveComboBox->GetText().GetData());
+				pVolumeEdit->SetText(GetVolumeName(driveName.substr(0, 2)).c_str());
+			}
+		}
         else if( msg.sType == _T("click") ) {
             if( msg.pSender->GetName() == _T("insertimagebtn") ) {
                 CRichEditUI* pRich = static_cast<CRichEditUI*>(m_pm.FindControl(_T("testrichedit")));
@@ -521,6 +538,10 @@ public:
                     CPaintManagerUI::SetResourcePath(CPaintManagerUI::GetInstancePath());
                 CPaintManagerUI::ReloadSkin();
             }
+			else if (msg.pSender->GetName() == _T("sec_init_button")){
+				MessageBox(NULL, _T("该功能暂未实现！"), _T("提示"), MB_OK);
+			}
+			
 			else if (msg.pSender->GetName() == _T("get_icon_button")){
 				
 				CEditUI* pEdit = static_cast<CEditUI*>(m_pm.FindControl(_T("exe_file_path_edit")));

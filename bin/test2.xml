@@ -9,43 +9,75 @@
 	<Default shared="true" name="CheckBox" value="textcolor=&quot;#FFbac0c5&quot; hottextcolor=&quot;#FF386382&quot; selectedtextcolor=&quot;#FF386382&quot; disabledtextcolor=&quot;#FFbac0c5&quot; textpadding=&quot;20,2,0,0&quot; align=&quot;left&quot; selectedimage=&quot;file='Icon/checked.png' dest='0,2,16,18'&quot; normalimage=&quot;file='Icon/unchecked.png' dest='0,2,16,18'&quot;" />
 	
 	<VerticalLayout inset="10,6,10,6" bkcolor="#FFEA679F" colorhsl="true" bkimage="file='voice_rect.png' xtiled='true' ytiled='true' dest='40,0,200,400'" vscrollbar="true">
-		<Container bkcolor="#FF00CC00" width="320" height="600" >
-			<VerticalLayout width="1311" height="800" bkcolor="#FFCC99CC" inset="20,10,20,10">
-				<HorizontalLayout height="60" >
-					<Button name="changeskinbtn" width="220" height="60" text="软件仓库" maxwidth="120" />
-					<Control height="60"/>
-					<Button name="changeskinbtn" width="42" height="42" text="A" maxwidth="120" />
-					<Button name="changeskinbtn" width="42" height="42" text="B" maxwidth="120" />
-					<Button name="changeskinbtn" width="42" height="42" text="C" maxwidth="120" />
-				</HorizontalLayout>
+		<HorizontalLayout height="600">
+			<Container bkcolor="#FF00CC00" width="320" height="600" >
+				<VerticalLayout width="1311" height="800" bkcolor="#FFCC99CC" inset="20,10,20,10">
+					<HorizontalLayout height="60" >
+						<Button name="changeskinbtn" width="220" height="60" text="软件仓库" maxwidth="120" />
+						<Control height="60"/>
+						<Button name="changeskinbtn" width="42" height="42" text="A" maxwidth="120" />
+						<Button name="changeskinbtn" width="42" height="42" text="B" maxwidth="120" />
+						<Button name="changeskinbtn" width="42" height="42" text="C" maxwidth="120" />
+					</HorizontalLayout>
+					
+					<Control height="16"/>
+					<Edit name="exe_file_path_edit"  height="30" text="C:\Program Files (x86)\Tencent\QQ\Bin\QQ.exe" />
+					<Control height="8"/>
+					<Edit name="icon_dir_edit" height="30" text="F:\github\duilib\bin\IconFromPE" />
+					<Control height="8"/>
+					<Icon name="qq_icon" width="68" height="68" inset="10,10,10,10"  icon=".\IconFromPE\qq\5_48x48.ico" />
+					<Control height="8" bkcolor="#FF8DD3FF" />
+					<HorizontalLayout height="160" >
+						<Icon name="wechat_icon" width="148" height="148" inset="10,10,10,10"  icon=".\IconFromPE\wechat\2_128x128.ico" />					
+						<Icon name="qq_icon" width="68" height="68" inset="10,10,10,10"  icon=".\IconFromPE\wechat\3_48x48.ico" />
+						<Icon name="qq_icon" width="52" height="52" inset="10,10,10,10"  icon=".\IconFromPE\wechat\4_32x32.ico" />
+					</HorizontalLayout>
+					
+					
+					<FloatButton name="get_icon_button" float="0.5,0.5,0.5,0.5" pos="-80,-30,80,30" height="60" text="导出图标" />
+					<Button name="get_icon_button"  float="0.5,0.9,0.5,0.9" pos="-80,-30,80,30"  text="导出图标" />
+				</VerticalLayout>
 				
-				<Control height="16"/>
-				<Edit name="exe_file_path_edit"  height="30" text="C:\Program Files (x86)\Tencent\QQ\Bin\QQ.exe" />
-				<Control height="8"/>
-				<Edit name="icon_dir_edit" height="30" text="F:\github\duilib\bin\IconFromPE" />
-				<Control height="8"/>
-				<Icon name="qq_icon" width="68" height="68" inset="10,10,10,10"  icon=".\IconFromPE\qq\5_48x48.ico" />
-				<Control height="8" bkcolor="#FF8DD3FF" />
-				<HorizontalLayout height="160" >
-					<Icon name="wechat_icon" width="148" height="148" inset="10,10,10,10"  icon=".\IconFromPE\wechat\2_128x128.ico" />					
-					<Icon name="qq_icon" width="68" height="68" inset="10,10,10,10"  icon=".\IconFromPE\wechat\3_48x48.ico" />
-					<Icon name="qq_icon" width="52" height="52" inset="10,10,10,10"  icon=".\IconFromPE\wechat\4_32x32.ico" />
-				</HorizontalLayout>
-				<Control height="8"/>
-				<ComboBox name="system_drive_combo" width="200" height="30" bkcolor="#FFEA679F" bordersize="1" bordercolor="0xFFFF0000" >
-					<ListLabelElement text="C:\"/>
-					<ListLabelElement text="D:\"/>
-					<ListLabelElement text="E:\" selected="true"/>
-					<ListLabelElement text="F:\"/>
-					<ListLabelElement text="G:\"/>					
-				</ComboBox>
-				<FloatButton name="get_icon_button" float="0.5,0.5,0.5,0.5" pos="-80,-30,80,30" height="60" text="导出图标" />
-				<Button name="get_icon_button"  float="0.5,0.9,0.5,0.9" pos="-80,-30,80,30"  text="导出图标" />
-			</VerticalLayout>
+				
+			</Container>
 			
-			
-		</Container>
-		
+			<Control height="8"/>
+			<Container bkcolor="#FF00CC00" width="600" height="600" >
+				<VerticalLayout width="600" height="600" bkcolor="#FFCC99CC" inset="20,10,20,10">
+					<Control height="8"/>
+					<HorizontalLayout height="50" >
+						<Icon name="wechat_icon" width="50" height="50" inset="1,1,1,1"  icon=".\IconFromPE\QQScLauncher\5_48x48.ico" />
+						<ComboBox name="system_drive_combo" width="200" height="30" bkcolor="#FFEA679F" bordersize="1" bordercolor="0xFFFF0000" >
+							<ListLabelElement text="C:\"/>
+							<ListLabelElement text="D:\"/>
+							<ListLabelElement text="E:\" selected="true"/>
+							<ListLabelElement text="F:\"/>
+							<ListLabelElement text="G:\"/>					
+						</ComboBox>
+					</HorizontalLayout>
+					<Control height="8"/>
+					<HorizontalLayout height="50" >
+						<Icon name="wechat_icon" width="50" height="50" inset="1,1,1,1"  icon=".\IconFromPE\QQScLauncher\5_48x48.ico" />	
+						<Container    height="50" >
+							<Edit name="volume_edit" float="0.0,0.5,0.0,0.5" pos="0,-15,200,15" text="" />
+						</Container>					
+						
+					</HorizontalLayout>
+					<Control height="8"/>
+					<HorizontalLayout height="50" >
+						<Icon name="wechat_icon" width="50" height="50" inset="1,1,1,1"  icon=".\IconFromPE\QQScLauncher\5_48x48.ico" />				
+						<Edit name="uid_edit" height="30" text="" />
+					</HorizontalLayout>
+					<Control height="20"/>
+					<Control />
+					<Container    height="200" >
+						<Button name="sec_init_button"  float="0.5,0.5,0.5,0.5" pos="-80,-20,80,20" text="完全初始化" />
+					</Container>
+				</VerticalLayout>
+				
+				
+			</Container>
+		</HorizontalLayout>
 		<Control height="8"/>
 		
 		<HorizontalLayout height="90" bkcolor="#FF8DD3FF" bkcolor2="#FF60B1FE">
