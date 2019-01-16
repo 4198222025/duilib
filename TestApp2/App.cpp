@@ -552,7 +552,11 @@ public:
 
 				MessageBox(NULL, _T("操作结束！"), _T("提示"), MB_OK);
 			}
-			
+			else if (msg.pSender->GetName() == _T("sec_desktop_mode_button")){
+
+				SecDesktopMode();
+				MessageBox(NULL, _T("桌面模式操作结束！"), _T("提示"), MB_OK);
+			}
 			else if (msg.pSender->GetName() == _T("get_icon_button")){
 				
 				CEditUI* pEdit = static_cast<CEditUI*>(m_pm.FindControl(_T("exe_file_path_edit")));

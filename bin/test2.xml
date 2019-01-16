@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Window mininfo="200,360" size="360,600">
+<Window mininfo="200,360" size="600,800">
 	<Font shared="true" id="0" name="幼圆" size="12" default="true" />
 	<Font shared="true" id="1" name="微软雅黑" size="18" />
 	<Include source="scrollbar.xml" />
@@ -10,6 +10,45 @@
 	
 	<VerticalLayout inset="10,6,10,6" bkcolor="#FFEA679F" colorhsl="true" bkimage="file='voice_rect.png' xtiled='true' ytiled='true' dest='40,0,200,400'" vscrollbar="true">
 		<HorizontalLayout height="600">
+		<Container bkcolor="#FF00CC00" width="600" height="600" >
+				<VerticalLayout width="600" height="600" bkcolor="#FFCC99CC" inset="20,10,20,10">
+					<Control height="8"/>
+					<HorizontalLayout height="50" >
+						<Icon name="wechat_icon" width="50" height="50" inset="1,1,1,1"  icon=".\IconFromPE\QQScLauncher\5_48x48.ico" />
+						<ComboBox name="system_drive_combo" width="200" height="30" bkcolor="#FFEA679F" bordersize="1" bordercolor="0xFFFF0000" >
+							<ListLabelElement text="C:\"/>
+							<ListLabelElement text="D:\"/>
+							<ListLabelElement text="E:\" selected="true"/>
+							<ListLabelElement text="F:\"/>
+							<ListLabelElement text="G:\"/>					
+						</ComboBox>
+					</HorizontalLayout>
+					<Control height="8"/>
+					<HorizontalLayout height="50" >
+						<Icon name="wechat_icon" width="50" height="50" inset="1,1,1,1"  icon=".\IconFromPE\QQScLauncher\5_48x48.ico" />	
+						<Container    height="50" >
+							<Edit name="volume_edit" float="0.0,0.5,0.0,0.5" pos="0,-15,200,15" text="" />
+						</Container>					
+						
+					</HorizontalLayout>
+					<Control height="8"/>
+					<HorizontalLayout height="50" >
+						<Icon name="wechat_icon" width="50" height="50" inset="1,1,1,1"  icon=".\IconFromPE\QQScLauncher\5_48x48.ico" />				
+						<Edit name="uid_edit" height="30" text="" />
+					</HorizontalLayout>
+					<Control height="20"/>
+					<Control />
+					<Container    height="50" >
+						<Button name="sec_init_button"  float="0.5,0.5,0.5,0.5" pos="-80,-20,80,20" text="完全初始化" />
+					</Container>
+					<Container    height="50" >
+						<Button name="sec_desktop_mode_button"  float="0.5,0.5,0.5,0.5" pos="-80,-20,80,20" text="桌面模式" />
+					</Container>
+				</VerticalLayout>
+				
+				
+			</Container>
+			<Control height="8"/>
 			<Container bkcolor="#FF00CC00" width="320" height="600" >
 				<VerticalLayout width="1311" height="800" bkcolor="#FFCC99CC" inset="20,10,20,10">
 					<HorizontalLayout height="60" >
@@ -41,42 +80,8 @@
 				
 			</Container>
 			
-			<Control height="8"/>
-			<Container bkcolor="#FF00CC00" width="600" height="600" >
-				<VerticalLayout width="600" height="600" bkcolor="#FFCC99CC" inset="20,10,20,10">
-					<Control height="8"/>
-					<HorizontalLayout height="50" >
-						<Icon name="wechat_icon" width="50" height="50" inset="1,1,1,1"  icon=".\IconFromPE\QQScLauncher\5_48x48.ico" />
-						<ComboBox name="system_drive_combo" width="200" height="30" bkcolor="#FFEA679F" bordersize="1" bordercolor="0xFFFF0000" >
-							<ListLabelElement text="C:\"/>
-							<ListLabelElement text="D:\"/>
-							<ListLabelElement text="E:\" selected="true"/>
-							<ListLabelElement text="F:\"/>
-							<ListLabelElement text="G:\"/>					
-						</ComboBox>
-					</HorizontalLayout>
-					<Control height="8"/>
-					<HorizontalLayout height="50" >
-						<Icon name="wechat_icon" width="50" height="50" inset="1,1,1,1"  icon=".\IconFromPE\QQScLauncher\5_48x48.ico" />	
-						<Container    height="50" >
-							<Edit name="volume_edit" float="0.0,0.5,0.0,0.5" pos="0,-15,200,15" text="" />
-						</Container>					
-						
-					</HorizontalLayout>
-					<Control height="8"/>
-					<HorizontalLayout height="50" >
-						<Icon name="wechat_icon" width="50" height="50" inset="1,1,1,1"  icon=".\IconFromPE\QQScLauncher\5_48x48.ico" />				
-						<Edit name="uid_edit" height="30" text="" />
-					</HorizontalLayout>
-					<Control height="20"/>
-					<Control />
-					<Container    height="200" >
-						<Button name="sec_init_button"  float="0.5,0.5,0.5,0.5" pos="-80,-20,80,20" text="完全初始化" />
-					</Container>
-				</VerticalLayout>
-				
-				
-			</Container>
+			
+			
 		</HorizontalLayout>
 		<Control height="8"/>
 		
