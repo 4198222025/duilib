@@ -32,7 +32,7 @@
 				<Container bkcolor="#FFCC0000" inset="20,20,20,20" height="100" >			
 					<HorizontalLayout height="100" >
 						<Container bkcolor="#FFCCCC00"  inset="10,10,10,10" width="100"  >	
-							<Icon name="qq_icon" float="0.5,0.5,0.5,0.5" pos="-34,-34,34,34"  icon=".\IconFromPE\wechat\3_48x48.ico" />
+							<Icon name="qq_icon" float="0.5,0.5,0.5,0.5" pos="-24,-24,24,24"  icon=".\IconFromPE\wechat\3_48x48.ico" />
 						</Container>
 						<Control width="5"/>
 						<VerticalLayout  bkcolor="#FFCCCCCC" inset="10,10,0,10">
@@ -46,7 +46,7 @@
 				<Container bkcolor="#FFCC0000" inset="20,20,20,20" height="100" >			
 					<HorizontalLayout height="100" >
 						<Container bkcolor="#FFCCCC00"  inset="10,10,10,10" width="100"  >	
-							<Icon name="qq_icon" float="0.5,0.5,0.5,0.5" pos="-34,-34,34,34"  icon=".\IconFromPE\QQ\5_48x48.ico" />
+							<Icon name="qq_icon" float="0.5,0.5,0.5,0.5" pos="-24,-24,24,24"  icon=".\IconFromPE\QQ\5_48x48.ico" />
 						</Container>						
 						<Control width="5"/>
 						<VerticalLayout  bkcolor="#FFCCCCCC" inset="10,10,0,10">
@@ -60,7 +60,7 @@
 				<Container bkcolor="#FFCC0000" inset="20,20,20,20" height="100" >			
 					<HorizontalLayout height="100" >
 						<Container bkcolor="#FFCCCC00"  inset="10,10,10,10" width="100"  >	
-							<Icon name="YoudaoDict_icon" float="0.5,0.5,0.5,0.5" pos="-34,-34,34,34"  icon=".\IconFromPE\YoudaoDict\5_48x48.ico" />
+							<Icon name="YoudaoDict_icon" float="0.5,0.5,0.5,0.5" pos="-24,-24,24,24"  icon=".\IconFromPE\YoudaoDict\5_48x48.ico" />
 						</Container>						
 						<Control width="5"/>
 						<VerticalLayout  bkcolor="#FFCCCCCC" inset="10,10,0,10">
