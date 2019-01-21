@@ -462,6 +462,162 @@ void SecInit(std::string strDriveName, std::string strVolumeName, std::string st
 	hKey = hSubKey;
 	CloseHandle(hKey);
 }
+void SecFsdModule(std::string strVolumeName)
+{
+	BOOLEAN bRet = FALSE;
+	DWORD dwRet = 0;
+	WCHAR szDockName[260];
+	ULONG nLen;
+
+
+	ghEfsDevice = CreateFile("\\\\.\\SecMFDock",
+		GENERIC_READ | GENERIC_WRITE,
+		0,
+		NULL,
+		OPEN_EXISTING,
+		FILE_ATTRIBUTE_NORMAL,
+		NULL);
+
+
+	RtlZeroMemory(szDockName, sizeof(szDockName));
+
+
+	//UpdateData(TRUE);
+
+
+	//MultiByteToWideChar(CP_ACP, 0, m_DockName.GetBuffer(0), 256, szDockName, 256);
+	MultiByteToWideChar(CP_ACP, 0, strVolumeName.c_str(), strVolumeName.size(), szDockName, 260);
+	nLen = wcslen(szDockName) * sizeof(WCHAR);
+
+
+
+	bRet = DeviceIoControl(ghEfsDevice,
+		EFS_SET_DOCKNAME,
+		szDockName,
+		nLen,
+		NULL,
+		0,
+		&dwRet,
+		NULL);
+
+
+	if (bRet == FALSE)
+	{
+		MessageBox(NULL, "Error\n", "提示", MB_OK);
+		return;
+	}
+}
+void SecRegkeyModule(std::string strDriveName, std::string strSidName)
+{
+	BOOLEAN bRet = FALSE;
+	DWORD dwRet = 0;
+	WCHAR szSidName[260];
+	ULONG nLen;
+
+
+	ghKeyDevice = CreateFile("\\\\.\\SecMKDock",
+		GENERIC_READ | GENERIC_WRITE,
+		0,
+		NULL,
+		OPEN_EXISTING,
+		FILE_ATTRIBUTE_NORMAL,
+		NULL);
+
+
+
+	RtlZeroMemory(szSidName, sizeof(szSidName));
+
+
+	//UpdateData(TRUE);
+
+
+	//MultiByteToWideChar(CP_ACP, 0, m_SidName.GetBuffer(0), 256, szSidName, 256);
+	MultiByteToWideChar(CP_ACP, 0, strSidName.c_str(), strSidName.size(), szSidName, 260);
+
+	nLen = wcslen(szSidName) * sizeof(WCHAR);
+
+
+
+	bRet = DeviceIoControl(ghKeyDevice,
+		KEY_SET_SID,
+		szSidName,
+		nLen,
+		NULL,
+		0,
+		&dwRet,
+		NULL);
+
+	if (bRet == FALSE)
+	{
+		//AfxMessageBox("Error\n");
+		//return;
+	}
+
+
+
+	HANDLE	hToken;
+	HKEY hKey = NULL;
+	HKEY hSubKey = NULL;
+
+
+	if (OpenProcessToken(GetCurrentProcess(), TOKEN_ADJUST_PRIVILEGES,
+		&hToken))
+	{
+		TOKEN_PRIVILEGES tp;
+		tp.PrivilegeCount = 1;
+		LookupPrivilegeValue(NULL, "SeRestorePrivilege", &tp.Privileges[0].Luid);
+		tp.Privileges[0].Attributes = SE_PRIVILEGE_ENABLED;
+		AdjustTokenPrivileges(hToken, FALSE, &tp, sizeof(tp), NULL, NULL);
+		bRet = (GetLastError() == ERROR_SUCCESS);
+		CloseHandle(hToken);
+	}
+
+
+	//int nSel;
+	//CString strLetter;
+
+
+	//nSel = m_DockLetter.GetCurSel();
+	//m_DockLetter.GetLBText(nSel, strLetter);
+
+	//	加载注册表子键
+	CHAR szPath[260];
+	//sprintf(szPath, "%s\\DockBox\\FB1028", strLetter);
+	sprintf(szPath, "%s\\DockBox\\FB1028", strDriveName.c_str());
+	//	AfxMessageBox(szPath);
+	RegLoadKey(HKEY_USERS, "FB1028", szPath);
+
+
+	CreateRegKeyCustom(HKEY_USERS, "FB1028", &hKey);
+	RegCreateKey(hKey, "USER", &hSubKey);
+	CloseHandle(hKey);
+	hKey = hSubKey;
+	RegCreateKey(hKey, "current", &hSubKey);
+	CloseHandle(hSubKey);
+
+	RegCreateKey(hKey, "current\\software", &hSubKey);
+	CloseHandle(hSubKey);
+	RegCreateKey(hKey, "classes", &hSubKey);
+	CloseHandle(hSubKey);
+	CloseHandle(hKey);
+
+
+	CreateRegKeyCustom(HKEY_USERS, "FB1028", &hKey);
+	RegCreateKey(hKey, "machine", &hSubKey);
+	CloseHandle(hKey);
+	hKey = hSubKey;
+	RegCreateKey(hKey, "system", &hSubKey);
+	CloseHandle(hSubKey);
+
+	RegCreateKey(hKey, "system\\ControlSet001", &hSubKey);
+	CloseHandle(hSubKey);
+
+	CloseHandle(hKey);
+
+	hKey = hSubKey;
+	CloseHandle(hKey);
+}
+
 void SecDesktopMode()
 {
 	ULONG nMode = 1;
@@ -491,4 +647,193 @@ void SecDesktopMode()
 	KillProcessFromName("explorer.exe");
 	KillProcessFromName("TrustedInstaller.exe");
 	KillProcessFromName("msiexec.exe");
+}
+void SecUseMode(std::string strDriveName, std::string strVolumeName, std::string strSidName)
+{
+	BOOLEAN bRet = FALSE;
+	DWORD dwRet = 0;
+	WCHAR szDockName[260];
+	ULONG nLen;
+
+
+
+
+
+
+	ghEfsDevice = CreateFile("\\\\.\\SecMFDock",
+		GENERIC_READ | GENERIC_WRITE,
+		0,
+		NULL,
+		OPEN_EXISTING,
+		FILE_ATTRIBUTE_NORMAL,
+		NULL);
+
+
+	RtlZeroMemory(szDockName, sizeof(szDockName));
+
+
+	//UpdateData(TRUE);
+
+
+
+	//MultiByteToWideChar(CP_ACP, 0, m_DockName.GetBuffer(260), 260, szDockName, 260);
+	MultiByteToWideChar(CP_ACP, 0, strVolumeName.c_str(), strVolumeName.size(), szDockName, 260);
+
+	nLen = wcslen(szDockName) * sizeof(WCHAR);
+
+
+
+	bRet = DeviceIoControl(ghEfsDevice,
+		EFS_SET_DOCKNAME,
+		szDockName,
+		nLen,
+		NULL,
+		0,
+		&dwRet,
+		NULL);
+
+
+
+
+
+	WCHAR szSidName[260];
+
+
+	ghKeyDevice = CreateFile("\\\\.\\SecMKDock",
+		GENERIC_READ | GENERIC_WRITE,
+		0,
+		NULL,
+		OPEN_EXISTING,
+		FILE_ATTRIBUTE_NORMAL,
+		NULL);
+
+
+
+
+
+
+
+
+
+	RtlZeroMemory(szSidName, sizeof(szSidName));
+	//MultiByteToWideChar(CP_ACP, 0, m_SidName.GetBuffer(260), 260, szSidName, 260);
+	MultiByteToWideChar(CP_ACP, 0, strSidName.c_str(), strSidName.size(), szSidName, 260);
+	nLen = wcslen(szSidName) * sizeof(WCHAR);
+
+
+
+
+	bRet = DeviceIoControl(ghKeyDevice,
+		KEY_SET_SID,
+		szSidName,
+		nLen,
+		NULL,
+		0,
+		&dwRet,
+		NULL);
+
+
+	HANDLE	hToken;
+	HKEY hKey = NULL;
+	HKEY hSubKey = NULL;
+
+
+	if (OpenProcessToken(GetCurrentProcess(), TOKEN_ADJUST_PRIVILEGES,
+		&hToken))
+	{
+		TOKEN_PRIVILEGES tp;
+		tp.PrivilegeCount = 1;
+		LookupPrivilegeValue(NULL, "SeRestorePrivilege", &tp.Privileges[0].Luid);
+		tp.Privileges[0].Attributes = SE_PRIVILEGE_ENABLED;
+		AdjustTokenPrivileges(hToken, FALSE, &tp, sizeof(tp), NULL, NULL);
+		bRet = (GetLastError() == ERROR_SUCCESS);
+		CloseHandle(hToken);
+	}
+
+
+	//int nSel;
+	//CString strLetter;
+
+
+	//nSel = m_DockLetter.GetCurSel();
+	//m_DockLetter.GetLBText(nSel, strLetter);
+
+
+	//	加载注册表子键
+	CHAR szPath[260];
+	//sprintf(szPath, "%s\\DockBox\\FB1028", strLetter);
+	sprintf(szPath, "%s\\DockBox\\FB1028", strDriveName.c_str());
+	RegLoadKey(HKEY_USERS, "FB1028", szPath);
+}
+void SecShutdownMode()
+{
+	ULONG nMode = 1;
+	DWORD dwRet = 0;
+
+
+	DeviceIoControl(ghEfsDevice,
+		EFS_SET_MODE,
+		&nMode,
+		4,
+		NULL,
+		0,
+		&dwRet,
+		NULL);
+
+
+	DeviceIoControl(ghKeyDevice,
+		KEY_SET_MODE,
+		&nMode,
+		4,
+		NULL,
+		0,
+		&dwRet,
+		NULL);
+
+
+	KillProcessFromName("explorer.exe");
+	KillProcessFromName("TrustedInstaller.exe");
+	KillProcessFromName("msiexec.exe");
+
+
+	ExitWindowsEx(EWX_LOGOFF, 0);
+	return;
+}
+
+
+
+void SecFinish()
+{
+	ULONG nMode = 0;
+	DWORD dwRet = 0;
+
+
+	Sleep(3000);
+
+
+	DeviceIoControl(ghKeyDevice,
+		KEY_SET_MODE,
+		&nMode,
+		4,
+		NULL,
+		0,
+		&dwRet,
+		NULL);
+
+
+	HANDLE hToken = NULL;
+	::OpenProcessToken(::GetCurrentProcess(), TOKEN_ADJUST_PRIVILEGES | TOKEN_QUERY, &hToken);
+	TOKEN_PRIVILEGES tkp;
+	LookupPrivilegeValue(NULL, SE_SHUTDOWN_NAME, &tkp.Privileges[0].Luid);
+	tkp.PrivilegeCount = 1;
+	tkp.Privileges[0].Attributes = SE_PRIVILEGE_ENABLED;
+	::AdjustTokenPrivileges(hToken, FALSE, &tkp, 0, (PTOKEN_PRIVILEGES)NULL, 0);
+	int nErroCode = ::GetLastError();
+
+
+
+	KillProcessFromName("TrustedInstaller.exe");
+	KillProcessFromName("msiexec.exe");
+	ExitWindowsEx(EWX_REBOOT | EWX_FORCE, 0);
+	ExitWindows(EWX_REBOOT, 0);
 }

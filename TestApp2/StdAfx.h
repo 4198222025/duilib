@@ -21,6 +21,8 @@
 
 #include "..\DuiLib\UIlib.h"
 
+#include "dep\cJSON\cJSON.h"
+
 #include "SysUtil.h"
 
 using namespace DuiLib;

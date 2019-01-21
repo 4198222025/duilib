@@ -271,6 +271,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="App.cpp" />
+    <ClCompile Include="dep\cJSON\cJSON.c">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="save_icon_file_by_handle.cc" />
     <ClCompile Include="StdAfx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -281,6 +284,7 @@
     <ClCompile Include="SysUtil.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="dep\cJSON\cJSON.h" />
     <ClInclude Include="save_icon_file_by_handle.h" />
     <ClInclude Include="StdAfx.h" />
     <ClInclude Include="SysUtil.h" />

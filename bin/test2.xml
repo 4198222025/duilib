@@ -42,8 +42,24 @@
 						<Button name="sec_init_button"  float="0.5,0.5,0.5,0.5" pos="-80,-20,80,20" text="完全初始化" />
 					</Container>
 					<Container    height="50" >
+						<Button name="sec_fsd_module_button"  float="0.5,0.5,0.5,0.5" pos="-80,-20,80,20" text="文件模块" />
+					</Container>
+					<Container    height="50" >
+						<Button name="sec_regkey_module_button"  float="0.5,0.5,0.5,0.5" pos="-80,-20,80,20" text="注册表模块" />
+					</Container>
+					<Container    height="50" >
 						<Button name="sec_desktop_mode_button"  float="0.5,0.5,0.5,0.5" pos="-80,-20,80,20" text="桌面模式" />
 					</Container>
+					<Container    height="50" >
+						<Button name="sec_use_mode_button"  float="0.5,0.5,0.5,0.5" pos="-80,-20,80,20" text="使用模式" />
+					</Container>
+					<Container    height="50" >
+						<Button name="sec_shutdown_mode_button"  float="0.5,0.5,0.5,0.5" pos="-80,-20,80,20" text="注销模式" />
+					</Container>
+					<Container    height="50" >
+						<Button name="sec_finish_button"  float="0.5,0.5,0.5,0.5" pos="-80,-20,80,20" text="制作完成" />
+					</Container>
+					
 				</VerticalLayout>
 				
 				

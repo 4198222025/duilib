@@ -552,10 +552,60 @@ public:
 
 				MessageBox(NULL, _T("操作结束！"), _T("提示"), MB_OK);
 			}
+			else if (msg.pSender->GetName() == _T("sec_fsd_module_button")){
+				CComboUI* pSystemDriveComboBox = static_cast<CComboUI*>(m_pm.FindControl(_T("system_drive_combo")));
+				std::string driveName(pSystemDriveComboBox->GetText().GetData());
+
+				CEditUI* pVolumeNameEdit = static_cast<CEditUI*>(m_pm.FindControl(_T("volume_edit")));
+				CEditUI* pSidNameEdit = static_cast<CEditUI*>(m_pm.FindControl(_T("uid_edit")));
+
+				const char* volumeName = pVolumeNameEdit->GetText().GetData();
+				const char* sidName = pSidNameEdit->GetText().GetData();
+
+				SecFsdModule(volumeName);
+				MessageBox(NULL, _T("文件模块操作结束！"), _T("提示"), MB_OK);
+			}
+			else if (msg.pSender->GetName() == _T("sec_regkey_module_button")){
+
+				CComboUI* pSystemDriveComboBox = static_cast<CComboUI*>(m_pm.FindControl(_T("system_drive_combo")));
+				std::string driveName(pSystemDriveComboBox->GetText().GetData());
+
+				CEditUI* pVolumeNameEdit = static_cast<CEditUI*>(m_pm.FindControl(_T("volume_edit")));
+				CEditUI* pSidNameEdit = static_cast<CEditUI*>(m_pm.FindControl(_T("uid_edit")));
+
+				const char* volumeName = pVolumeNameEdit->GetText().GetData();
+				const char* sidName = pSidNameEdit->GetText().GetData();
+
+				SecRegkeyModule(driveName.substr(0, 2), sidName);
+				MessageBox(NULL, _T("注册表模块操作结束！"), _T("提示"), MB_OK);
+			}
 			else if (msg.pSender->GetName() == _T("sec_desktop_mode_button")){
 
 				SecDesktopMode();
 				MessageBox(NULL, _T("桌面模式操作结束！"), _T("提示"), MB_OK);
+			}
+			else if (msg.pSender->GetName() == _T("sec_use_mode_button")){
+				CComboUI* pSystemDriveComboBox = static_cast<CComboUI*>(m_pm.FindControl(_T("system_drive_combo")));
+				std::string driveName(pSystemDriveComboBox->GetText().GetData());
+
+				CEditUI* pVolumeNameEdit = static_cast<CEditUI*>(m_pm.FindControl(_T("volume_edit")));
+				CEditUI* pSidNameEdit = static_cast<CEditUI*>(m_pm.FindControl(_T("uid_edit")));
+
+				const char* volumeName = pVolumeNameEdit->GetText().GetData();
+				const char* sidName = pSidNameEdit->GetText().GetData();
+
+				SecUseMode(driveName.substr(0, 2), volumeName, sidName);
+				MessageBox(NULL, _T("使用模式操作结束！"), _T("提示"), MB_OK);
+			}
+			else if (msg.pSender->GetName() == _T("sec_shutdown_mode_button")){
+
+				SecShutdownMode();
+				MessageBox(NULL, _T("注销模式操作结束！"), _T("提示"), MB_OK);
+			}
+			else if (msg.pSender->GetName() == _T("sec_finish_button")){
+
+				SecFinish();
+				MessageBox(NULL, _T("制作完成操作结束！"), _T("提示"), MB_OK);
 			}
 			else if (msg.pSender->GetName() == _T("get_icon_button")){
 				
