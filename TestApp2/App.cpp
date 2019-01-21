@@ -537,7 +537,10 @@ public:
                 else
                     CPaintManagerUI::SetResourcePath(CPaintManagerUI::GetInstancePath());
                 CPaintManagerUI::ReloadSkin();
-            }
+            }			
+			else if (msg.pSender->GetName() == _T("load_all_button")){
+				MessageBox(NULL, _T("加载所有软件！"), _T("提示"), MB_OK);
+			}
 			else if (msg.pSender->GetName() == _T("sec_init_button")){
 
 				CComboUI* pSystemDriveComboBox = static_cast<CComboUI*>(m_pm.FindControl(_T("system_drive_combo")));
@@ -712,7 +715,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE /*hPrevInstance*/, LPSTR /*l
 
     CFrameWindowWnd* pFrame = new CFrameWindowWnd();
     if( pFrame == NULL ) return 0;
-    pFrame->Create(NULL, _T("这是一个最简单的测试用exe，修改test1.xml就可以看到效果"), UI_WNDSTYLE_FRAME|WS_CLIPCHILDREN, WS_EX_WINDOWEDGE);
+    pFrame->Create(NULL, _T("这是一个最简单的测试用exe，修改test1.xml就可以看到效果1000"), UI_WNDSTYLE_FRAME|WS_CLIPCHILDREN, WS_EX_WINDOWEDGE);
     pFrame->CenterWindow();
     pFrame->ShowWindow(true);
     CPaintManagerUI::MessageLoop();
