@@ -861,3 +861,67 @@ std::string CreateItemXml(std::string strIcon, std::string strName, std::string 
 
 	return xml;
 }
+
+std::vector<std::string> PraseJson(std::string strJsonFile)
+{
+	std::vector<std::string>  arrSoftware;
+
+	arrSoftware.push_back("有道词典");
+	arrSoftware.push_back("3D Max");
+	arrSoftware.push_back("ArcGIS 10.2");
+
+	FILE * f = fopen(strJsonFile.c_str(), "rb");
+	/* 获取文件大小 */
+	fseek(f, 0, SEEK_END);
+	long lSize = ftell(f);
+	rewind(f);
+
+	/* 分配内存存储整个文件 */
+	char * buffer = (char*)malloc(sizeof(char)*(lSize + 1));
+	if (buffer == NULL)
+	{
+		return arrSoftware;
+	}
+	memset(buffer, 0, lSize + 1);
+
+	/* 将文件拷贝到buffer中 */
+	long result = fread(buffer, 1, lSize, f);
+	if (result != lSize)
+	{
+		return arrSoftware;
+	}
+
+	fclose(f);
+	
+
+	// char * jsonStr = "{\"semantic\":{\"slots\":{\"name\":\"张三\"}}, \"rc\":0, \"operation\":\"CALL\", \"service\":\"telephone\", \"text\":\"打电话给张三\"}";
+	char * jsonStr = buffer;
+	cJSON * root = NULL;
+	cJSON * item = NULL;//cjson对象
+
+	root = cJSON_Parse(jsonStr);
+	if (!root)
+	{
+		printf("Error before: [%s]\n", cJSON_GetErrorPtr());
+	}
+	else
+	{
+		
+		cJSON * arr = cJSON_GetObjectItem(root, "softwares");//
+		int count = cJSON_GetArraySize(arr);
+		for (int i = 0; i < count; i++)
+		{
+			cJSON * s = cJSON_GetArrayItem(arr, i);
+
+			cJSON * nameProp = cJSON_GetObjectItem(item, "name");
+
+			arrSoftware.push_back(nameProp->valuestring);
+
+		}
+	}
+
+	free(buffer);
+
+	return arrSoftware;
+}
+

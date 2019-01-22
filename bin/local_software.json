@@ -1,6 +1,1 @@
-{
-	softwares:[
-		{name:"QQ", icon:"", desc="", os:"Win7/8/9/10"},
-		{name:"微信", icon:"", desc="", os:"Win7/8/9/10"}
-	]
-}
+{"softwares":[{"name":"QQ", "icon":"ff", "desc":"ff", "os":"Win7/8/9/10"},{"name":"ssss", "icon":"ff", "desc":"ff", "os":"Win7/8/9/10"}]}
