@@ -2,8 +2,8 @@
 <Window mininfo="200,360" size="600,800">
 	<Font shared="true" id="0" name="幼圆" size="12" default="true" />
 	<Font shared="true" id="1" name="微软雅黑" size="18" />
-	<Font shared="true" id="2" name="微软雅黑" size="24" />
-	<Font shared="true" id="3" name="微软雅黑" size="16" />
+	<Font shared="true" id="2" name="微软雅黑" size="22" />
+	<Font shared="true" id="3" name="微软雅黑" size="14" />
 	<Include source="scrollbar.xml" />
 	<Default shared="true" name="Slider" value="thumbsize=&quot;10,10&quot; bkimage=&quot;file='bg.bmp' corner='6,0,6,0' mask='#FFFF00FF'&quot; foreimage=&quot;file='fg.bmp' corner='6,0,6,0' mask='#FFFF00FF'&quot; thumbimage=&quot;file='thumb.bmp' source='30,0,40,10' mask='#FFDAEBF9'&quot; thumbhotimage=&quot;file='thumb.bmp' source='10,0,20,10' mask='#FFDAEBF9'&quot; " />
 	<Default shared="true" name="Button" value="textcolor=&quot;#000000&quot; hottextcolor=&quot;#FFFFFF&quot; focusedtextcolor=&quot;#000000&quot; pushedtextcolor=&quot;#77a8de&quot; normalimage=&quot;file='Button/btn.png' corner='5,11,5,11' source='0,0,96,24'&quot; hotimage=&quot;file='Button/btn.png' corner='5,11,5,11' source='0,24,96,48'&quot; pushedimage=&quot;file='Button/btn.png' corner='5,11,5,11' source='0,48,96,72'&quot; disabledimage=&quot;file='Button/btn.png' corner='5,11,5,11' source='0,72,96,96'&quot;" />
@@ -12,15 +12,18 @@
 	
 	<VerticalLayout inset="10,6,10,6" bkcolor="#FFEA679F" colorhsl="true" bkimage="file='voice_rect.png' xtiled='true' ytiled='true' dest='40,0,200,400'" vscrollbar="true">
 		<VerticalLayout width="1311" height="800" bkcolor="#FF8DD300" inset="20,10,20,10">
-			<HorizontalLayout height="60" >
-				<Button name="changeskinbtn" width="220" height="60" text="软件仓库" maxwidth="120" />
+			<HorizontalLayout height="64" >
+				<Button name="login_button" width="64" height="64" normalimage=".\skin\YouziRes\user_64.png" hotimage=".\skin\YouziRes\user_64.png" pushedimage=".\skin\YouziRes\user_64.png" maxwidth="120" />
 				<Control height="60"/>
-				<Button name="changeskinbtn" width="60" height="60" text="A" maxwidth="120" />
-				<Button name="changeskinbtn" width="60" height="60" text="B" maxwidth="120" />
-				<Button name="changeskinbtn" width="60" height="60" text="C" maxwidth="120" />
+				<Button name="changeskinbtn" width="22" height="22" normalimage=".\skin\YouziRes\min_normal.png" hotimage=".\skin\YouziRes\min_over.png" pushedimage=".\skin\YouziRes\min_normal.png" maxwidth="120" />				
+				<Control width="10"/>
+				<Button name="changeskinbtn" width="22" height="22" normalimage=".\skin\YouziRes\max_normal.png" hotimage=".\skin\YouziRes\max_over.png" pushedimage=".\skin\YouziRes\max_normal.png"  maxwidth="120" />
+				<Control width="10"/>
+				<Button name="changeskinbtn" width="22" height="22" normalimage=".\skin\YouziRes\close_normal.png" hotimage=".\skin\YouziRes\close_over.png" pushedimage=".\skin\YouziRes\close_normal.png"  maxwidth="120" />
 			</HorizontalLayout>
 			<HorizontalLayout height="75" >
-				<Button name="load_all_button" height="40" text="全部软件" maxwidth="120" />
+				<Button name="local_software_button" height="40" text="本地软件" maxwidth="120" />
+				<Button name="load_all_button" height="40" text="全部软件" maxwidth="120" />				
 				<Button name="changeskinbtn" height="40" text="办公" maxwidth="120" />
 				<Button name="changeskinbtn" height="40" text="音乐" maxwidth="120" />
 				<Button name="changeskinbtn" height="40" text="其他" maxwidth="120" />
@@ -28,7 +31,7 @@
 				<Button name="changeskinbtn" width="40" height="40" text="<" maxwidth="120" />
 				<Button name="changeskinbtn" width="40" height="40" text=">" maxwidth="120" />
 			</HorizontalLayout>
-			<TileLayout bkcolor="#FF00CCCC"  inset="15,35,3,7" childpadding="20,20,20,20" childvpadding="20,20,20,20" name="title" itemsize="320,180" columns="3" vscrollbar="true" hscrollbar="false">
+			<TileLayout bkcolor="#FF00CCCC"  inset="15,35,3,7" childpadding="20,20,20,20" childvpadding="20,20,20,20" name="software_list" itemsize="320,180" columns="3" vscrollbar="true" hscrollbar="false">
 				<Container bkcolor="#FFCC0000" inset="20,20,20,20" height="100" >			
 					<HorizontalLayout height="100" >
 						<Container bkcolor="#FFCCCC00"  inset="10,10,10,10" width="100"  >	

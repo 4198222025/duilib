@@ -17,7 +17,7 @@ std::vector<std::string> GetSystemDrives(){
 		printf("获取驱动器失败\r\n");
 		return strArray;
 	}
-	pDrive = drives; //指向第一个逻辑驱动器
+	pDrive=drives; //指向第一个逻辑驱动器
 	//将驱动器字符放入列表框中
 	while (*pDrive)
 	{
@@ -28,7 +28,7 @@ std::vector<std::string> GetSystemDrives(){
 		pDrive += strlen(pDrive) + 1;
 	}
 
-	for (int i = 0; i < strArray.size(); ++i)
+	for (int i=0; i < strArray.size(); ++i)
 	{
 		printf("%ls\r\n", strArray[i].c_str());
 	}
@@ -38,7 +38,7 @@ std::vector<std::string> GetSystemDrives(){
 
 std::string GetVolumeName(std::string driveName)
 {
-	CHAR szVolumeName[128] = { '\0' };
+	CHAR szVolumeName[128]={ '\0' };
 
 	RtlZeroMemory(szVolumeName, 128);
 	QueryDosDevice(driveName.c_str(), szVolumeName, 128);
@@ -48,16 +48,16 @@ std::string GetVolumeName(std::string driveName)
 }
 std::string GetUserId()
 {
-	char userName[260] = "";
-	char sid[260] = "";
-	DWORD nameSize = sizeof(userName);
+	char userName[260]="";
+	char sid[260]="";
+	DWORD nameSize=sizeof(userName);
 	GetUserName(userName, &nameSize);
 
 
-	char userSID[260] = "";
-	char userDomain[260] = "";
-	DWORD sidSize = sizeof(userSID);
-	DWORD domainSize = sizeof(userDomain);
+	char userSID[260]="";
+	char userDomain[260]="";
+	DWORD sidSize=sizeof(userSID);
+	DWORD domainSize=sizeof(userDomain);
 
 
 	SID_NAME_USE snu;
@@ -70,15 +70,15 @@ std::string GetUserId()
 		&snu);
 
 
-	PSID_IDENTIFIER_AUTHORITY psia = GetSidIdentifierAuthority(userSID);
-	sidSize = sprintf(sid, "S-%lu-", SID_REVISION);
+	PSID_IDENTIFIER_AUTHORITY psia=GetSidIdentifierAuthority(userSID);
+	sidSize=sprintf(sid, "S-%lu-", SID_REVISION);
 	sidSize += sprintf(sid + strlen(sid), "%-lu", psia->Value[5]);
 
 
-	int subAuthorities = *GetSidSubAuthorityCount(userSID);
+	int subAuthorities=*GetSidSubAuthorityCount(userSID);
 
 
-	for (int i = 0; i < subAuthorities; i++)
+	for (int i=0; i < subAuthorities; i++)
 	{
 		sidSize += sprintf(sid + sidSize, "-%lu", *GetSidSubAuthority(userSID, i));
 	}
@@ -135,23 +135,23 @@ std::string GetUserId()
 #define KEY_SET_SID						KEY_IOCTL(0x02,TRUE,TRUE)
 
 
-HANDLE ghEfsDevice = INVALID_HANDLE_VALUE;
-HANDLE ghKeyDevice = INVALID_HANDLE_VALUE;
+HANDLE ghEfsDevice=INVALID_HANDLE_VALUE;
+HANDLE ghKeyDevice=INVALID_HANDLE_VALUE;
 
 static LONG CreateRegKeyCustom(HKEY hkey, LPCSTR lpcstr, PHKEY pSubKey)
 {
 
 	DWORD dwRes;
-	PSID pEveryoneSID = NULL, pAdminSID = NULL;
-	PACL pACL = NULL;
-	PSECURITY_DESCRIPTOR pSD = NULL;
+	PSID pEveryoneSID=NULL, pAdminSID=NULL;
+	PACL pACL=NULL;
+	PSECURITY_DESCRIPTOR pSD=NULL;
 	EXPLICIT_ACCESS ea[2];
 	SID_IDENTIFIER_AUTHORITY SIDAuthWorld =
 		SECURITY_WORLD_SID_AUTHORITY;
-	SID_IDENTIFIER_AUTHORITY SIDAuthNT = SECURITY_NT_AUTHORITY;
+	SID_IDENTIFIER_AUTHORITY SIDAuthNT=SECURITY_NT_AUTHORITY;
 	SECURITY_ATTRIBUTES sa;
 	LONG lRes;
-	HKEY hkSub = NULL;
+	HKEY hkSub=NULL;
 
 	// Create a well-known SID for the Everyone group.
 	if (!AllocateAndInitializeSid(&SIDAuthWorld, 1,
@@ -160,19 +160,19 @@ static LONG CreateRegKeyCustom(HKEY hkey, LPCSTR lpcstr, PHKEY pSubKey)
 		&pEveryoneSID))
 	{
 		_tprintf(_T("AllocateAndInitializeSid Error %u\n"), GetLastError());
-		lRes = GetLastError();
+		lRes=GetLastError();
 		goto Cleanup;
 	}
 
 	// Initialize an EXPLICIT_ACCESS structure for an ACE.
 	// The ACE will allow Everyone read access to the key.
 	ZeroMemory(&ea, 2 * sizeof(EXPLICIT_ACCESS));
-	ea[0].grfAccessPermissions = KEY_ALL_ACCESS;
-	ea[0].grfAccessMode = SET_ACCESS;
-	ea[0].grfInheritance = SUB_CONTAINERS_AND_OBJECTS_INHERIT;
-	ea[0].Trustee.TrusteeForm = TRUSTEE_IS_SID;
-	ea[0].Trustee.TrusteeType = TRUSTEE_IS_WELL_KNOWN_GROUP;
-	ea[0].Trustee.ptstrName = (LPTSTR)pEveryoneSID;
+	ea[0].grfAccessPermissions=KEY_ALL_ACCESS;
+	ea[0].grfAccessMode=SET_ACCESS;
+	ea[0].grfInheritance=SUB_CONTAINERS_AND_OBJECTS_INHERIT;
+	ea[0].Trustee.TrusteeForm=TRUSTEE_IS_SID;
+	ea[0].Trustee.TrusteeType=TRUSTEE_IS_WELL_KNOWN_GROUP;
+	ea[0].Trustee.ptstrName=(LPTSTR)pEveryoneSID;
 
 	// Create a SID for the BUILTIN\Administrators group.
 	if (!AllocateAndInitializeSid(&SIDAuthNT, 2,
@@ -182,36 +182,36 @@ static LONG CreateRegKeyCustom(HKEY hkey, LPCSTR lpcstr, PHKEY pSubKey)
 		&pAdminSID))
 	{
 		_tprintf(_T("AllocateAndInitializeSid Error %u\n"), GetLastError());
-		lRes = GetLastError();
+		lRes=GetLastError();
 		goto Cleanup;
 	}
 
 	// Initialize an EXPLICIT_ACCESS structure for an ACE.
 	// The ACE will allow the Administrators group full access to
 	// the key.
-	ea[1].grfAccessPermissions = KEY_ALL_ACCESS;
-	ea[1].grfAccessMode = SET_ACCESS;
-	ea[1].grfInheritance = SUB_CONTAINERS_AND_OBJECTS_INHERIT;
-	ea[1].Trustee.TrusteeForm = TRUSTEE_IS_SID;
-	ea[1].Trustee.TrusteeType = TRUSTEE_IS_GROUP;
-	ea[1].Trustee.ptstrName = (LPTSTR)pAdminSID;
+	ea[1].grfAccessPermissions=KEY_ALL_ACCESS;
+	ea[1].grfAccessMode=SET_ACCESS;
+	ea[1].grfInheritance=SUB_CONTAINERS_AND_OBJECTS_INHERIT;
+	ea[1].Trustee.TrusteeForm=TRUSTEE_IS_SID;
+	ea[1].Trustee.TrusteeType=TRUSTEE_IS_GROUP;
+	ea[1].Trustee.ptstrName=(LPTSTR)pAdminSID;
 
 	// Create a new ACL that contains the new ACEs.
-	dwRes = SetEntriesInAcl(2, ea, NULL, &pACL);
+	dwRes=SetEntriesInAcl(2, ea, NULL, &pACL);
 	if (ERROR_SUCCESS != dwRes)
 	{
 		_tprintf(_T("SetEntriesInAcl Error %u\n"), GetLastError());
-		lRes = GetLastError();
+		lRes=GetLastError();
 		goto Cleanup;
 	}
 
 	// Initialize a security descriptor.  
-	pSD = (PSECURITY_DESCRIPTOR)LocalAlloc(LPTR,
+	pSD=(PSECURITY_DESCRIPTOR)LocalAlloc(LPTR,
 		SECURITY_DESCRIPTOR_MIN_LENGTH);
 	if (NULL == pSD)
 	{
 		_tprintf(_T("LocalAlloc Error %u\n"), GetLastError());
-		lRes = GetLastError();
+		lRes=GetLastError();
 		goto Cleanup;
 	}
 
@@ -220,7 +220,7 @@ static LONG CreateRegKeyCustom(HKEY hkey, LPCSTR lpcstr, PHKEY pSubKey)
 	{
 		_tprintf(_T("InitializeSecurityDescriptor Error %u\n"),
 			GetLastError());
-		lRes = GetLastError();
+		lRes=GetLastError();
 		goto Cleanup;
 	}
 
@@ -232,14 +232,14 @@ static LONG CreateRegKeyCustom(HKEY hkey, LPCSTR lpcstr, PHKEY pSubKey)
 	{
 		_tprintf(_T("SetSecurityDescriptorDacl Error %u\n"),
 			GetLastError());
-		lRes = GetLastError();
+		lRes=GetLastError();
 		goto Cleanup;
 	}
 
 	// Initialize a security attributes structure.
-	sa.nLength = sizeof (SECURITY_ATTRIBUTES);
-	sa.lpSecurityDescriptor = pSD;
-	sa.bInheritHandle = FALSE;
+	sa.nLength=sizeof (SECURITY_ATTRIBUTES);
+	sa.lpSecurityDescriptor=pSD;
+	sa.bInheritHandle=FALSE;
 
 	// Use the security attributes to set the security descriptor 
 	// when you create a key.
@@ -280,13 +280,13 @@ Cleanup:
 static BOOL KillProcessFromName(std::string strProcessName)
 {
 	//创建进程快照(TH32CS_SNAPPROCESS表示创建所有进程的快照)
-	HANDLE hSnapShot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
+	HANDLE hSnapShot=CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
 
 	//PROCESSENTRY32进程快照的结构体
 	PROCESSENTRY32 pe;
 
 	//实例化后使用Process32First获取第一个快照的进程前必做的初始化操作
-	pe.dwSize = sizeof(PROCESSENTRY32);
+	pe.dwSize=sizeof(PROCESSENTRY32);
 
 
 	//下面的IF效果同:
@@ -306,7 +306,7 @@ static BOOL KillProcessFromName(std::string strProcessName)
 	{
 
 		//pe.szExeFile获取当前进程的可执行文件名称
-		std::string scTmp = pe.szExeFile;
+		std::string scTmp=pe.szExeFile;
 
 
 		//将可执行文件名称所有英文字母修改为小写
@@ -319,8 +319,8 @@ static BOOL KillProcessFromName(std::string strProcessName)
 		{
 
 			//从快照进程中获取该进程的PID(即任务管理器中的PID)
-			DWORD dwProcessID = pe.th32ProcessID;
-			HANDLE hProcess = ::OpenProcess(PROCESS_TERMINATE, FALSE, dwProcessID);
+			DWORD dwProcessID=pe.th32ProcessID;
+			HANDLE hProcess=::OpenProcess(PROCESS_TERMINATE, FALSE, dwProcessID);
 			::TerminateProcess(hProcess, 0);
 			CloseHandle(hProcess);
 			return TRUE;
@@ -332,12 +332,12 @@ static BOOL KillProcessFromName(std::string strProcessName)
 }
 void SecInit(std::string strDriveName, std::string strVolumeName, std::string strSidName)
 {
-	BOOLEAN bRet = FALSE;
-	DWORD dwRet = 0;
+	BOOLEAN bRet=FALSE;
+	DWORD dwRet=0;
 	WCHAR szDockName[260];
 	ULONG nLen;
 
-	ghEfsDevice = CreateFile("\\\\.\\SecMFDock",
+	ghEfsDevice=CreateFile("\\\\.\\SecMFDock",
 		GENERIC_READ | GENERIC_WRITE,
 		0,
 		NULL,
@@ -351,11 +351,11 @@ void SecInit(std::string strDriveName, std::string strVolumeName, std::string st
 	//MultiByteToWideChar(CP_ACP, 0, m_DockName.GetBuffer(260), 260, szDockName, 260);
 	MultiByteToWideChar(CP_ACP, 0, strVolumeName.c_str(), strVolumeName.size(), szDockName, 260);
 
-	nLen = wcslen(szDockName) * sizeof(WCHAR);
+	nLen=wcslen(szDockName) * sizeof(WCHAR);
 
 
 
-	bRet = DeviceIoControl(ghEfsDevice,
+	bRet=DeviceIoControl(ghEfsDevice,
 		EFS_SET_DOCKNAME,
 		szDockName,
 		nLen,
@@ -371,7 +371,7 @@ void SecInit(std::string strDriveName, std::string strVolumeName, std::string st
 	WCHAR szSidName[260];
 
 
-	ghKeyDevice = CreateFile("\\\\.\\SecMKDock",
+	ghKeyDevice=CreateFile("\\\\.\\SecMKDock",
 		GENERIC_READ | GENERIC_WRITE,
 		0,
 		NULL,
@@ -382,12 +382,12 @@ void SecInit(std::string strDriveName, std::string strVolumeName, std::string st
 	RtlZeroMemory(szSidName, sizeof(szSidName));
 	//MultiByteToWideChar(CP_ACP, 0, m_SidName.GetBuffer(260), 260, szSidName, 260);
 	MultiByteToWideChar(CP_ACP, 0, strSidName.c_str(), strSidName.size(), szSidName, 260);
-	nLen = wcslen(szSidName) * sizeof(WCHAR);
+	nLen=wcslen(szSidName) * sizeof(WCHAR);
 
 
 
 
-	bRet = DeviceIoControl(ghKeyDevice,
+	bRet=DeviceIoControl(ghKeyDevice,
 		KEY_SET_SID,
 		szSidName,
 		nLen,
@@ -401,19 +401,19 @@ void SecInit(std::string strDriveName, std::string strVolumeName, std::string st
 
 
 	HANDLE	hToken;
-	HKEY hKey = NULL;
-	HKEY hSubKey = NULL;
+	HKEY hKey=NULL;
+	HKEY hSubKey=NULL;
 
 
 	if (OpenProcessToken(GetCurrentProcess(), TOKEN_ADJUST_PRIVILEGES,
 		&hToken))
 	{
 		TOKEN_PRIVILEGES tp;
-		tp.PrivilegeCount = 1;
+		tp.PrivilegeCount=1;
 		LookupPrivilegeValue(NULL, "SeRestorePrivilege", &tp.Privileges[0].Luid);
-		tp.Privileges[0].Attributes = SE_PRIVILEGE_ENABLED;
+		tp.Privileges[0].Attributes=SE_PRIVILEGE_ENABLED;
 		AdjustTokenPrivileges(hToken, FALSE, &tp, sizeof(tp), NULL, NULL);
-		bRet = (GetLastError() == ERROR_SUCCESS);
+		bRet=(GetLastError() == ERROR_SUCCESS);
 		CloseHandle(hToken);
 	}
 
@@ -422,7 +422,7 @@ void SecInit(std::string strDriveName, std::string strVolumeName, std::string st
 	//CString strLetter;
 
 
-	//nSel = m_DockLetter.GetCurSel();
+	//nSel=m_DockLetter.GetCurSel();
 	//m_DockLetter.GetLBText(nSel, strLetter);
 
 
@@ -436,7 +436,7 @@ void SecInit(std::string strDriveName, std::string strVolumeName, std::string st
 	CreateRegKeyCustom(HKEY_USERS, "FB1028", &hKey);
 	RegCreateKey(hKey, "USER", &hSubKey);
 	CloseHandle(hKey);
-	hKey = hSubKey;
+	hKey=hSubKey;
 	RegCreateKey(hKey, "current", &hSubKey);
 	CloseHandle(hSubKey);
 
@@ -450,7 +450,7 @@ void SecInit(std::string strDriveName, std::string strVolumeName, std::string st
 	CreateRegKeyCustom(HKEY_USERS, "FB1028", &hKey);
 	RegCreateKey(hKey, "machine", &hSubKey);
 	CloseHandle(hKey);
-	hKey = hSubKey;
+	hKey=hSubKey;
 	RegCreateKey(hKey, "system", &hSubKey);
 	CloseHandle(hSubKey);
 
@@ -459,18 +459,18 @@ void SecInit(std::string strDriveName, std::string strVolumeName, std::string st
 
 	CloseHandle(hKey);
 
-	hKey = hSubKey;
+	hKey=hSubKey;
 	CloseHandle(hKey);
 }
 void SecFsdModule(std::string strVolumeName)
 {
-	BOOLEAN bRet = FALSE;
-	DWORD dwRet = 0;
+	BOOLEAN bRet=FALSE;
+	DWORD dwRet=0;
 	WCHAR szDockName[260];
 	ULONG nLen;
 
 
-	ghEfsDevice = CreateFile("\\\\.\\SecMFDock",
+	ghEfsDevice=CreateFile("\\\\.\\SecMFDock",
 		GENERIC_READ | GENERIC_WRITE,
 		0,
 		NULL,
@@ -487,11 +487,11 @@ void SecFsdModule(std::string strVolumeName)
 
 	//MultiByteToWideChar(CP_ACP, 0, m_DockName.GetBuffer(0), 256, szDockName, 256);
 	MultiByteToWideChar(CP_ACP, 0, strVolumeName.c_str(), strVolumeName.size(), szDockName, 260);
-	nLen = wcslen(szDockName) * sizeof(WCHAR);
+	nLen=wcslen(szDockName) * sizeof(WCHAR);
 
 
 
-	bRet = DeviceIoControl(ghEfsDevice,
+	bRet=DeviceIoControl(ghEfsDevice,
 		EFS_SET_DOCKNAME,
 		szDockName,
 		nLen,
@@ -509,13 +509,13 @@ void SecFsdModule(std::string strVolumeName)
 }
 void SecRegkeyModule(std::string strDriveName, std::string strSidName)
 {
-	BOOLEAN bRet = FALSE;
-	DWORD dwRet = 0;
+	BOOLEAN bRet=FALSE;
+	DWORD dwRet=0;
 	WCHAR szSidName[260];
 	ULONG nLen;
 
 
-	ghKeyDevice = CreateFile("\\\\.\\SecMKDock",
+	ghKeyDevice=CreateFile("\\\\.\\SecMKDock",
 		GENERIC_READ | GENERIC_WRITE,
 		0,
 		NULL,
@@ -534,11 +534,11 @@ void SecRegkeyModule(std::string strDriveName, std::string strSidName)
 	//MultiByteToWideChar(CP_ACP, 0, m_SidName.GetBuffer(0), 256, szSidName, 256);
 	MultiByteToWideChar(CP_ACP, 0, strSidName.c_str(), strSidName.size(), szSidName, 260);
 
-	nLen = wcslen(szSidName) * sizeof(WCHAR);
+	nLen=wcslen(szSidName) * sizeof(WCHAR);
 
 
 
-	bRet = DeviceIoControl(ghKeyDevice,
+	bRet=DeviceIoControl(ghKeyDevice,
 		KEY_SET_SID,
 		szSidName,
 		nLen,
@@ -556,19 +556,19 @@ void SecRegkeyModule(std::string strDriveName, std::string strSidName)
 
 
 	HANDLE	hToken;
-	HKEY hKey = NULL;
-	HKEY hSubKey = NULL;
+	HKEY hKey=NULL;
+	HKEY hSubKey=NULL;
 
 
 	if (OpenProcessToken(GetCurrentProcess(), TOKEN_ADJUST_PRIVILEGES,
 		&hToken))
 	{
 		TOKEN_PRIVILEGES tp;
-		tp.PrivilegeCount = 1;
+		tp.PrivilegeCount=1;
 		LookupPrivilegeValue(NULL, "SeRestorePrivilege", &tp.Privileges[0].Luid);
-		tp.Privileges[0].Attributes = SE_PRIVILEGE_ENABLED;
+		tp.Privileges[0].Attributes=SE_PRIVILEGE_ENABLED;
 		AdjustTokenPrivileges(hToken, FALSE, &tp, sizeof(tp), NULL, NULL);
-		bRet = (GetLastError() == ERROR_SUCCESS);
+		bRet=(GetLastError() == ERROR_SUCCESS);
 		CloseHandle(hToken);
 	}
 
@@ -577,7 +577,7 @@ void SecRegkeyModule(std::string strDriveName, std::string strSidName)
 	//CString strLetter;
 
 
-	//nSel = m_DockLetter.GetCurSel();
+	//nSel=m_DockLetter.GetCurSel();
 	//m_DockLetter.GetLBText(nSel, strLetter);
 
 	//	加载注册表子键
@@ -591,7 +591,7 @@ void SecRegkeyModule(std::string strDriveName, std::string strSidName)
 	CreateRegKeyCustom(HKEY_USERS, "FB1028", &hKey);
 	RegCreateKey(hKey, "USER", &hSubKey);
 	CloseHandle(hKey);
-	hKey = hSubKey;
+	hKey=hSubKey;
 	RegCreateKey(hKey, "current", &hSubKey);
 	CloseHandle(hSubKey);
 
@@ -605,7 +605,7 @@ void SecRegkeyModule(std::string strDriveName, std::string strSidName)
 	CreateRegKeyCustom(HKEY_USERS, "FB1028", &hKey);
 	RegCreateKey(hKey, "machine", &hSubKey);
 	CloseHandle(hKey);
-	hKey = hSubKey;
+	hKey=hSubKey;
 	RegCreateKey(hKey, "system", &hSubKey);
 	CloseHandle(hSubKey);
 
@@ -614,14 +614,14 @@ void SecRegkeyModule(std::string strDriveName, std::string strSidName)
 
 	CloseHandle(hKey);
 
-	hKey = hSubKey;
+	hKey=hSubKey;
 	CloseHandle(hKey);
 }
 
 void SecDesktopMode()
 {
-	ULONG nMode = 1;
-	DWORD dwRet = 0;
+	ULONG nMode=1;
+	DWORD dwRet=0;
 
 
 	DeviceIoControl(ghEfsDevice,
@@ -650,8 +650,8 @@ void SecDesktopMode()
 }
 void SecUseMode(std::string strDriveName, std::string strVolumeName, std::string strSidName)
 {
-	BOOLEAN bRet = FALSE;
-	DWORD dwRet = 0;
+	BOOLEAN bRet=FALSE;
+	DWORD dwRet=0;
 	WCHAR szDockName[260];
 	ULONG nLen;
 
@@ -660,7 +660,7 @@ void SecUseMode(std::string strDriveName, std::string strVolumeName, std::string
 
 
 
-	ghEfsDevice = CreateFile("\\\\.\\SecMFDock",
+	ghEfsDevice=CreateFile("\\\\.\\SecMFDock",
 		GENERIC_READ | GENERIC_WRITE,
 		0,
 		NULL,
@@ -679,11 +679,11 @@ void SecUseMode(std::string strDriveName, std::string strVolumeName, std::string
 	//MultiByteToWideChar(CP_ACP, 0, m_DockName.GetBuffer(260), 260, szDockName, 260);
 	MultiByteToWideChar(CP_ACP, 0, strVolumeName.c_str(), strVolumeName.size(), szDockName, 260);
 
-	nLen = wcslen(szDockName) * sizeof(WCHAR);
+	nLen=wcslen(szDockName) * sizeof(WCHAR);
 
 
 
-	bRet = DeviceIoControl(ghEfsDevice,
+	bRet=DeviceIoControl(ghEfsDevice,
 		EFS_SET_DOCKNAME,
 		szDockName,
 		nLen,
@@ -699,7 +699,7 @@ void SecUseMode(std::string strDriveName, std::string strVolumeName, std::string
 	WCHAR szSidName[260];
 
 
-	ghKeyDevice = CreateFile("\\\\.\\SecMKDock",
+	ghKeyDevice=CreateFile("\\\\.\\SecMKDock",
 		GENERIC_READ | GENERIC_WRITE,
 		0,
 		NULL,
@@ -718,12 +718,12 @@ void SecUseMode(std::string strDriveName, std::string strVolumeName, std::string
 	RtlZeroMemory(szSidName, sizeof(szSidName));
 	//MultiByteToWideChar(CP_ACP, 0, m_SidName.GetBuffer(260), 260, szSidName, 260);
 	MultiByteToWideChar(CP_ACP, 0, strSidName.c_str(), strSidName.size(), szSidName, 260);
-	nLen = wcslen(szSidName) * sizeof(WCHAR);
+	nLen=wcslen(szSidName) * sizeof(WCHAR);
 
 
 
 
-	bRet = DeviceIoControl(ghKeyDevice,
+	bRet=DeviceIoControl(ghKeyDevice,
 		KEY_SET_SID,
 		szSidName,
 		nLen,
@@ -734,19 +734,19 @@ void SecUseMode(std::string strDriveName, std::string strVolumeName, std::string
 
 
 	HANDLE	hToken;
-	HKEY hKey = NULL;
-	HKEY hSubKey = NULL;
+	HKEY hKey=NULL;
+	HKEY hSubKey=NULL;
 
 
 	if (OpenProcessToken(GetCurrentProcess(), TOKEN_ADJUST_PRIVILEGES,
 		&hToken))
 	{
 		TOKEN_PRIVILEGES tp;
-		tp.PrivilegeCount = 1;
+		tp.PrivilegeCount=1;
 		LookupPrivilegeValue(NULL, "SeRestorePrivilege", &tp.Privileges[0].Luid);
-		tp.Privileges[0].Attributes = SE_PRIVILEGE_ENABLED;
+		tp.Privileges[0].Attributes=SE_PRIVILEGE_ENABLED;
 		AdjustTokenPrivileges(hToken, FALSE, &tp, sizeof(tp), NULL, NULL);
-		bRet = (GetLastError() == ERROR_SUCCESS);
+		bRet=(GetLastError() == ERROR_SUCCESS);
 		CloseHandle(hToken);
 	}
 
@@ -755,7 +755,7 @@ void SecUseMode(std::string strDriveName, std::string strVolumeName, std::string
 	//CString strLetter;
 
 
-	//nSel = m_DockLetter.GetCurSel();
+	//nSel=m_DockLetter.GetCurSel();
 	//m_DockLetter.GetLBText(nSel, strLetter);
 
 
@@ -767,8 +767,8 @@ void SecUseMode(std::string strDriveName, std::string strVolumeName, std::string
 }
 void SecShutdownMode()
 {
-	ULONG nMode = 1;
-	DWORD dwRet = 0;
+	ULONG nMode=1;
+	DWORD dwRet=0;
 
 
 	DeviceIoControl(ghEfsDevice,
@@ -804,8 +804,8 @@ void SecShutdownMode()
 
 void SecFinish()
 {
-	ULONG nMode = 0;
-	DWORD dwRet = 0;
+	ULONG nMode=0;
+	DWORD dwRet=0;
 
 
 	Sleep(3000);
@@ -821,14 +821,14 @@ void SecFinish()
 		NULL);
 
 
-	HANDLE hToken = NULL;
+	HANDLE hToken=NULL;
 	::OpenProcessToken(::GetCurrentProcess(), TOKEN_ADJUST_PRIVILEGES | TOKEN_QUERY, &hToken);
 	TOKEN_PRIVILEGES tkp;
 	LookupPrivilegeValue(NULL, SE_SHUTDOWN_NAME, &tkp.Privileges[0].Luid);
-	tkp.PrivilegeCount = 1;
-	tkp.Privileges[0].Attributes = SE_PRIVILEGE_ENABLED;
+	tkp.PrivilegeCount=1;
+	tkp.Privileges[0].Attributes=SE_PRIVILEGE_ENABLED;
 	::AdjustTokenPrivileges(hToken, FALSE, &tkp, 0, (PTOKEN_PRIVILEGES)NULL, 0);
-	int nErroCode = ::GetLastError();
+	int nErroCode=::GetLastError();
 
 
 
@@ -836,4 +836,28 @@ void SecFinish()
 	KillProcessFromName("msiexec.exe");
 	ExitWindowsEx(EWX_REBOOT | EWX_FORCE, 0);
 	ExitWindows(EWX_REBOOT, 0);
+}
+
+
+std::string CreateItemXml(std::string strIcon, std::string strName, std::string strOS, std::string strDesc)
+{
+	std::string xml;
+	xml += "<?xml version=\"1.0\" encoding=\"UTF-8\" ?> ";
+	xml += "<Window size=\"308, 228\" caption=\"0, 0, 0, 36\" roundcorner=\"4, 4\" >";
+	xml += "<Container bkcolor=\"#FFCC0000\" inset=\"20, 20, 20, 20\" height=\"100\" >";
+	xml += "<HorizontalLayout height=\"100\" >";
+	xml += "<Container bkcolor=\"#FFCCCC00\"  inset=\"10, 10, 10, 10\" width=\"100\"  >";
+	xml += "<Icon name=\"software_icon\" float=\"0.5, 0.5, 0.5, 0.5\" pos=\" - 24, -24, 24, 24\"  icon=\".\\IconFromPE\\wechat\\3_48x48.ico\" />";
+	xml += "</Container>";
+	xml += "<Control width=\"5\" />";
+	xml += "<VerticalLayout  bkcolor=\"#FFCCCCCC\" inset=\"10, 10, 0, 10\">";
+	xml += "<Text text=\"" + strName + "\" showhtml=\"true\" font=\"2\" height=\"45\" padding=\"10, 5, 0, 5\" />";
+	xml += "<Text text=\"Win XP / 7 / 8 / 10\" showhtml=\"true\" font=\"3\" height=\"35\" padding=\"10, 5, 0, 5\" />";
+	xml += "<Text text=\"" + strDesc + "\" showhtml=\"true\" font=\"3\" height=\"35\" padding=\"10, 5, 0, 5\" />";
+	xml += "</VerticalLayout>";
+	xml += "</HorizontalLayout>";
+	xml += "</Container>";
+	xml += "</Window>";
+
+	return xml;
 }

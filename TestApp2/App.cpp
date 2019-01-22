@@ -537,7 +537,26 @@ public:
                 else
                     CPaintManagerUI::SetResourcePath(CPaintManagerUI::GetInstancePath());
                 CPaintManagerUI::ReloadSkin();
-            }			
+            }		
+			else if (msg.pSender->GetName() == _T("local_software_button")){
+				CTileLayoutUI* pTileLayout = static_cast<CTileLayoutUI*>(m_pm.FindControl(_T("software_list")));
+				pTileLayout->RemoveAll();
+
+				for (int i = 0; i < 11; i++){
+
+					CContainerUI* pTileElement = NULL;
+					CDialogBuilder builder;
+					if (!builder.GetMarkup()->IsValid()) {
+						//pTileElement = static_cast<CContainerUI*>(builder.Create(_T("test2_item.xml"), (UINT)0, NULL, &m_pm));
+						pTileElement = static_cast<CContainerUI*>(builder.Create(CreateItemXml("", "柚子科技", "", "不忘初心，方得始终！").c_str(), (UINT)0, NULL, &m_pm));
+					}
+
+
+					pTileLayout->AddAt(pTileElement, 0);
+				}
+
+				MessageBox(NULL, _T("显示本地软件！"), _T("提示"), MB_OK);
+			}
 			else if (msg.pSender->GetName() == _T("load_all_button")){
 				MessageBox(NULL, _T("加载所有软件！"), _T("提示"), MB_OK);
 			}
