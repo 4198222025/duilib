@@ -3,6 +3,8 @@
 #include <string>
 #include <algorithm>    // transform
 
+#include <codecvt>
+
 #include "SysUtil.h"
 
 std::vector<std::string> GetSystemDrives(){
@@ -839,6 +841,58 @@ void SecFinish()
 }
 
 
+wstring AsciiToUnicode(const string& str) {
+	// 预算-缓冲区中宽字节的长度    
+	int unicodeLen = MultiByteToWideChar(CP_ACP, 0, str.c_str(), -1, nullptr, 0);
+	// 给指向缓冲区的指针变量分配内存    
+	wchar_t *pUnicode = (wchar_t*)malloc(sizeof(wchar_t)*unicodeLen);
+	// 开始向缓冲区转换字节    
+	MultiByteToWideChar(CP_ACP, 0, str.c_str(), -1, pUnicode, unicodeLen);
+	wstring ret_str = pUnicode;
+	free(pUnicode);
+	return ret_str;
+}
+string UnicodeToAscii(const wstring& wstr) {
+	// 预算-缓冲区中多字节的长度    
+	int ansiiLen = WideCharToMultiByte(CP_ACP, 0, wstr.c_str(), -1, nullptr, 0, nullptr, nullptr);
+	// 给指向缓冲区的指针变量分配内存    
+	char *pAssii = (char*)malloc(sizeof(char)*ansiiLen);
+	// 开始向缓冲区转换字节    
+	WideCharToMultiByte(CP_ACP, 0, wstr.c_str(), -1, pAssii, ansiiLen, nullptr, nullptr);
+	string ret_str = pAssii;
+	free(pAssii);
+	return ret_str;
+}
+wstring Utf8ToUnicode(const string& str) {
+	// 预算-缓冲区中宽字节的长度    
+	int unicodeLen = MultiByteToWideChar(CP_UTF8, 0, str.c_str(), -1, nullptr, 0);
+	// 给指向缓冲区的指针变量分配内存    
+	wchar_t *pUnicode = (wchar_t*)malloc(sizeof(wchar_t)*unicodeLen);
+	// 开始向缓冲区转换字节    
+	MultiByteToWideChar(CP_UTF8, 0, str.c_str(), -1, pUnicode, unicodeLen);
+	wstring ret_str = pUnicode;
+	free(pUnicode);
+	return ret_str;
+}
+string UnicodeToUtf8(const wstring& wstr) {
+	// 预算-缓冲区中多字节的长度    
+	int ansiiLen = WideCharToMultiByte(CP_UTF8, 0, wstr.c_str(), -1, nullptr, 0, nullptr, nullptr);
+	// 给指向缓冲区的指针变量分配内存    
+	char *pAssii = (char*)malloc(sizeof(char)*ansiiLen);
+	// 开始向缓冲区转换字节    
+	WideCharToMultiByte(CP_UTF8, 0, wstr.c_str(), -1, pAssii, ansiiLen, nullptr, nullptr);
+	string ret_str = pAssii;
+	free(pAssii);
+	return ret_str;
+}
+string AsciiToUtf8(const string& str) {
+	return UnicodeToUtf8(AsciiToUnicode(str));
+}
+string Utf8ToAscii(const string& str) {
+	return UnicodeToAscii(Utf8ToUnicode(str));
+}
+
+
 std::string CreateItemXml(std::string strIcon, std::string strName, std::string strOS, std::string strDesc)
 {
 	std::string xml;
@@ -847,12 +901,13 @@ std::string CreateItemXml(std::string strIcon, std::string strName, std::string 
 	xml += "<Container bkcolor=\"#FFCC0000\" inset=\"20, 20, 20, 20\" height=\"100\" >";
 	xml += "<HorizontalLayout height=\"100\" >";
 	xml += "<Container bkcolor=\"#FFCCCC00\"  inset=\"10, 10, 10, 10\" width=\"100\"  >";
-	xml += "<Icon name=\"software_icon\" float=\"0.5, 0.5, 0.5, 0.5\" pos=\" - 24, -24, 24, 24\"  icon=\".\\IconFromPE\\wechat\\3_48x48.ico\" />";
+	xml += "<Icon name=\"software_icon\" float=\"0.5, 0.5, 0.5, 0.5\" pos=\" - 24, -24, 24, 24\"  icon=\"" + strIcon + "\" />";
 	xml += "</Container>";
 	xml += "<Control width=\"5\" />";
 	xml += "<VerticalLayout  bkcolor=\"#FFCCCCCC\" inset=\"10, 10, 0, 10\">";
+	xml += "<Button name=\"changeskgginbtn\" width=\"22\" height=\"22\" normalimage=\".\\skin\\YouziRes\\close_normal.png\" />";
 	xml += "<Text text=\"" + strName + "\" showhtml=\"true\" font=\"2\" height=\"45\" padding=\"10, 5, 0, 5\" />";
-	xml += "<Text text=\"Win XP / 7 / 8 / 10\" showhtml=\"true\" font=\"3\" height=\"35\" padding=\"10, 5, 0, 5\" />";
+	xml += "<Text text=\"" + strOS + "\" showhtml=\"true\" font=\"3\" height=\"35\" padding=\"10, 5, 0, 5\" />";
 	xml += "<Text text=\"" + strDesc + "\" showhtml=\"true\" font=\"3\" height=\"35\" padding=\"10, 5, 0, 5\" />";
 	xml += "</VerticalLayout>";
 	xml += "</HorizontalLayout>";
@@ -862,13 +917,9 @@ std::string CreateItemXml(std::string strIcon, std::string strName, std::string 
 	return xml;
 }
 
-std::vector<std::string> PraseJson(std::string strJsonFile)
+std::vector<SoftwareInfo> PraseJson(std::string strJsonFile)
 {
-	std::vector<std::string>  arrSoftware;
-
-	arrSoftware.push_back("有道词典");
-	arrSoftware.push_back("3D Max");
-	arrSoftware.push_back("ArcGIS 10.2");
+	std::vector<SoftwareInfo>  arrSoftware;
 
 	FILE * f = fopen(strJsonFile.c_str(), "rb");
 	/* 获取文件大小 */
@@ -884,6 +935,7 @@ std::vector<std::string> PraseJson(std::string strJsonFile)
 	}
 	memset(buffer, 0, lSize + 1);
 
+	
 	/* 将文件拷贝到buffer中 */
 	long result = fread(buffer, 1, lSize, f);
 	if (result != lSize)
@@ -892,10 +944,14 @@ std::vector<std::string> PraseJson(std::string strJsonFile)
 	}
 
 	fclose(f);
+
+	std::string utf8Str(buffer);
+
+	std::string asciiStr = Utf8ToAscii(utf8Str);
 	
 
 	// char * jsonStr = "{\"semantic\":{\"slots\":{\"name\":\"张三\"}}, \"rc\":0, \"operation\":\"CALL\", \"service\":\"telephone\", \"text\":\"打电话给张三\"}";
-	char * jsonStr = buffer;
+	const char * jsonStr = asciiStr.c_str();
 	cJSON * root = NULL;
 	cJSON * item = NULL;//cjson对象
 
@@ -913,9 +969,18 @@ std::vector<std::string> PraseJson(std::string strJsonFile)
 		{
 			cJSON * s = cJSON_GetArrayItem(arr, i);
 
-			cJSON * nameProp = cJSON_GetObjectItem(item, "name");
+			cJSON * nameProp = cJSON_GetObjectItem(s, "name");
+			cJSON * iconProp = cJSON_GetObjectItem(s, "icon");
+			cJSON * osProp = cJSON_GetObjectItem(s, "os");
+			cJSON * descProp = cJSON_GetObjectItem(s, "desc");
 
-			arrSoftware.push_back(nameProp->valuestring);
+			SoftwareInfo software;
+			software.name = nameProp->valuestring;
+			software.icon = iconProp->valuestring;
+			software.os = osProp->valuestring;
+			software.desc = descProp->valuestring;
+
+			arrSoftware.push_back(software);
 
 		}
 	}

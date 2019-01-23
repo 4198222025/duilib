@@ -540,20 +540,20 @@ public:
             }		
 			else if (msg.pSender->GetName() == _T("local_software_button")){
 
-				std::vector<std::string> softwareArr = PraseJson("local_software.json");
+				std::vector<SoftwareInfo> softwareArr = PraseJson("local_software.json");
 
 				CTileLayoutUI* pTileLayout = static_cast<CTileLayoutUI*>(m_pm.FindControl(_T("software_list")));
 				pTileLayout->RemoveAll();
 
 				for (int i = 0; i < softwareArr.size(); i++){
 
-					std::string name = softwareArr[i];
+					SoftwareInfo software = softwareArr[i];
 
 					CContainerUI* pTileElement = NULL;
 					CDialogBuilder builder;
 					if (!builder.GetMarkup()->IsValid()) {
 						//pTileElement = static_cast<CContainerUI*>(builder.Create(_T("test2_item.xml"), (UINT)0, NULL, &m_pm));
-						pTileElement = static_cast<CContainerUI*>(builder.Create(CreateItemXml("", name.c_str(), "", "不忘初心，方得始终！").c_str(), (UINT)0, NULL, &m_pm));
+						pTileElement = static_cast<CContainerUI*>(builder.Create(CreateItemXml(software.icon.c_str(), software.name.c_str(), software.os.c_str(), software.desc.c_str()).c_str(), (UINT)0, NULL, &m_pm));
 					}
 
 
