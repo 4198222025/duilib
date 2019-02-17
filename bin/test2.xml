@@ -14,6 +14,7 @@
 		<VerticalLayout width="1311" height="800" bkcolor="#FF8DD300" inset="20,10,20,10">
 			<HorizontalLayout height="64" >
 				<Button name="login_button" width="64" height="64" normalimage=".\skin\YouziRes\user_64.png" hotimage=".\skin\YouziRes\user_64.png" pushedimage=".\skin\YouziRes\user_64.png" maxwidth="120" />
+				<Text text="请登录" showhtml="true" font="2" height="30" padding="10,2,0,2" />
 				<Control height="60"/>
 				<Button name="changeskinbtn" width="22" height="22" normalimage=".\skin\YouziRes\min_normal.png" hotimage=".\skin\YouziRes\min_over.png" pushedimage=".\skin\YouziRes\min_normal.png" maxwidth="120" />				
 				<Control width="10"/>
@@ -21,8 +22,13 @@
 				<Control width="10"/>
 				<Button name="changeskinbtn" width="22" height="22" normalimage=".\skin\YouziRes\close_normal.png" hotimage=".\skin\YouziRes\close_over.png" pushedimage=".\skin\YouziRes\close_normal.png"  maxwidth="120" />
 			</HorizontalLayout>
-			<HorizontalLayout height="75" >
-				<Button name="local_software_button" height="40" text="本地软件" maxwidth="120" />
+			<HorizontalLayout height="50" >
+				<Control />
+				<Button name="local_software_button" height="40" text="本地软件" minwidth="80" maxwidth="220" />
+				<Button name="load_all_button" height="40" text="软件宝库" minwidth="80" maxwidth="220" />	
+				<Control />				
+			</HorizontalLayout>
+			<HorizontalLayout height="75" >				
 				<Button name="load_all_button" height="40" text="全部软件" maxwidth="120" />				
 				<Button name="changeskinbtn" height="40" text="办公" maxwidth="120" />
 				<Button name="changeskinbtn" height="40" text="音乐" maxwidth="120" />
@@ -30,6 +36,12 @@
 				<Control height="60"/>
 				<Button name="changeskinbtn" width="40" height="40" text="<" maxwidth="120" />
 				<Button name="changeskinbtn" width="40" height="40" text=">" maxwidth="120" />
+			</HorizontalLayout>
+			<HorizontalLayout height="75" >				
+				<Button name="load_all_button" height="40" text="A" width="40" />				
+				<Button name="changeskinbtn" height="40" text="B" width="40" />
+				<Button name="changeskinbtn" height="40" text="C" width="40" />
+				<Button name="changeskinbtn" height="40" text="T" width="40" />
 			</HorizontalLayout>
 			<TileLayout bkcolor="#FF00CCCC"  inset="15,35,3,7" childpadding="20,20,20,20" childvpadding="20,20,20,20" name="software_list" itemsize="260,120" columns="4" vscrollbar="true" hscrollbar="false">
 				<Container bkcolor="#FFCC0000" inset="20,20,20,20" height="80" >			
