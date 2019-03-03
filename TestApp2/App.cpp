@@ -511,10 +511,41 @@ public:
 		
     }
 
+	void LoadSoftwareFromJson(CTileLayoutUI* pTileLayout, std::string jsonFile)
+	{
+		pTileLayout->RemoveAll();
+
+		std::vector<SoftwareInfo> softwareArr = PraseJson(jsonFile);
+		for (int i = 0; i < softwareArr.size(); i++){
+
+			SoftwareInfo software = softwareArr[i];
+
+			CContainerUI* pTileElement = NULL;
+			CDialogBuilder builder;
+			if (!builder.GetMarkup()->IsValid()) {
+				//pTileElement = static_cast<CContainerUI*>(builder.Create(_T("test2_item.xml"), (UINT)0, NULL, &m_pm));
+				pTileElement = static_cast<CContainerUI*>(builder.Create(CreateItemXml(software.icon.c_str(), software.name.c_str(), software.os.c_str(), software.desc.c_str()).c_str(), (UINT)0, NULL, &m_pm));
+			}
+
+			pTileLayout->AddAt(pTileElement, 0);
+		}
+	}
+
     void Notify(TNotifyUI& msg)
     {
 		if (msg.sType == _T("windowinit")) {
 			OnPrepare();
+		}
+		else if (msg.sType == _T("selectchanged")){
+			if (msg.pSender->GetName() == _T("Option01")) {
+				CTabLayoutUI * pTab = (CTabLayoutUI*)m_pm.FindControl(_T("TabLayoutMain"));
+				pTab->SelectItem(0);//1代表第二个Tab页
+			}
+			else if (msg.pSender->GetName() == _T("Option02")) {
+				CTabLayoutUI * pTab = (CTabLayoutUI*)m_pm.FindControl(_T("TabLayoutMain"));
+				pTab->SelectItem(1);//1代表第二个Tab页
+
+			}
 		}
 		else if (msg.sType == _T("itemselect")) {
 			if (msg.pSender->GetName() == _T("system_drive_combo")) {
@@ -538,32 +569,29 @@ public:
                     CPaintManagerUI::SetResourcePath(CPaintManagerUI::GetInstancePath());
                 CPaintManagerUI::ReloadSkin();
             }		
-			else if (msg.pSender->GetName() == _T("local_software_button")){
-
-				std::vector<SoftwareInfo> softwareArr = PraseJson("local_software.json");
-
-				CTileLayoutUI* pTileLayout = static_cast<CTileLayoutUI*>(m_pm.FindControl(_T("software_list")));
-				pTileLayout->RemoveAll();
-
-				for (int i = 0; i < softwareArr.size(); i++){
-
-					SoftwareInfo software = softwareArr[i];
-
-					CContainerUI* pTileElement = NULL;
-					CDialogBuilder builder;
-					if (!builder.GetMarkup()->IsValid()) {
-						//pTileElement = static_cast<CContainerUI*>(builder.Create(_T("test2_item.xml"), (UINT)0, NULL, &m_pm));
-						pTileElement = static_cast<CContainerUI*>(builder.Create(CreateItemXml(software.icon.c_str(), software.name.c_str(), software.os.c_str(), software.desc.c_str()).c_str(), (UINT)0, NULL, &m_pm));
-					}
-
-
-					pTileLayout->AddAt(pTileElement, 0);
-				}
-
-				MessageBox(NULL, _T("显示本地软件！"), _T("提示"), MB_OK);
-			}
 			else if (msg.pSender->GetName() == _T("load_all_button")){
-				MessageBox(NULL, _T("加载所有软件！"), _T("提示"), MB_OK);
+				CTileLayoutUI* pTileLayout = static_cast<CTileLayoutUI*>(m_pm.FindControl(_T("software_list")));
+				LoadSoftwareFromJson(pTileLayout, "local_software.json");			
+
+				//MessageBox(NULL, _T("加载所有软件！"), _T("提示"), MB_OK);
+			}
+			else if (msg.pSender->GetName() == _T("load_office_button")){
+				CTileLayoutUI* pTileLayout = static_cast<CTileLayoutUI*>(m_pm.FindControl(_T("software_list")));
+				LoadSoftwareFromJson(pTileLayout, "local_software_office.json");
+
+				//MessageBox(NULL, _T("加载办公软件！"), _T("提示"), MB_OK);
+			}
+			else if (msg.pSender->GetName() == _T("load_music_button")){
+				CTileLayoutUI* pTileLayout = static_cast<CTileLayoutUI*>(m_pm.FindControl(_T("software_list")));
+				LoadSoftwareFromJson(pTileLayout, "local_software_music.json");
+
+				MessageBox(NULL, _T("加载音乐软件！"), _T("提示"), MB_OK);
+			}
+			else if (msg.pSender->GetName() == _T("load_other_button")){
+				CTileLayoutUI* pTileLayout = static_cast<CTileLayoutUI*>(m_pm.FindControl(_T("software_list")));
+				LoadSoftwareFromJson(pTileLayout, "local_software_other.json");
+
+				//MessageBox(NULL, _T("加载其他软件！"), _T("提示"), MB_OK);
 			}
 			else if (msg.pSender->GetName() == _T("sec_init_button")){
 
@@ -577,7 +605,7 @@ public:
 				const char* sidName = pSidNameEdit->GetText().GetData();
 				SecInit(driveName.substr(0, 2), volumeName, sidName);
 
-				MessageBox(NULL, _T("操作结束！"), _T("提示"), MB_OK);
+				//MessageBox(NULL, _T("操作结束！"), _T("提示"), MB_OK);
 			}
 			else if (msg.pSender->GetName() == _T("sec_fsd_module_button")){
 				CComboUI* pSystemDriveComboBox = static_cast<CComboUI*>(m_pm.FindControl(_T("system_drive_combo")));

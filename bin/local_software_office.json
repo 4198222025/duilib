@@ -1,0 +1,10 @@
+{"softwares":[
+	{"name":"企业QQ", "icon":".\\IconFromPE\\QQ\\5_48x48.ico", "desc":"交友神器，不容错过！？", "os":"Win7/8/9/10"}
+	,{"name":"企业微信", "icon":"F:\\github\\duilib\\bin\\IconFromPE\\WeChat\\3_48x48.ico", "desc":"因你看见，所以存在！", "os":"Win7/8/9/10"}
+	,{"name":"极速PDF阅读器", "icon":"F:\\github\\duilib\\bin\\IconFromPE\\YoudaoDict\\5_48x48.ico", "desc":"翻译就用我", "os":"Win7/8/9/10"}
+	,{"name":"钉钉", "icon":"F:\\github\\duilib\\bin\\IconFromPE\\firefox\\3_48x48.ico", "desc":"网上见！", "os":"Win7/8/9/10"}
+	,{"name":"光速PDF转换器", "icon":"F:\\github\\duilib\\bin\\IconFromPE\\3dsmax\\18_48x48.ico", "desc":"3D 3D 3D", "os":"Win7/8/9/10"}
+	,{"name":"CAJViewer", "icon":"F:\\github\\duilib\\bin\\IconFromPE\\AxureRP8\\7_48x48.ico", "desc":"设计师都在用！", "os":"Win7/8/9/10"}
+	,{"name":"CAD迷你看图", "icon":"F:\\github\\duilib\\bin\\IconFromPE\\AxureRP8\\7_48x48.ico", "desc":"设计师都在用！", "os":"Win7/8/9/10"}
+	,{"name":"PPT伴侣", "icon":"F:\\github\\duilib\\bin\\IconFromPE\\AxureRP8\\7_48x48.ico", "desc":"设计师都在用！", "os":"Win7/8/9/10"}
+	,{"name":"网易有道词典", "icon":"F:\\github\\duilib\\bin\\IconFromPE\\QQMusic\\2_48x48.ico", "desc":"好听歌，这里都有！", "os":"Win7/8/9/10"}]}
