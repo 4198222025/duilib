@@ -585,7 +585,7 @@ public:
 				CTileLayoutUI* pTileLayout = static_cast<CTileLayoutUI*>(m_pm.FindControl(_T("software_list")));
 				LoadSoftwareFromJson(pTileLayout, "local_software_music.json");
 
-				MessageBox(NULL, _T("加载音乐软件！"), _T("提示"), MB_OK);
+				//MessageBox(NULL, _T("加载音乐软件！"), _T("提示"), MB_OK);
 			}
 			else if (msg.pSender->GetName() == _T("load_other_button")){
 				CTileLayoutUI* pTileLayout = static_cast<CTileLayoutUI*>(m_pm.FindControl(_T("software_list")));
