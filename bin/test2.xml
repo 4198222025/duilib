@@ -20,6 +20,7 @@
 					<Text text="柚子科技" align="center" showhtml="true" font="1"  height="30" padding="5,2,0,2" />
 				</VerticalLayout>	
 				<Control height="8"/>
+				<!-- 
 				<HorizontalLayout height="45" bkcolor="#FFEEEEEE" name="local_hori_layout">
 					<Control width="20"/>
 					<Container  inset="5,5,5,5" width="36"  >	
@@ -42,8 +43,29 @@
 						<Control />
 					</VerticalLayout>	
 				</HorizontalLayout>
-				<Option name="Option01" float="false" text="本地软件" width="60" height="30" textcolor="#FF1c1c1c" disabledtextcolor="#FFA7A6AA" align="center" leftbordersize="1" bordercolor="#ff000000"  selectedtextcolor="#ff96cdcd" group="switch" selected="true" />
-				<Option name="Option02" float="false" text="软件宝库" width="60" height="30" textcolor="#FF1c1c1c" disabledtextcolor="#FFA7A6AA" align="center" leftbordersize="1" bordercolor="#ff000000" selectedtextcolor="#ff96cdcd" group="switch" />
+				!-->
+				<!-- <Button name="Option012fd22"  text="本地软件" bkcolor="#FFCC679F"
+					normalimage=" file='winbk.bmp'  res='' restype='0' dest='20,5,55,40' source='0,0,40,40' corner='0,0,0,0' mask='#FF0000' fade='255' hole='false' xtiled='false' ytiled='false' "
+					hotimage=" file='winbk.bmp'  res='' restype='0' dest='20,5,55,40' source='0,0,40,40' corner='0,0,0,0' mask='#FF0000' fade='255' hole='false' xtiled='false' ytiled='false' "
+					pushedimage=" file='winbk.bmp'  res='' restype='0' dest='20,5,55,40' source='0,0,40,40' corner='0,0,0,0' mask='#FF0000' fade='255' hole='false' xtiled='false' ytiled='false' "					
+					width="160" height="45"  textpadding="60,0,0,0" font="2" align="left" />
+					
+				<Button name="Option012fd22"  text="软件宝库" bkcolor="#FFCC679F"
+					normalimage=" file='winbk.bmp'  res='' restype='0' dest='20,5,55,40' source='0,0,40,40' corner='0,0,0,0' mask='#FF0000' fade='255' hole='false' xtiled='false' ytiled='false' "
+					hotimage=" file='winbk.bmp'  res='' restype='0' dest='20,5,55,40' source='0,0,40,40' corner='0,0,0,0' mask='#FF0000' fade='255' hole='false' xtiled='false' ytiled='false' "
+					pushedimage=" file='winbk.bmp'  res='' restype='0' dest='20,5,55,40' source='0,0,40,40' corner='0,0,0,0' mask='#FF0000' fade='255' hole='false' xtiled='false' ytiled='false' "					
+					width="160" height="45"  textpadding="60,0,0,0" font="2" align="left" /> !-->
+
+				<Option name="Option01" float="false" text="本地软件" bkcolor="#FFCCCCCC"
+					normalimage=" file='.\skin\YouziRes\tab_local.png'  res='' restype='0' dest='25,10,51,34' source='0,0,25,24' corner='0,0,0,0' mask='#FF0000' fade='255' hole='false' xtiled='false' ytiled='false' "
+					hotimage=" file='.\skin\YouziRes\tab_local.png'  res='' restype='0' dest='25,10,51,34' source='0,0,25,24' corner='0,0,0,0' mask='#FF0000' fade='255' hole='false' xtiled='false' ytiled='false' "
+					selectedimage=" file='.\skin\YouziRes\tab_local.png'  res='' restype='0' dest='25,10,51,34' source='0,0,25,24' corner='0,0,0,0' mask='#FF0000' fade='255' hole='false' xtiled='false' ytiled='false' "	
+					width="160" height="45" textcolor="#FF1c1c1c" font="1"  textpadding="35,0,0,0" disabledtextcolor="#FFA7A6AA" align="center" leftbordersize="1" bordercolor="#ff000000"  selectedtextcolor="#ff96cdcd" group="switch" selected="true" />
+				<Option name="Option02" float="false" text="云上软件" bkcolor="#FF00679F"
+					normalimage=" file='.\skin\YouziRes\tab_cloud.png'  res='' restype='0' dest='25,10,51,34' source='0,0,26,24' corner='0,0,0,0' mask='#FF0000' fade='255' hole='false' xtiled='false' ytiled='false' "
+					hotimage=" file='.\skin\YouziRes\tab_cloud.png'  res='' restype='0' dest='25,10,51,34' source='0,0,24,26' corner='0,0,0,0' mask='#FF0000' fade='255' hole='false' xtiled='false' ytiled='false' "
+					selectedimage=" file='.\skin\YouziRes\tab_cloud.png'  res='' restype='0' dest='25,10,51,34' source='0,0,26,24' corner='0,0,0,0' mask='#FF0000' fade='255' hole='false' xtiled='false' ytiled='false' "	
+					width="160" height="45" textcolor="#FF1c1c1c" font="1" textpadding="35,0,0,0" disabledtextcolor="#FFA7A6AA" align="center" leftbordersize="1" bordercolor="#ff000000" selectedtextcolor="#ff96cdcd" group="switch" />
 				
 			</VerticalLayout>
 			<VerticalLayout width="1150" height="600" bkcolor="#FF8DD300" inset="00,00,00,00">
@@ -78,137 +100,271 @@
 				<Control width="10"/>
 			</HorizontalLayout>
 			
-			<TabLayout name="TabLayoutMain" bkcolor="#FF00CCCC"  selectedid="0" topbordersize="1" bordercolor="#ff000000" padding="2,2,2,2" >
+			<TabLayout name="TabLayoutMain" bkcolor="#FFCC0000"  selectedid="0" topbordersize="1" bordercolor="#ff000000" padding="2,2,2,2" >
+				<!--  tab页 - 本地软件  !-->
 				<HorizontalLayout>
-					<VerticalLayout vscrollbar="true" hscrollbar="false">
-						<VerticalLayout height="40"  bkcolor="#FFCCCCCC">
+					<!--  左侧 - 本地软件列表  !-->
+					<VerticalLayout bkcolor="#FFEEEEEE" inset="20,0,20,0" vscrollbar="true" hscrollbar="false">
+						<VerticalLayout height="40"  bkcolor="#FFEEEEEE">
 							<Control />
-							<Label text="Adobo" />
+							<Label text="Adobo" font="2" textpadding="10,0,0,0" />
 							<Control />
 						</VerticalLayout>	
-						<TileLayout bkcolor="#FF00CCCC"  height="120" inset="5,5,5,5" childpadding="10,10,10,10" childvpadding="10,10,10,10" name="software_list" itemsize="220,80" columns="4" vscrollbar="true" hscrollbar="false">
-							<Container bkcolor="#FFCC0000" inset="2,2,2,2" height="80" >			
-								<HorizontalLayout height="80" >
-									<Container bkcolor="#FFCCCC00"  inset="10,10,10,10" width="70"  >	
-										<Icon name="qq_icon" float="0.5,0.5,0.5,0.5" pos="-24,-24,24,24"  icon=".\IconFromPE\wechat\3_48x48.ico" />
-									</Container>
+						<TileLayout bkcolor="#FFEEEEEE"  height="100" inset="5,5,5,5" childpadding="10,10,10,10" childvpadding="10,10,10,10" name="software_list" itemsize="220,80" columns="4" vscrollbar="true" hscrollbar="false">
+							<Container bkcolor="#FFDDDDDD" inset="2,2,2,2" height="60" >			
+								<HorizontalLayout height="60" >
+									<Container bkcolor="#FFDDDDDD"  inset="10,10,10,10" width="90"  >	
+										<Icon name="qq_icon" float="0.6,0.5,0.6,0.5" pos="-24,-24,24,24"  icon=".\IconFromPE\QQ\5_48x48.ico" />
+									</Container>						
 									<Control width="5"/>
-									<VerticalLayout  bkcolor="#FFCCCCCC" inset="10,5,0,5">
-										<Text text="微信" showhtml="true" font="2" height="30" padding="10,2,0,2" />
-										<Text text="Win XP/7/8/10" showhtml="true" font="3" height="10" padding="10,2,0,2" />
-										<Text text="因你看见，所以存在" showhtml="true" font="3" height="10" padding="10,2,0,2" />
+									<VerticalLayout  bkcolor="#FFDDDDDD" inset="0,0,0,0">
+										<Control />
+										<Text text="QQ"  showhtml="true" font="2" height="50" padding="2,2,0,2" />
+										<Text text="好友都在线"  showhtml="true" font="3" height="30" padding="2,2,0,2" />
+										<Control />
 									</VerticalLayout>
 								</HorizontalLayout>			
 							</Container>
 							
-							<Container bkcolor="#FFCC0000" inset="2,2,2,2" height="60" >			
-								<HorizontalLayout height="80" >
-									<Container bkcolor="#FFCCCC00"  inset="10,10,10,10" width="70"  >	
-										<Icon name="qq_icon" float="0.5,0.5,0.5,0.5" pos="-24,-24,24,24"  icon=".\IconFromPE\QQ\5_48x48.ico" />
+							<Container bkcolor="#FFDDDDDD" inset="2,2,2,2" height="60" >			
+								<HorizontalLayout height="60" >
+									<Container bkcolor="#FFDDDDDD"  inset="10,10,10,10" width="90"  >	
+										<Icon name="qq_icon" float="0.6,0.5,0.6,0.5" pos="-24,-24,24,24"  icon=".\IconFromPE\QQ\5_48x48.ico" />
 									</Container>						
 									<Control width="5"/>
-									<VerticalLayout  bkcolor="#FFCCCCCC" inset="10,5,0,5">
-										<Text text="QQ" showhtml="true" font="2" height="30" padding="10,2,0,2" />
-										<Text text="Win XP/7/8/10" showhtml="true" font="3" height="10" padding="10,2,0,2" />
-										<Text text="好友都在线" showhtml="true" font="3" height="10" padding="10,2,0,2" />
+									<VerticalLayout  bkcolor="#FFDDDDDD" inset="0,0,0,0">
+										<Control />
+										<Text text="QQ"  showhtml="true" font="2" height="50" padding="2,2,0,2" />
+										<Text text="好友都在线"  showhtml="true" font="3" height="30" padding="2,2,0,2" />
+										<Control />
 									</VerticalLayout>
 								</HorizontalLayout>			
 							</Container>
 						</TileLayout>
-						<VerticalLayout height="40" bkcolor="#FFCCCCCC" >
+						<VerticalLayout height="40" bkcolor="#FFEEEEEE" >
 							<Control />
-							<Label text="Tentent" />
+							<Label text="Tentent"  font="2" textpadding="10,0,0,0" />
 							<Control />
 						</VerticalLayout>	
-						<TileLayout bkcolor="#FF00CCCC" height="120" inset="5,5,5,5" childpadding="10,10,10,10" childvpadding="10,10,10,10" name="software_list" itemsize="220,80" columns="4" vscrollbar="true" hscrollbar="false">
-							<Container bkcolor="#FFCC0000" inset="2,2,2,2" height="60" >			
-								<HorizontalLayout height="80" >
-									<Container bkcolor="#FFCCCC00"  inset="10,10,10,10" width="70"  >	
-										<Icon name="qq_icon" float="0.5,0.5,0.5,0.5" pos="-24,-24,24,24"  icon=".\IconFromPE\wechat\3_48x48.ico" />
-									</Container>
+						<TileLayout bkcolor="#FFEEEEEE" height="100" inset="5,5,5,5" childpadding="10,10,10,10" childvpadding="10,10,10,10" name="software_list" itemsize="220,80" columns="4" vscrollbar="true" hscrollbar="false">
+							<Container bkcolor="#FFDDDDDD" inset="2,2,2,2" height="60" >			
+								<HorizontalLayout height="60" >
+									<Container bkcolor="#FFDDDDDD"  inset="10,10,10,10" width="90"  >	
+										<Icon name="qq_icon" float="0.6,0.5,0.6,0.5" pos="-24,-24,24,24"  icon=".\IconFromPE\QQ\5_48x48.ico" />
+									</Container>						
 									<Control width="5"/>
-									<VerticalLayout  bkcolor="#FFCCCCCC" inset="10,5,0,5">
-										<Text text="微信" showhtml="true" font="2" height="30" padding="10,2,0,2" />
-										<Text text="Win XP/7/8/10" showhtml="true" font="3" height="10" padding="10,2,0,2" />
-										<Text text="因你看见，所以存在" showhtml="true" font="3" height="10" padding="10,2,0,2" />
+									<VerticalLayout  bkcolor="#FFDDDDDD" inset="0,0,0,0">
+										<Control />
+										<Text text="QQ"  showhtml="true" font="2" height="50" padding="2,2,0,2" />
+										<Text text="好友都在线"  showhtml="true" font="3" height="30" padding="2,2,0,2" />
+										<Control />
 									</VerticalLayout>
 								</HorizontalLayout>			
 							</Container>
 						</TileLayout>
-						<VerticalLayout height="40" bkcolor="#FFCCCCCC" >
+						<VerticalLayout height="40" bkcolor="#FFEEEEEE" >
 							<Control />
-							<Label text="Microsoft Office 2013" />
+							<Label text="Microsoft Office 2013"  font="2" textpadding="10,0,0,0" />
 							<Control />
 						</VerticalLayout>	
-						<TileLayout bkcolor="#FF00CCCC" height="120" inset="5,5,5,5" childpadding="10,10,10,10" childvpadding="10,10,10,10" name="software_list" itemsize="220,80" columns="4" vscrollbar="true" hscrollbar="false">
-							<Container bkcolor="#FFCC0000" inset="2,2,2,2" height="60" >			
-								<HorizontalLayout height="80" >
-									<Container bkcolor="#FFCCCC00"  inset="10,10,10,10" width="70"  >	
-										<Icon name="qq_icon" float="0.5,0.5,0.5,0.5" pos="-24,-24,24,24"  icon=".\IconFromPE\wechat\3_48x48.ico" />
-									</Container>
+						<TileLayout bkcolor="#FFEEEEEE" height="100" inset="5,5,5,5" childpadding="10,10,10,10" childvpadding="10,10,10,10" name="software_list" itemsize="220,80" columns="4" vscrollbar="true" hscrollbar="false">
+							<Container bkcolor="#FFDDDDDD" inset="2,2,2,2" height="60" >			
+								<HorizontalLayout height="60" >
+									<Container bkcolor="#FFDDDDDD"  inset="10,10,10,10" width="90"  >	
+										<Icon name="qq_icon" float="0.6,0.5,0.6,0.5" pos="-24,-24,24,24"  icon=".\IconFromPE\QQ\5_48x48.ico" />
+									</Container>						
 									<Control width="5"/>
-									<VerticalLayout  bkcolor="#FFCCCCCC" inset="10,5,0,5">
-										<Text text="Word" showhtml="true" font="2" height="30" padding="10,2,0,2" />
-										<Text text="Win XP/7/8/10" showhtml="true" font="3" height="10" padding="10,2,0,2" />
-										<Text text="因你看见，所以存在" showhtml="true" font="3" height="10" padding="10,2,0,2" />
+									<VerticalLayout  bkcolor="#FFDDDDDD" inset="0,0,0,0">
+										<Control />
+										<Text text="QQ"  showhtml="true" font="2" height="50" padding="2,2,0,2" />
+										<Text text="好友都在线"  showhtml="true" font="3" height="30" padding="2,2,0,2" />
+										<Control />
 									</VerticalLayout>
 								</HorizontalLayout>			
 							</Container>
-							<Container bkcolor="#FFCC0000" inset="2,2,2,2" height="60" >			
-								<HorizontalLayout height="80" >
-									<Container bkcolor="#FFCCCC00"  inset="10,10,10,10" width="70"  >	
-										<Icon name="qq_icon" float="0.5,0.5,0.5,0.5" pos="-24,-24,24,24"  icon=".\IconFromPE\wechat\3_48x48.ico" />
-									</Container>
+							<Container bkcolor="#FFDDDDDD" inset="2,2,2,2" height="60" >			
+								<HorizontalLayout height="60" >
+									<Container bkcolor="#FFDDDDDD"  inset="10,10,10,10" width="90"  >	
+										<Icon name="qq_icon" float="0.6,0.5,0.6,0.5" pos="-24,-24,24,24"  icon=".\IconFromPE\QQ\5_48x48.ico" />
+									</Container>						
 									<Control width="5"/>
-									<VerticalLayout  bkcolor="#FFCCCCCC" inset="10,5,0,5">
-										<Text text="Excel" showhtml="true" font="2" height="30" padding="10,2,0,2" />
-										<Text text="Win XP/7/8/10" showhtml="true" font="3" height="10" padding="10,2,0,2" />
-										<Text text="因你看见，所以存在" showhtml="true" font="3" height="10" padding="10,2,0,2" />
+									<VerticalLayout  bkcolor="#FFDDDDDD" inset="0,0,0,0">
+										<Control />
+										<Text text="QQ"  showhtml="true" font="2" height="50" padding="2,2,0,2" />
+										<Text text="好友都在线"  showhtml="true" font="3" height="30" padding="2,2,0,2" />
+										<Control />
 									</VerticalLayout>
 								</HorizontalLayout>			
 							</Container>
-							<Container bkcolor="#FFCC0000" inset="2,2,2,2" height="60" >			
-								<HorizontalLayout height="80" >
-									<Container bkcolor="#FFCCCC00"  inset="10,10,10,10" width="70"  >	
-										<Icon name="qq_icon" float="0.5,0.5,0.5,0.5" pos="-24,-24,24,24"  icon=".\IconFromPE\wechat\3_48x48.ico" />
-									</Container>
+							<Container bkcolor="#FFDDDDDD" inset="2,2,2,2" height="60" >			
+								<HorizontalLayout height="60" >
+									<Container bkcolor="#FFDDDDDD"  inset="10,10,10,10" width="90"  >	
+										<Icon name="qq_icon" float="0.6,0.5,0.6,0.5" pos="-24,-24,24,24"  icon=".\IconFromPE\QQ\5_48x48.ico" />
+									</Container>						
 									<Control width="5"/>
-									<VerticalLayout  bkcolor="#FFCCCCCC" inset="10,5,0,5">
-										<Text text="PowerPoint" showhtml="true" font="2" height="30" padding="10,2,0,2" />
-										<Text text="Win XP/7/8/10" showhtml="true" font="3" height="10" padding="10,2,0,2" />
-										<Text text="因你看见，所以存在" showhtml="true" font="3" height="10" padding="10,2,0,2" />
+									<VerticalLayout  bkcolor="#FFDDDDDD" inset="0,0,0,0">
+										<Control />
+										<Text text="QQ"  showhtml="true" font="2" height="50" padding="2,2,0,2" />
+										<Text text="好友都在线"  showhtml="true" font="3" height="30" padding="2,2,0,2" />
+										<Control />
+									</VerticalLayout>
+								</HorizontalLayout>			
+							</Container>
+						</TileLayout>
+						<VerticalLayout height="40" bkcolor="#FFEEEEEE" >
+							<Control />
+							<Label text="Microsoft Office 2013"  font="2" textpadding="10,0,0,0" />
+							<Control />
+						</VerticalLayout>	
+						<TileLayout bkcolor="#FFEEEEEE" height="100" inset="5,5,5,5" childpadding="10,10,10,10" childvpadding="10,10,10,10" name="software_list" itemsize="220,80" columns="4" vscrollbar="true" hscrollbar="false">
+							<Container bkcolor="#FFDDDDDD" inset="2,2,2,2" height="60" >			
+								<HorizontalLayout height="60" >
+									<Container bkcolor="#FFDDDDDD"  inset="10,10,10,10" width="90"  >	
+										<Icon name="qq_icon" float="0.6,0.5,0.6,0.5" pos="-24,-24,24,24"  icon=".\IconFromPE\QQ\5_48x48.ico" />
+									</Container>						
+									<Control width="5"/>
+									<VerticalLayout  bkcolor="#FFDDDDDD" inset="0,0,0,0">
+										<Control />
+										<Text text="QQ"  showhtml="true" font="2" height="50" padding="2,2,0,2" />
+										<Text text="好友都在线"  showhtml="true" font="3" height="30" padding="2,2,0,2" />
+										<Control />
+									</VerticalLayout>
+								</HorizontalLayout>			
+							</Container>
+							<Container bkcolor="#FFDDDDDD" inset="2,2,2,2" height="60" >			
+								<HorizontalLayout height="60" >
+									<Container bkcolor="#FFDDDDDD"  inset="10,10,10,10" width="90"  >	
+										<Icon name="qq_icon" float="0.6,0.5,0.6,0.5" pos="-24,-24,24,24"  icon=".\IconFromPE\QQ\5_48x48.ico" />
+									</Container>						
+									<Control width="5"/>
+									<VerticalLayout  bkcolor="#FFDDDDDD" inset="0,0,0,0">
+										<Control />
+										<Text text="QQ"  showhtml="true" font="2" height="50" padding="2,2,0,2" />
+										<Text text="好友都在线"  showhtml="true" font="3" height="30" padding="2,2,0,2" />
+										<Control />
+									</VerticalLayout>
+								</HorizontalLayout>			
+							</Container>
+							<Container bkcolor="#FFDDDDDD" inset="2,2,2,2" height="60" >			
+								<HorizontalLayout height="60" >
+									<Container bkcolor="#FFDDDDDD"  inset="10,10,10,10" width="90"  >	
+										<Icon name="qq_icon" float="0.6,0.5,0.6,0.5" pos="-24,-24,24,24"  icon=".\IconFromPE\QQ\5_48x48.ico" />
+									</Container>						
+									<Control width="5"/>
+									<VerticalLayout  bkcolor="#FFDDDDDD" inset="0,0,0,0">
+										<Control />
+										<Text text="QQ"  showhtml="true" font="2" height="50" padding="2,2,0,2" />
+										<Text text="好友都在线"  showhtml="true" font="3" height="30" padding="2,2,0,2" />
+										<Control />
+									</VerticalLayout>
+								</HorizontalLayout>			
+							</Container>
+						</TileLayout>
+						<VerticalLayout height="40" bkcolor="#FFEEEEEE" >
+							<Control />
+							<Label text="Microsoft Office 2013"  font="2" textpadding="10,0,0,0" />
+							<Control />
+						</VerticalLayout>	
+						<TileLayout bkcolor="#FFEEEEEE" height="100" inset="5,5,5,5" childpadding="10,10,10,10" childvpadding="10,10,10,10" name="software_list" itemsize="220,80" columns="4" vscrollbar="true" hscrollbar="false">
+							<Container bkcolor="#FFDDDDDD" inset="2,2,2,2" height="60" >			
+								<HorizontalLayout height="60" >
+									<Container bkcolor="#FFDDDDDD"  inset="10,10,10,10" width="90"  >	
+										<Icon name="qq_icon" float="0.6,0.5,0.6,0.5" pos="-24,-24,24,24"  icon=".\IconFromPE\QQ\5_48x48.ico" />
+									</Container>						
+									<Control width="5"/>
+									<VerticalLayout  bkcolor="#FFDDDDDD" inset="0,0,0,0">
+										<Control />
+										<Text text="QQ"  showhtml="true" font="2" height="50" padding="2,2,0,2" />
+										<Text text="好友都在线"  showhtml="true" font="3" height="30" padding="2,2,0,2" />
+										<Control />
+									</VerticalLayout>
+								</HorizontalLayout>			
+							</Container>
+							<Container bkcolor="#FFDDDDDD" inset="2,2,2,2" height="60" >			
+								<HorizontalLayout height="60" >
+									<Container bkcolor="#FFDDDDDD"  inset="10,10,10,10" width="90"  >	
+										<Icon name="qq_icon" float="0.6,0.5,0.6,0.5" pos="-24,-24,24,24"  icon=".\IconFromPE\QQ\5_48x48.ico" />
+									</Container>						
+									<Control width="5"/>
+									<VerticalLayout  bkcolor="#FFDDDDDD" inset="0,0,0,0">
+										<Control />
+										<Text text="QQ"  showhtml="true" font="2" height="50" padding="2,2,0,2" />
+										<Text text="好友都在线"  showhtml="true" font="3" height="30" padding="2,2,0,2" />
+										<Control />
+									</VerticalLayout>
+								</HorizontalLayout>			
+							</Container>
+							<Container bkcolor="#FFDDDDDD" inset="2,2,2,2" height="60" >			
+								<HorizontalLayout height="60" >
+									<Container bkcolor="#FFDDDDDD"  inset="10,10,10,10" width="90"  >	
+										<Icon name="qq_icon" float="0.6,0.5,0.6,0.5" pos="-24,-24,24,24"  icon=".\IconFromPE\QQ\5_48x48.ico" />
+									</Container>						
+									<Control width="5"/>
+									<VerticalLayout  bkcolor="#FFDDDDDD" inset="0,0,0,0">
+										<Control />
+										<Text text="QQ"  showhtml="true" font="2" height="50" padding="2,2,0,2" />
+										<Text text="好友都在线"  showhtml="true" font="3" height="30" padding="2,2,0,2" />
+										<Control />
 									</VerticalLayout>
 								</HorizontalLayout>			
 							</Container>
 						</TileLayout>
 					</VerticalLayout>		
-					<VerticalLayout width="75" >				
-						<Button name="load_all_button" height="40" text="A" width="40" />				
-						<Button name="changeskinbtn" height="40" text="B" width="40" />
-						<Button name="changeskinbtn" height="40" text="C" width="40" />
-						<Button name="changeskinbtn" height="40" text="T" width="40" />
+					<!--  右侧 - 字母表导航  !-->
+					<VerticalLayout width="45" bkcolor="#FFEEEEEE" >		
+						<Control />
+						<Button name="load_all_button" height="20" text="A" width="30" />				
+						<Button name="changeskinbtn" height="20" text="B" width="30" />
+						<Button name="changeskinbtn" height="20" text="C" width="30" />
+						<Button name="changeskinbtn" height="20" text="D" width="30" />
+						<Button name="load_all_button" height="20" text="E" width="30" />				
+						<Button name="changeskinbtn" height="20" text="F" width="30" />
+						<Button name="changeskinbtn" height="20" text="G" width="30" />
+						<Button name="changeskinbtn" height="20" text="H" width="30" />
+						<Button name="load_all_button" height="20" text="I" width="30" />				
+						<Button name="changeskinbtn" height="20" text="J" width="30" />
+						<Button name="changeskinbtn" height="20" text="K" width="30" />
+						<Button name="changeskinbtn" height="20" text="L" width="30" />
+						<Button name="load_all_button" height="20" text="M" width="30" />				
+						<Button name="changeskinbtn" height="20" text="N" width="30" />
+						<Button name="changeskinbtn" height="20" text="O" width="30" />
+						<Button name="changeskinbtn" height="20" text="P" width="30" />
+						<Button name="load_all_button" height="20" text="Q" width="30" />				
+						<Button name="changeskinbtn" height="20" text="R" width="30" />
+						<Button name="changeskinbtn" height="20" text="S" width="30" />
+						<Button name="changeskinbtn" height="20" text="T" width="30" />
+						<Button name="load_all_button" height="20" text="U" width="30" />				
+						<Button name="changeskinbtn" height="20" text="V" width="30" />
+						<Button name="changeskinbtn" height="20" text="W" width="30" />
+						<Button name="changeskinbtn" height="20" text="X" width="30" />
+						<Button name="changeskinbtn" height="20" text="Y" width="30" />
+						<Button name="changeskinbtn" height="20" text="Z" width="30" />
+						<Button name="changeskinbtn" height="20" text="中" width="30" />
+						<Control />
 					</VerticalLayout>					
 				</HorizontalLayout>
 				
+				<!--  tab页 - 云端软件  !-->
 				<HorizontalLayout>
 					<VerticalLayout vscrollbar="true" hscrollbar="false">
-						<HorizontalLayout height="75" >				
-							<Button name="load_all_button" height="40" text="全部软件" maxwidth="120" />				
-							<Button name="load_office_button" height="40" text="办公" maxwidth="120" />
-							<Button name="load_music_button" height="40" text="音乐" maxwidth="120" />
-							<Button name="load_other_button" height="40" text="其他" maxwidth="120" />
+						<!--  顶部 - 类别导航条  !-->
+						<HorizontalLayout inset="10,10,10,10" height="55" bkcolor="#FFEEEEEE"  >				
+							<Button name="load_all_button" height="35" text="全部软件" maxwidth="120" bkcolor="#FFEEEEEE"/>				
+							<Button name="load_office_button" height="35" text="办公" maxwidth="120" bkcolor="#990099" />
+							<Button name="load_music_button" height="35" text="音乐" maxwidth="120" bkcolor="#FF33CC"/>
+							<Button name="load_other_button" height="35" text="其他" maxwidth="120" bkcolor="#3333FF"/>
 							<Control height="60"/>
-							<Button name="changeskinbtn" width="40" height="40" text="<" maxwidth="120" />
-							<Button name="changeskinbtn" width="40" height="40" text=">" maxwidth="120" />
+							<Button name="changeskinbtn" width="35" height="35" text="<" maxwidth="120" />
+							<Button name="changeskinbtn" width="35" height="35" text=">" maxwidth="120" />
 						</HorizontalLayout>
-						<TileLayout bkcolor="#FF00CCCC"  inset="15,35,3,7" childpadding="20,20,20,20" childvpadding="20,20,20,20" name="software_list" itemsize="260,120" columns="4" vscrollbar="true" hscrollbar="false">
-							<Container bkcolor="#FFCC0000" inset="20,20,20,20" height="80" >			
+						<!--  下部 - 软件列表（卡片模式）  !-->
+						<TileLayout bkcolor="#FFCCCCCC"  inset="10,5,0,0" childpadding="5,5,5,5" childvpadding="5,5,5,5" name="software_list" itemsize="220,80" columns="5" vscrollbar="true" hscrollbar="false">
+							<Container bkcolor="#FFEEEEEE" inset="0,0,0,0" height="80" >			
 								<HorizontalLayout height="80" >
-									<Container bkcolor="#FFCCCC00"  inset="10,10,10,10" width="70"  >	
+									<Container bkcolor="#FFEEEEEE"  inset="10,10,10,10" width="70"  >	
 										<Icon name="qq_icon" float="0.5,0.5,0.5,0.5" pos="-24,-24,24,24"  icon=".\IconFromPE\wechat\3_48x48.ico" />
 									</Container>
-									<Control width="5"/>
-									<VerticalLayout  bkcolor="#FFCCCCCC" inset="10,5,0,5">
+									<VerticalLayout  bkcolor="#FFEEEEEE" inset="10,5,0,5">
 										<Text text="微信" showhtml="true" font="2" height="30" padding="10,2,0,2" />
 										<Text text="Win XP/7/8/10" showhtml="true" font="3" height="10" padding="10,2,0,2" />
 										<Text text="因你看见，所以存在" showhtml="true" font="3" height="10" padding="10,2,0,2" />
@@ -216,13 +372,12 @@
 								</HorizontalLayout>			
 							</Container>
 							
-							<Container bkcolor="#FFCC0000" inset="20,20,20,20" height="80" >			
+							<Container bkcolor="#FFEEEEEE" inset="0,0,0,0" height="80" >			
 								<HorizontalLayout height="80" >
-									<Container bkcolor="#FFCCCC00"  inset="10,10,10,10" width="70"  >	
+									<Container bkcolor="#FFEEEEEE"  inset="10,10,10,10" width="70"  >	
 										<Icon name="qq_icon" float="0.5,0.5,0.5,0.5" pos="-24,-24,24,24"  icon=".\IconFromPE\QQ\5_48x48.ico" />
-									</Container>						
-									<Control width="5"/>
-									<VerticalLayout  bkcolor="#FFCCCCCC" inset="10,5,0,5">
+									</Container>
+									<VerticalLayout  bkcolor="#FFEEEEEE" inset="10,5,0,5">
 										<Text text="QQ" showhtml="true" font="2" height="30" padding="10,2,0,2" />
 										<Text text="Win XP/7/8/10" showhtml="true" font="3" height="10" padding="10,2,0,2" />
 										<Text text="好友都在线" showhtml="true" font="3" height="10" padding="10,2,0,2" />
@@ -230,13 +385,12 @@
 								</HorizontalLayout>			
 							</Container>
 							
-							<Container bkcolor="#FFCC0000" inset="20,20,20,20" height="80" >			
+							<Container bkcolor="#FFEEEEEE" inset="0,0,0,0" height="80" >			
 								<HorizontalLayout height="80" >
-									<Container bkcolor="#FFCCCC00"  inset="10,10,10,10" width="70"  >	
+									<Container bkcolor="#FFEEEEEE"  inset="10,10,10,10" width="70"  >	
 										<Icon name="YoudaoDict_icon" float="0.5,0.5,0.5,0.5" pos="-24,-24,24,24"  icon=".\IconFromPE\YoudaoDict\5_48x48.ico" />
-									</Container>						
-									<Control width="5"/>
-									<VerticalLayout  bkcolor="#FFCCCCCC" inset="10,5,0,5">
+									</Container>	
+									<VerticalLayout  bkcolor="#FFEEEEEE" inset="10,5,0,5">
 										<Text text="有道词典" showhtml="true" font="2" height="30" padding="10,2,0,2" />
 										<Text text="Win XP/7/8/10" showhtml="true" font="3" height="10" padding="10,2,0,2" />
 										<Text text="网易有道，分享知识" showhtml="true" font="3" height="10" padding="10,2,0,2" />
@@ -244,13 +398,12 @@
 								</HorizontalLayout>			
 							</Container>
 							
-							<Container bkcolor="#FFCC0000" inset="20,20,20,20" height="80" >			
+							<Container bkcolor="#FFEEEEEE" inset="0,0,0,0" height="80" >			
 								<HorizontalLayout height="80" >
-									<Container bkcolor="#FFCCCC00"  inset="10,10,10,10" width="70"  >	
+									<Container bkcolor="#FFEEEEEE"  inset="10,10,10,10" width="70"  >	
 										<Icon name="YoudaoDict_icon" float="0.5,0.5,0.5,0.5" pos="-24,-24,24,24"  icon=".\IconFromPE\YoudaoDict\5_48x48.ico" />
-									</Container>						
-									<Control width="5"/>
-									<VerticalLayout  bkcolor="#FFCCCCCC" inset="10,5,0,5">
+									</Container>
+									<VerticalLayout  bkcolor="#FFEEEEEE" inset="10,5,0,5">
 										<Text text="有道词典" showhtml="true" font="2" height="30" padding="10,2,0,2" />
 										<Text text="Win XP/7/8/10" showhtml="true" font="3" height="10" padding="10,2,0,2" />
 										<Text text="网易有道，分享知识" showhtml="true" font="3" height="10" padding="10,2,0,2" />
@@ -258,13 +411,12 @@
 								</HorizontalLayout>			
 							</Container>
 							
-							<Container bkcolor="#FFCC0000" inset="20,20,20,20" height="80" >			
+							<Container bkcolor="#FFEEEEEE" inset="0,0,0,0" height="80" >			
 								<HorizontalLayout height="80" >
-									<Container bkcolor="#FFCCCC00"  inset="10,10,10,10" width="70"  >	
+									<Container bkcolor="#FFEEEEEE"  inset="10,10,10,10" width="70"  >	
 										<Icon name="YoudaoDict_icon" float="0.5,0.5,0.5,0.5" pos="-24,-24,24,24"  icon=".\IconFromPE\YoudaoDict\5_48x48.ico" />
-									</Container>						
-									<Control width="5"/>
-									<VerticalLayout  bkcolor="#FFCCCCCC" inset="10,5,0,5">
+									</Container>
+									<VerticalLayout  bkcolor="#FFEEEEEE" inset="10,5,0,5">
 										<Text text="有道词典" showhtml="true" font="2" height="30" padding="10,2,0,2" />
 										<Text text="Win XP/7/8/10" showhtml="true" font="3" height="10" padding="10,2,0,2" />
 										<Text text="网易有道，分享知识" showhtml="true" font="3" height="10" padding="10,2,0,2" />
@@ -272,13 +424,12 @@
 								</HorizontalLayout>			
 							</Container>
 							
-							<Container bkcolor="#FFCC0000" inset="20,20,20,20" height="80" >			
+							<Container bkcolor="#FFEEEEEE" inset="0,0,0,0" height="80" >			
 								<HorizontalLayout height="80" >
-									<Container bkcolor="#FFCCCC00"  inset="10,10,10,10" width="70"  >	
+									<Container bkcolor="#FFEEEEEE"  inset="10,10,10,10" width="70"  >	
 										<Icon name="YoudaoDict_icon" float="0.5,0.5,0.5,0.5" pos="-24,-24,24,24"  icon=".\IconFromPE\YoudaoDict\5_48x48.ico" />
-									</Container>						
-									<Control width="5"/>
-									<VerticalLayout  bkcolor="#FFCCCCCC" inset="10,5,0,5">
+									</Container>
+									<VerticalLayout  bkcolor="#FFEEEEEE" inset="10,5,0,5">
 										<Text text="有道词典" showhtml="true" font="2" height="30" padding="10,2,0,2" />
 										<Text text="Win XP/7/8/10" showhtml="true" font="3" height="10" padding="10,2,0,2" />
 										<Text text="网易有道，分享知识" showhtml="true" font="3" height="10" padding="10,2,0,2" />
@@ -286,13 +437,12 @@
 								</HorizontalLayout>			
 							</Container>
 							
-							<Container bkcolor="#FFCC0000" inset="20,20,20,20" height="80" >			
+							<Container bkcolor="#FFEEEEEE" inset="0,0,0,0" height="80" >			
 								<HorizontalLayout height="80" >
-									<Container bkcolor="#FFCCCC00"  inset="10,10,10,10" width="70"  >	
+									<Container bkcolor="#FFEEEEEE"  inset="10,10,10,10" width="70"  >	
 										<Icon name="YoudaoDict_icon" float="0.5,0.5,0.5,0.5" pos="-24,-24,24,24"  icon=".\IconFromPE\YoudaoDict\5_48x48.ico" />
-									</Container>						
-									<Control width="5"/>
-									<VerticalLayout  bkcolor="#FFCCCCCC" inset="10,5,0,5">
+									</Container>
+									<VerticalLayout  bkcolor="#FFEEEEEE" inset="10,5,0,5">
 										<Text text="有道词典" showhtml="true" font="2" height="30" padding="10,2,0,2" />
 										<Text text="Win XP/7/8/10" showhtml="true" font="3" height="10" padding="10,2,0,2" />
 										<Text text="网易有道，分享知识" showhtml="true" font="3" height="10" padding="10,2,0,2" />
@@ -300,13 +450,12 @@
 								</HorizontalLayout>			
 							</Container>
 							
-							<Container bkcolor="#FFCC0000" inset="20,20,20,20" height="80" >			
+							<Container bkcolor="#FFEEEEEE" inset="0,0,0,0" height="80" >			
 								<HorizontalLayout height="80" >
-									<Container bkcolor="#FFCCCC00"  inset="10,10,10,10" width="70"  >	
+									<Container bkcolor="#FFEEEEEE"  inset="10,10,10,10" width="70"  >	
 										<Icon name="YoudaoDict_icon" float="0.5,0.5,0.5,0.5" pos="-24,-24,24,24"  icon=".\IconFromPE\YoudaoDict\5_48x48.ico" />
-									</Container>						
-									<Control width="5"/>
-									<VerticalLayout  bkcolor="#FFCCCCCC" inset="10,5,0,5">
+									</Container>
+									<VerticalLayout  bkcolor="#FFEEEEEE" inset="10,5,0,5">
 										<Text text="有道词典" showhtml="true" font="2" height="30" padding="10,2,0,2" />
 										<Text text="Win XP/7/8/10" showhtml="true" font="3" height="10" padding="10,2,0,2" />
 										<Text text="网易有道，分享知识" showhtml="true" font="3" height="10" padding="10,2,0,2" />
@@ -314,13 +463,12 @@
 								</HorizontalLayout>			
 							</Container>
 							
-							<Container bkcolor="#FFCC0000" inset="20,20,20,20" height="80" >			
+							<Container bkcolor="#FFEEEEEE" inset="0,0,0,0" height="80" >			
 								<HorizontalLayout height="80" >
-									<Container bkcolor="#FFCCCC00"  inset="10,10,10,10" width="70"  >	
+									<Container bkcolor="#FFEEEEEE"  inset="10,10,10,10" width="70"  >	
 										<Icon name="YoudaoDict_icon" float="0.5,0.5,0.5,0.5" pos="-24,-24,24,24"  icon=".\IconFromPE\YoudaoDict\5_48x48.ico" />
-									</Container>						
-									<Control width="5"/>
-									<VerticalLayout  bkcolor="#FFCCCCCC" inset="10,5,0,5">
+									</Container>
+									<VerticalLayout  bkcolor="#FFEEEEEE" inset="10,5,0,5">
 										<Text text="有道词典" showhtml="true" font="2" height="30" padding="10,2,0,2" />
 										<Text text="Win XP/7/8/10" showhtml="true" font="3" height="10" padding="10,2,0,2" />
 										<Text text="网易有道，分享知识" showhtml="true" font="3" height="10" padding="10,2,0,2" />
