@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Window mininfo="200,360" size="600,800">
+<Window mininfo="800,600" size="1200,800">
 	<Font shared="true" id="0" name="幼圆" size="12" default="true" />
 	<Font shared="true" id="1" name="微软雅黑" size="18" />
 	<Font shared="true" id="2" name="微软雅黑" size="16" />
@@ -82,17 +82,17 @@
 				<Control width="40"/>
 				<VerticalLayout width="40" >
 					<Control />
-					<Button name="changeskinbtn" width="22" height="22" normalimage=".\skin\YouziRes\min_normal.png" hotimage=".\skin\YouziRes\min_over.png" pushedimage=".\skin\YouziRes\min_normal.png" maxwidth="120" />	
+					<Button name="minmim_button" width="22" height="22" normalimage=".\skin\YouziRes\min_normal.png" hotimage=".\skin\YouziRes\min_over.png" pushedimage=".\skin\YouziRes\min_normal.png" maxwidth="120" />	
 					<Control />
 				</VerticalLayout>	
 				<VerticalLayout width="40" >
 					<Control />
-					<Button name="changeskinbtn" width="22" height="22" normalimage=".\skin\YouziRes\max_normal.png" hotimage=".\skin\YouziRes\max_over.png" pushedimage=".\skin\YouziRes\max_normal.png"  maxwidth="120" />
+					<Button name="maxmin_button" width="22" height="22" normalimage=".\skin\YouziRes\max_normal.png" hotimage=".\skin\YouziRes\max_over.png" pushedimage=".\skin\YouziRes\max_normal.png"  maxwidth="120" />
 					<Control />
 				</VerticalLayout>	
 				<VerticalLayout width="40" >
 					<Control />
-					<Button name="changeskinbtn" width="22" height="22" normalimage=".\skin\YouziRes\close_normal.png" hotimage=".\skin\YouziRes\close_over.png" pushedimage=".\skin\YouziRes\close_normal.png"  maxwidth="120" />
+					<Button name="close_button" width="22" height="22" normalimage=".\skin\YouziRes\close_normal.png" hotimage=".\skin\YouziRes\close_over.png" pushedimage=".\skin\YouziRes\close_normal.png"  maxwidth="120" />
 					<Control />
 				</VerticalLayout>					
 				

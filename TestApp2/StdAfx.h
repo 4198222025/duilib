@@ -17,6 +17,11 @@
 #include <iostream>
 #include <shlwapi.h>
 
+#include <shellapi.h>
+
+#include <objbase.h> 
+#include <shlobj.h>
+
 #pragma comment(lib, "Shlwapi.lib")
 
 #include "..\DuiLib\UIlib.h"

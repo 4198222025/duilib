@@ -898,13 +898,13 @@ std::string CreateItemXml(std::string strIcon, std::string strName, std::string 
 	std::string xml;
 	xml += "<?xml version=\"1.0\" encoding=\"UTF-8\" ?> ";
 	xml += "<Window size=\"308, 228\" caption=\"0, 0, 0, 36\" roundcorner=\"4, 4\" >";
-	xml += "<Container bkcolor=\"#FFCC0000\" inset=\"20, 20, 20, 20\" height=\"80\" >";
-	xml += "<HorizontalLayout height=\"80\" >";
-	xml += "<Container bkcolor=\"#FFCCCC00\"  inset=\"10, 10, 10, 10\" width=\"70\"  >";
+	xml += "<Container bkcolor=\"#FFEEEEEE\" inset=\"0, 0, 0, 0\" height=\"80\" >";
+	xml += "<HorizontalLayout height=\"70\" >";
+	xml += "<Container bkcolor=\"#FFEEEEEE\"  inset=\"10, 10, 10, 10\" width=\"70\"  >";
 	xml += "<Icon name=\"software_icon\" float=\"0.5, 0.5, 0.5, 0.5\" pos=\" -24, -24, 24, 24\"  icon=\"" + strIcon + "\" />";
 	xml += "</Container>";
 	xml += "<Control width=\"5\" />";
-	xml += "<VerticalLayout  bkcolor=\"#FFCCCCCC\" inset=\"10, 5, 0, 5\">";
+	xml += "<VerticalLayout  bkcolor=\"#FFEEEEEE\" inset=\"10, 5, 0, 5\">";
 	//xml += "<Button name=\"changeskgginbtn\" width=\"22\" height=\"22\" normalimage=\".\\skin\\YouziRes\\close_normal.png\" />";
 	xml += "<Text text=\"" + strName + "\" showhtml=\"true\" font=\"2\" height=\"30\" padding=\"10, 2, 0, 2\" />";
 	xml += "<Text text=\"" + strOS + "\" showhtml=\"true\" font=\"3\" height=\"10\" padding=\"10, 2, 0, 2\" />";

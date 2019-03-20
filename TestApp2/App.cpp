@@ -561,7 +561,56 @@ public:
                 if( pRich ) {
                     pRich->RemoveAll();
                 }
-            }
+			}
+
+			else if (msg.pSender->GetName() == _T("close_button")) {				
+				COptionUI* pControl = static_cast<COptionUI*>(m_pm.FindControl(_T("hallswitch")));
+				if (pControl && pControl->IsSelected() == false) {
+					CControlUI* pFadeControl = m_pm.FindControl(_T("fadeEffect"));
+					if (pFadeControl) pFadeControl->SetVisible(true);
+				}
+				else {
+					/*Close()*/PostQuitMessage(0); // 因为activex的原因，使用close可能会出现错误
+				}
+			}
+			else if (msg.pSender->GetName() == _T("login_button")) {
+				HRESULT hr = CoInitialize(NULL);
+				if (SUCCEEDED(hr))
+				{
+					IShellLink *pisl;
+					hr = CoCreateInstance(CLSID_ShellLink, NULL,
+						CLSCTX_INPROC_SERVER, IID_IShellLink, (void**)&pisl);
+					if (SUCCEEDED(hr))
+					{
+						IPersistFile* pIPF;
+
+						
+						/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+						//这里是我们要创建快捷方式的原始文件地址
+						pisl->SetPath("E:\\github\\duilib\\bin\\TestApp2_d.exe");
+
+						pisl->SetArguments("start 2019");
+						pisl->SetIconLocation("E:\\github\\duilib\\bin\\IconFromPE\\QQScLauncher\\5_48x48.ico", 0);
+
+						hr = pisl->QueryInterface(IID_IPersistFile, (void**)&pIPF);
+						if (SUCCEEDED(hr))
+						{
+
+							/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+							//这里是我们要创建快捷方式的目标地址
+
+
+							pIPF->Save(L"C:\\Users\\王磊\\Desktop\\START QQ.lnk", FALSE);
+							pIPF->Release();
+						}
+						pisl->Release();
+					}
+					CoUninitialize();
+				}
+			}
             else if( msg.pSender->GetName() == _T("changeskinbtn") ) {
                 if( CPaintManagerUI::GetResourcePath() == CPaintManagerUI::GetInstancePath() )
                     CPaintManagerUI::SetResourcePath(CPaintManagerUI::GetInstancePath() + _T("skin\\FlashRes"));
@@ -707,9 +756,64 @@ public:
         }
     }
 
+	LRESULT OnClose(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)
+	{
+		bHandled = FALSE;
+		return 0;
+	}
+
+	LRESULT OnDestroy(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)
+	{
+		::PostQuitMessage(0L);
+
+		bHandled = FALSE;
+		return 0;
+	}
+
+	LRESULT OnNcActivate(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)
+	{
+		if (::IsIconic(*this)) bHandled = FALSE;
+		return (wParam == 0) ? TRUE : FALSE;
+	}
+
+	LRESULT OnNcCalcSize(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)
+	{
+		return 0;
+	}
+
+	LRESULT OnNcPaint(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)
+	{
+		return 0;
+	}
+
+	LRESULT OnNcHitTest(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)
+	{
+		POINT pt; pt.x = GET_X_LPARAM(lParam); pt.y = GET_Y_LPARAM(lParam);
+		::ScreenToClient(*this, &pt);
+
+		RECT rcClient;
+		::GetClientRect(*this, &rcClient);
+
+		RECT rcCaption = m_pm.GetCaptionRect();
+		if (pt.x >= rcClient.left + rcCaption.left && pt.x < rcClient.right - rcCaption.right \
+			&& pt.y >= rcCaption.top && pt.y < rcCaption.bottom) {
+			CControlUI* pControl = static_cast<CControlUI*>(m_pm.FindControl(pt));
+			if (pControl && _tcscmp(pControl->GetClass(), DUI_CTR_BUTTON) != 0)
+				return HTCAPTION;
+		}
+
+		return HTCLIENT;
+	}
+
     LRESULT HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
     {
         if( uMsg == WM_CREATE ) {
+
+			// 去掉WINDOWS的外框
+			LONG styleValue = ::GetWindowLong(*this, GWL_STYLE);
+			styleValue &= ~WS_CAPTION;
+			::SetWindowLong(*this, GWL_STYLE, styleValue | WS_CLIPSIBLINGS | WS_CLIPCHILDREN);
+
             m_pm.Init(m_hWnd);
             CDialogBuilder builder;
             CControlUI* pRoot = builder.Create(_T("test2.xml"), (UINT)0, NULL, &m_pm);
@@ -738,12 +842,25 @@ public:
             Init();
             return 0;
         }
-        else if( uMsg == WM_DESTROY ) {
-            ::PostQuitMessage(0L);
-        }
         else if( uMsg == WM_NCACTIVATE ) {
             if( !::IsIconic(*this) ) return (wParam == 0) ? TRUE : FALSE;
         }
+		else
+		{
+			LRESULT lRes = 0;
+			BOOL bHandled = TRUE;
+			switch (uMsg) {
+			case WM_CLOSE:         lRes = OnClose(uMsg, wParam, lParam, bHandled); break;
+			case WM_DESTROY:       lRes = OnDestroy(uMsg, wParam, lParam, bHandled); break;
+			case WM_NCACTIVATE:    lRes = OnNcActivate(uMsg, wParam, lParam, bHandled); break;
+			case WM_NCCALCSIZE:    lRes = OnNcCalcSize(uMsg, wParam, lParam, bHandled); break;
+			case WM_NCPAINT:       lRes = OnNcPaint(uMsg, wParam, lParam, bHandled); break;
+			case WM_NCHITTEST:     lRes = OnNcHitTest(uMsg, wParam, lParam, bHandled); break;
+			//case WM_SIZE:          lRes = OnSize(uMsg, wParam, lParam, bHandled); break;
+			default:
+				bHandled = FALSE;
+			}
+		}
         LRESULT lRes = 0;
         if( m_pm.MessageHandler(uMsg, wParam, lParam, lRes) ) return lRes;
         return CWindowWnd::HandleMessage(uMsg, wParam, lParam);
@@ -755,8 +872,30 @@ public:
 };
 
 
-int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE /*hPrevInstance*/, LPSTR /*lpCmdLine*/, int nCmdShow)
+int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
+	// 处理命令行参数
+	LPWSTR *szArgList;
+	int argCount;
+
+	szArgList = CommandLineToArgvW(GetCommandLineW(), &argCount);
+	if (szArgList == NULL)
+	{
+		MessageBoxW(NULL, L"Unable to parse command line", L"Error", MB_OK);
+		return 10;
+	}
+
+	if (argCount == 3){
+
+		for (int i = 0; i < argCount; i++)
+		{
+			MessageBoxW(NULL, szArgList[i], L"Arglist contents", MB_OK);
+		}
+
+		return 0;
+	}
+	
+
     CPaintManagerUI::SetInstance(hInstance);
     CPaintManagerUI::SetResourcePath(CPaintManagerUI::GetInstancePath());
 
