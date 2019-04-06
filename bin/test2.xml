@@ -68,7 +68,7 @@
 					width="160" height="45" textcolor="#FF1c1c1c" font="1" textpadding="35,0,0,0" disabledtextcolor="#FFA7A6AA" align="center" leftbordersize="1" bordercolor="#ff000000" selectedtextcolor="#ff96cdcd" group="switch" />
 				
 			</VerticalLayout>
-			<VerticalLayout width="1150" height="600" bkcolor="#FF8DD300" inset="00,00,00,00">
+			<VerticalLayout width="940" height="600" bkcolor="#FF8DD300" inset="00,00,00,00">
 			<HorizontalLayout height="48"  bkcolor="#FFCC679F" >
 			
 				<Control height="48"/>
@@ -512,6 +512,11 @@
 					</HorizontalLayout>
 					<Control height="20"/>
 					<Control />
+					
+					
+					<Container    height="50" >
+						<Button name="sec_load_button"  float="0.5,0.5,0.5,0.5" pos="-80,-20,80,20" text="加载驱动" />
+					</Container>
 					<Container    height="50" >
 						<Button name="sec_init_button"  float="0.5,0.5,0.5,0.5" pos="-80,-20,80,20" text="完全初始化" />
 					</Container>

@@ -332,6 +332,80 @@ static BOOL KillProcessFromName(std::string strProcessName)
 	//strProcessName.ReleaseBuffer();
 	return FALSE;
 }
+
+/************************************************************************/
+/* 安装驱动
+参数一：驱动文件路径
+*/
+/************************************************************************/
+bool SecLoad(std::string strDrvPath)
+{	
+		SC_HANDLE hDriver;
+		SC_HANDLE hSCM;
+		DWORD dwError = 0;
+		string strLog;
+
+		//strLog.Format(_T("加载驱动文件：%s.\r\n"), strDrvPath);
+		//CFunc::SendLog(strLog);
+		//CString strDrvTitle = strDrvPath.Right(strDrvPath.GetLength() - strDrvPath.ReverseFind('\\') - 1);
+		string strDrvTitle = strDrvPath.substr(strDrvPath.rfind('\\')+1);
+		strDrvTitle = strDrvTitle.substr(0,strDrvTitle.find('.'));
+		//打开服务控制器
+		hSCM = OpenSCManager(NULL, NULL, SC_MANAGER_ALL_ACCESS);
+		if (hSCM == NULL)
+		{
+			//strLog.Format(_T("打开服务控制器失败，加载驱动文件：%s失败.\r\n"), strDrvPath);
+			//CFunc::SendLog(strLog);
+			return false;
+		}
+		//为驱动创建服务
+		hDriver = CreateService(hSCM, strDrvTitle.c_str(), strDrvTitle.c_str(), SERVICE_ALL_ACCESS, SERVICE_KERNEL_DRIVER,
+			SERVICE_DEMAND_START, SERVICE_ERROR_IGNORE, strDrvPath.c_str(), NULL, NULL, NULL, NULL, NULL);
+		if (hDriver == NULL)
+		{
+			dwError = GetLastError();
+			if (dwError != ERROR_SERVICE_EXISTS)
+			{
+				CloseServiceHandle(hSCM);
+				//strLog.Format(_T("加载驱动文件：%s失败，错误码:%u.\r\n"), strDrvPath, dwError);
+				//CFunc::SendLog(strLog);
+				return false;
+			}
+			//如果服务已经存在，就打开之
+			hDriver = OpenService(hSCM, strDrvTitle.c_str(), SERVICE_ALL_ACCESS);
+			if (hDriver == NULL)
+			{
+				CloseServiceHandle(hSCM);
+				//strLog.Format(_T("加载驱动文件：%s失败，驱动已存在，打开驱动失败，错误码:%u.\r\n"), strDrvPath, dwError);
+				//CFunc::SendLog(strLog);
+				return false;
+			}
+			else
+			{
+				//CFunc::SendLog(_T("驱动服务已经存在，可能已经安装过此驱动，重新打开成功.\r\n"));
+			}
+		}
+
+		dwError = StartService(hDriver, 0, NULL);
+		if (!dwError)
+		{
+			dwError = GetLastError();
+			if (dwError != ERROR_IO_PENDING && dwError != ERROR_SERVICE_ALREADY_RUNNING)
+			{
+				CloseServiceHandle(hDriver);
+				CloseServiceHandle(hSCM);
+				//strLog.Format(_T("加载驱动文件：%s失败，启动服务失败，错误码:%u.\r\n"), strDrvPath, dwError);
+				//CFunc::SendLog(strLog);
+				return false;
+			}
+			else
+			{
+				//CFunc::SendLog(_T("驱动服务已经启动，无需再次启动.\r\n"));
+			}
+		}
+		return true;
+}
+
 void SecInit(std::string strDriveName, std::string strVolumeName, std::string strSidName)
 {
 	BOOLEAN bRet=FALSE;

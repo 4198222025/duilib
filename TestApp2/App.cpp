@@ -11,6 +11,8 @@
 
 using namespace yg_icon;
 
+std::string g_strWorkDir;
+
 #ifndef _DWMAPI_H_
 typedef struct DWM_BLURBEHIND
 {
@@ -589,10 +591,10 @@ public:
 
 
 						//这里是我们要创建快捷方式的原始文件地址
-						pisl->SetPath("E:\\github\\duilib\\bin\\TestApp2_d.exe");
+						pisl->SetPath("F:\\github\\duilib\\bin\\TestApp2_d.exe");
 
 						pisl->SetArguments("start 2019");
-						pisl->SetIconLocation("E:\\github\\duilib\\bin\\IconFromPE\\QQScLauncher\\5_48x48.ico", 0);
+						pisl->SetIconLocation("F:\\github\\duilib\\bin\\IconFromPE\\QQScLauncher\\5_48x48.ico", 0);
 
 						hr = pisl->QueryInterface(IID_IPersistFile, (void**)&pIPF);
 						if (SUCCEEDED(hr))
@@ -602,8 +604,7 @@ public:
 
 							//这里是我们要创建快捷方式的目标地址
 
-
-							pIPF->Save(L"C:\\Users\\王磊\\Desktop\\START QQ.lnk", FALSE);
+							pIPF->Save(L"C:\\Users\\hanxi\\Desktop\\START QQ.lnk", FALSE);
 							pIPF->Release();
 						}
 						pisl->Release();
@@ -641,6 +642,19 @@ public:
 				LoadSoftwareFromJson(pTileLayout, "local_software_other.json");
 
 				//MessageBox(NULL, _T("加载其他软件！"), _T("提示"), MB_OK);
+			}
+			else if (msg.pSender->GetName() == _T("sec_load_button")){
+
+				bool bRet = SecLoad(g_strWorkDir + "sys\\SecMFDock.sys");
+				if (bRet){
+					MessageBox(NULL, _T("加载文件驱动结束！"), _T("提示"), MB_OK);
+				}
+				
+				bRet = SecLoad(g_strWorkDir + "sys\\SecMKDock.sys");
+				if (bRet){
+					MessageBox(NULL, _T("加载注册表驱动结束！"), _T("提示"), MB_OK);
+				}
+				MessageBox(NULL, _T("加载驱动结束！"), _T("提示"), MB_OK);
 			}
 			else if (msg.pSender->GetName() == _T("sec_init_button")){
 
@@ -895,6 +909,16 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 		return 0;
 	}
 	
+	g_strWorkDir = "";
+
+	WCHAR szCurrentDir[MAX_PATH * 2] = { 0 };
+	GetModuleFileNameW(NULL, szCurrentDir, sizeof(szCurrentDir));
+
+	string tmpCurDir = UnicodeToUtf8(szCurrentDir);
+	g_strWorkDir = tmpCurDir.substr(0, tmpCurDir.rfind('\\') + 1);
+
+	MessageBox(NULL, g_strWorkDir.c_str(), _T("Arglist contents"), MB_OK);
+
 
     CPaintManagerUI::SetInstance(hInstance);
     CPaintManagerUI::SetResourcePath(CPaintManagerUI::GetInstancePath());
