@@ -3,17 +3,22 @@
 
 #include "stdafx.h"
 
-
+#include <io.h>
 
 //#include <olectl.h>
 //#pragma comment(lib, "oleaut32.lib")
 #include "save_icon_file_by_handle.h"
 
+#include "OSSObjectSample.h"
+
 #include "VendorInfo.h"
+#include "UploadFileInfo.h"
 
 using namespace yg_icon;
 
 std::string g_strWorkDir;
+std::string g_strBucketName;
+std::vector<UploadFileInfo> g_arrUploadFiles;
 
 #ifndef _DWMAPI_H_
 typedef struct DWM_BLURBEHIND
@@ -649,6 +654,51 @@ public:
 		}
 	}
 
+	bool ListFiles(std::string dir)
+	{
+		char dirNew[200];
+		strcpy(dirNew, dir.c_str());
+		strcat(dirNew, "\\*.*");    // 在目录后面加上"\\*.*"进行第一次搜索
+
+		intptr_t handle;
+		_finddatai64_t findData;
+
+		handle = _findfirsti64(dirNew, &findData);
+		if (handle == -1)        // 检查是否成功
+			return -1;
+
+		do
+		{
+			if (findData.attrib & _A_SUBDIR)
+			{
+				if (strcmp(findData.name, ".") == 0 || strcmp(findData.name, "..") == 0)
+					continue;
+
+				cout << findData.name << "\t<dir>\n";
+
+				// 在目录后面加上"\\"和搜索到的目录名进行下一次搜索
+				strcpy(dirNew, dir.c_str());
+				strcat(dirNew, "\\");
+				strcat(dirNew, findData.name);
+
+				ListFiles(dirNew);
+			}
+			else
+			{
+				cout << findData.name << "\t" << findData.size << " bytes.\n";
+				UploadFileInfo fi;
+				fi.name = findData.name;
+				fi.dir = dir;
+				fi.size = findData.size;
+				g_arrUploadFiles.push_back(fi);
+			}
+		} while (_findnexti64(handle, &findData) == 0);
+
+		_findclose(handle);    // 关闭搜索句柄
+
+		return 0;
+	}
+
     void Notify(TNotifyUI& msg)
     {
 		if (msg.sType == _T("windowinit")) {
@@ -740,6 +790,8 @@ public:
                 else
                     CPaintManagerUI::SetResourcePath(CPaintManagerUI::GetInstancePath());
                 CPaintManagerUI::ReloadSkin();
+
+				
             }		
 			else if (msg.pSender->GetName() == _T("refresh_installed_software_button")){
 				CVerticalLayoutUI* pVerticalLayout = static_cast<CVerticalLayoutUI*>(m_pm.FindControl(_T("installed_software_container")));
@@ -895,6 +947,23 @@ public:
 
 				MessageBox(NULL, _T("完成"), _T("导出图标"), MB_OK);
 			}
+			else if (msg.pSender->GetName() == _T("upload_button")){				
+				MessageBox(NULL, _T("开始上传！"), _T("提示"), MB_OK);
+
+				g_arrUploadFiles.clear();
+				ListFiles("E:\\gitee_proj\\DockBox");
+
+				ObjectSample objectSample(g_strBucketName);
+
+				char buf[128];
+				for (int i = 0; i < g_arrUploadFiles.size(); i++)				
+				{
+					_stprintf(buf, "software1/%d", i);
+					objectSample.PutObjectFromFile(buf, g_arrUploadFiles[i].dir + "\\" + g_arrUploadFiles[i].name);
+				}
+
+				MessageBox(NULL, _T("上传成功！"), _T("提示"), MB_OK);
+			}
         }
     }
 
@@ -998,21 +1067,49 @@ public:
 			case WM_NCCALCSIZE:    lRes = OnNcCalcSize(uMsg, wParam, lParam, bHandled); break;
 			case WM_NCPAINT:       lRes = OnNcPaint(uMsg, wParam, lParam, bHandled); break;
 			case WM_NCHITTEST:     lRes = OnNcHitTest(uMsg, wParam, lParam, bHandled); break;
+			case WM_MOUSEHOVER:     lRes = OnMouseHover(uMsg, wParam, lParam, bHandled); break;
 			//case WM_SIZE:          lRes = OnSize(uMsg, wParam, lParam, bHandled); break;
 			default:
 				bHandled = FALSE;
 			}
 		}
         LRESULT lRes = 0;
-        if( m_pm.MessageHandler(uMsg, wParam, lParam, lRes) ) return lRes;
+		if (m_pm.MessageHandler(uMsg, wParam, lParam, lRes))
+		{
+			return lRes;
+		}
         return CWindowWnd::HandleMessage(uMsg, wParam, lParam);
     }
+
+	LRESULT OnMouseHover(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)
+	{
+		POINT pt = { GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam) };
+		CControlUI* pHover = m_pm.FindControl(pt);
+		if (pHover == NULL) return 0;
+		/*演示悬停在下载列表的图标上时，动态变换下载图标状态显示*/
+		if (pHover->GetUserData() == _T("this_is_can_hover"))
+		{
+			//MessageBox(NULL, _T("鼠标在某控件例如按钮上悬停后，对目标控件操作，这里改变了状态图标大小"), _T("DUILIB DEMO"), MB_OK);
+			//((CButtonUI *)pHover)->ApplyAttributeList( _T("normalimage=\"file='downlist_pause.png' dest='15,9,32,26'\""));
+
+			DWORD color = 0xffff0000;
+			pHover->SetBkColor(color);
+		}
+		return 0;
+	}
 
 public:
     CPaintManagerUI m_pm;
     CWndShadow* m_pWndShadow;
 };
 
+void LogCallbackFunc(LogLevel level, const std::string &stream)
+{
+	if (level == LogLevel::LogOff)
+		return;
+
+	std::cout << stream;
+}
 
 int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
@@ -1045,8 +1142,13 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 	string tmpCurDir = UnicodeToUtf8(szCurrentDir);
 	g_strWorkDir = tmpCurDir.substr(0, tmpCurDir.rfind('\\') + 1);
 
-	MessageBox(NULL, g_strWorkDir.c_str(), _T("Arglist contents"), MB_OK);
+	//MessageBox(NULL, g_strWorkDir.c_str(), _T("Arglist contents"), MB_OK);
 
+	// OSS
+	InitializeSdk();
+	SetLogLevel(LogLevel::LogDebug);
+	SetLogCallback(LogCallbackFunc);
+	g_strBucketName = "ztsc666";
 
     CPaintManagerUI::SetInstance(hInstance);
     CPaintManagerUI::SetResourcePath(CPaintManagerUI::GetInstancePath());
@@ -1062,6 +1164,8 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
     pFrame->CenterWindow();
     pFrame->ShowWindow(true);
     CPaintManagerUI::MessageLoop();
+
+	ShutdownSdk();
 
     ::CoUninitialize();
     return 0;

@@ -24,6 +24,8 @@
     <ClCompile Include="dep\cJSON\cJSON.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="OSSConfig.cc" />
+    <ClCompile Include="OSSObjectSample.cc" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="StdAfx.h">
@@ -42,6 +44,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="VendorInfo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="OSSConfig.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="OSSObjectSample.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="UploadFileInfo.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

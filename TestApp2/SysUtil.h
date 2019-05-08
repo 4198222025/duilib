@@ -3,11 +3,13 @@
 #include "SoftwareInfo.h"
 
 struct VendorInfo;
+struct UploadFileInfo;
 
 // 操作系统相关
 std::vector<std::string> GetSystemDrives();
 std::string GetVolumeName(std::string driveName);
 std::string GetUserId();
+
 
 bool SecLoad(std::string strSysFile);
 

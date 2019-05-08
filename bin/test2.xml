@@ -481,7 +481,21 @@
 			</TabLayout>		
 		</VerticalLayout>
 		</HorizontalLayout>
+		<!--  上传测试代码 -->
+		<VerticalLayout width="600" height="600" bkcolor="#FFCC99CC" inset="20,10,20,10">
+			<HorizontalLayout height="50" >
+				<Icon name="wechat_icon" width="50" height="50" inset="1,1,1,1"  icon=".\IconFromPE\QQScLauncher\5_48x48.ico" />	
+				<Container    height="50" >
+					<Edit name="software_uuid_edit" float="0.0,0.5,0.0,0.5" pos="0,-15,200,15" text="" />
+				</Container>					
+				
+			</HorizontalLayout>
 		
+			<Container    height="50" >
+				<Button name="upload_button"  float="0.5,0.5,0.5,0.5" pos="-80,-20,80,20" text="上传" />
+			</Container>
+		</VerticalLayout>
+					
 		<Control height="20"/>
 		<HorizontalLayout height="600">
 		<Container bkcolor="#FF00CC00" width="600" height="600" >

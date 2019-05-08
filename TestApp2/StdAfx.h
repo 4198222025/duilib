@@ -22,6 +22,8 @@
 #include <objbase.h> 
 #include <shlobj.h>
 
+#include <alibabacloud/oss/OssClient.h>
+
 #pragma comment(lib, "Shlwapi.lib")
 
 #include "..\DuiLib\UIlib.h"
@@ -31,6 +33,7 @@
 #include "SysUtil.h"
 
 using namespace DuiLib;
+using namespace AlibabaCloud::OSS;
 
 #ifdef _DEBUG
 #   ifdef _UNICODE

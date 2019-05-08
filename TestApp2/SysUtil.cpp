@@ -1,4 +1,5 @@
 #include "stdafx.h"
+#include <io.h>
 #include <vector>
 #include <string>
 #include <algorithm>    // transform
@@ -8,6 +9,7 @@
 #include "SysUtil.h"
 
 #include "VendorInfo.h"
+#include "UploadFileInfo.h"
 
 std::vector<std::string> GetSystemDrives(){
 
@@ -92,6 +94,10 @@ std::string GetUserId()
 	std::string strUserId(userSID);
 	return strUserId;
 }
+
+
+
+
 
 #include <winioctl.h>
 #include <Aclapi.h>
@@ -999,10 +1005,10 @@ std::string CreateInstalledItemXml(VendorInfo& vendor)
 	xml += "<TileLayout bkcolor=\"#FFEEEEEE\" height=\"" + tmp + "\"  inset=\"5, 5, 5, 5\" childpadding=\"10, 10, 10, 10\" childvpadding=\"10, 10, 10, 10\" name=\"software_list\" itemsize=\"220, 80\" columns=\"4\" vscrollbar=\"true\" hscrollbar=\"false\">";
 	for (int i = 0; i < vendor.arrSoftware.size(); i++)
 	{
-		xml += "<Container bkcolor=\"#FFDDDDDD\" inset=\"2, 2, 2, 2\" height=\"80\" >";
+		xml += "<Container bkcolor=\"#FFDDDDDD\" inset=\"2, 2, 2, 2\" height=\"80\" tooltip=\"启动吗？\">";
 		xml += "<HorizontalLayout height=\"60\" >";
 		xml += "<Container bkcolor=\"#FFDDDDDD\"  inset=\"10, 10, 10, 10\" width=\"90\"  >";
-		xml += "<Icon name=\"software_icon\" float=\"0.6, 0.5, 0.6, 0.5\" pos=\" -24, -24, 24, 24\"  icon=\"" + vendor.arrSoftware[i].icon + "\" />";
+		xml += "<Icon name=\"software_icon\" float=\"0.6, 0.5, 0.6, 0.5\" pos=\" -24, -24, 24, 24\"  icon=\"" + vendor.arrSoftware[i].icon + "\" tooltip=\"这是图标，启动吗？\"/>";
 		xml += "</Container>";
 		xml += "<Control width=\"5\" />";
 		xml += "<VerticalLayout  bkcolor=\"#FFDDDDDD\" inset=\"0, 0, 0, 0\">";
@@ -1029,7 +1035,7 @@ std::string CreateItemXml(std::string strIcon, std::string strName, std::string 
 	xml += "<Container bkcolor=\"#FFEEEEEE\" inset=\"0, 0, 0, 0\" height=\"80\" >";
 	xml += "<HorizontalLayout height=\"70\" >";
 	xml += "<Container bkcolor=\"#FFEEEEEE\"  inset=\"10, 10, 10, 10\" width=\"70\"  >";
-	xml += "<Icon name=\"software_icon\" float=\"0.5, 0.5, 0.5, 0.5\" pos=\" -24, -24, 24, 24\"  icon=\"" + strIcon + "\" />";
+	xml += "<Icon name=\"software_icon\" float=\"0.5, 0.5, 0.5, 0.5\" pos=\" -24, -24, 24, 24\"  icon=\"" + strIcon + "\" userdata=\"this_is_can_hover\" />";
 	xml += "</Container>";
 	xml += "<Control width=\"5\" />";
 	xml += "<VerticalLayout  bkcolor=\"#FFEEEEEE\" inset=\"10, 5, 0, 5\">";
