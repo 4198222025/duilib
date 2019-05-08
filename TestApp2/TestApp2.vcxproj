@@ -290,6 +290,7 @@
     <ClInclude Include="SoftwareInfo.h" />
     <ClInclude Include="StdAfx.h" />
     <ClInclude Include="SysUtil.h" />
+    <ClInclude Include="VendorInfo.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -104,7 +104,7 @@
 				<!--  tab页 - 本地软件  !-->
 				<HorizontalLayout>
 					<!--  左侧 - 本地软件列表  !-->
-					<VerticalLayout bkcolor="#FFEEEEEE" inset="20,0,20,0" vscrollbar="true" hscrollbar="false">
+					<VerticalLayout name="installed_software_container" bkcolor="#FFEEEEEE" inset="20,0,20,0" vscrollbar="true" hscrollbar="false">
 						<VerticalLayout height="40"  bkcolor="#FFEEEEEE">
 							<Control />
 							<Label text="Adobo" font="2" textpadding="10,0,0,0" />

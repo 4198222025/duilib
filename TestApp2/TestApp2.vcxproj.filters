@@ -41,5 +41,8 @@
     <ClInclude Include="SoftwareInfo.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="VendorInfo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

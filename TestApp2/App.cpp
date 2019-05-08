@@ -9,6 +9,8 @@
 //#pragma comment(lib, "oleaut32.lib")
 #include "save_icon_file_by_handle.h"
 
+#include "VendorInfo.h"
+
 using namespace yg_icon;
 
 std::string g_strWorkDir;
@@ -513,6 +515,120 @@ public:
 		
     }
 
+
+
+	std::vector<VendorInfo> PraseVendorInfo(std::string strJsonFile)
+	{
+
+		std::vector<VendorInfo>  arrVendor;
+
+		FILE * f = fopen(strJsonFile.c_str(), "rb");
+		/* 获取文件大小 */
+		fseek(f, 0, SEEK_END);
+		long lSize = ftell(f);
+		rewind(f);
+
+		/* 分配内存存储整个文件 */
+		char * buffer = (char*)malloc(sizeof(char)*(lSize + 1));
+		if (buffer == NULL)
+		{
+			return arrVendor;
+		}
+		memset(buffer, 0, lSize + 1);
+
+
+		/* 将文件拷贝到buffer中 */
+		long result = fread(buffer, 1, lSize, f);
+		if (result != lSize)
+		{
+			return arrVendor;
+		}
+
+		fclose(f);
+
+		std::string utf8Str(buffer);
+
+		std::string asciiStr = Utf8ToAscii(utf8Str);
+
+
+		// char * jsonStr = "{\"semantic\":{\"slots\":{\"name\":\"张三\"}}, \"rc\":0, \"operation\":\"CALL\", \"service\":\"telephone\", \"text\":\"打电话给张三\"}";
+		const char * jsonStr = asciiStr.c_str();
+		cJSON * root = NULL;
+		cJSON * item = NULL;//cjson对象
+
+		root = cJSON_Parse(jsonStr);
+		if (!root)
+		{
+			printf("Error before: [%s]\n", cJSON_GetErrorPtr());
+		}
+		else
+		{
+
+			cJSON * arr = cJSON_GetObjectItem(root, "softwares");//
+			int count = cJSON_GetArraySize(arr);
+			for (int i = 0; i < count; i++)
+			{
+				cJSON * v = cJSON_GetArrayItem(arr, i);
+
+				cJSON * nameProp = cJSON_GetObjectItem(v, "name");
+				cJSON * exeArr = cJSON_GetObjectItem(v, "exeList");//
+
+				VendorInfo vendor;
+				vendor.name = nameProp->valuestring;
+
+				int exeCount = cJSON_GetArraySize(exeArr);
+				for (int j = 0; j < exeCount; j++)
+				{
+					cJSON * exe = cJSON_GetArrayItem(exeArr, j);
+
+					cJSON * nameProp = cJSON_GetObjectItem(exe, "name");
+					cJSON * iconProp = cJSON_GetObjectItem(exe, "icon");
+					cJSON * osProp = cJSON_GetObjectItem(exe, "os");
+					cJSON * descProp = cJSON_GetObjectItem(exe, "desc");
+
+					SoftwareInfo software;
+					software.name = nameProp->valuestring;
+					software.icon = iconProp->valuestring;
+					software.os = osProp->valuestring;
+					software.desc = descProp->valuestring;
+
+					vendor.arrSoftware.push_back(software);
+
+				}
+
+				arrVendor.push_back(vendor);
+
+			}
+		}
+
+		free(buffer);
+
+		return arrVendor;
+	}
+
+	void LoadLocalSoftwareFromJson(CVerticalLayoutUI* pVerticalLayout, std::string jsonFile)
+	{
+		pVerticalLayout->RemoveAll();
+
+
+		std::vector<VendorInfo> vendorArr = PraseVendorInfo(jsonFile);
+		for (int i = 0; i < vendorArr.size(); i++){
+
+			VendorInfo vendor = vendorArr[i];
+
+			CContainerUI* pTileElement = NULL;
+			CDialogBuilder builder;
+			if (!builder.GetMarkup()->IsValid()) {
+				//pTileElement = static_cast<CContainerUI*>(builder.Create(_T("test2_item.xml"), (UINT)0, NULL, &m_pm));
+				pTileElement = static_cast<CContainerUI*>(builder.Create(CreateInstalledItemXml(vendor).c_str(), (UINT)0, NULL, &m_pm));
+			}
+
+			pVerticalLayout->AddAt(pTileElement, 0);
+		}
+		
+	}
+
+
 	void LoadSoftwareFromJson(CTileLayoutUI* pTileLayout, std::string jsonFile)
 	{
 		pTileLayout->RemoveAll();
@@ -542,10 +658,16 @@ public:
 			if (msg.pSender->GetName() == _T("Option01")) {
 				CTabLayoutUI * pTab = (CTabLayoutUI*)m_pm.FindControl(_T("TabLayoutMain"));
 				pTab->SelectItem(0);//1代表第二个Tab页
+
+				CVerticalLayoutUI* pVerticalLayout = static_cast<CVerticalLayoutUI*>(m_pm.FindControl(_T("installed_software_container")));
+				LoadLocalSoftwareFromJson(pVerticalLayout, "installed_software.json");
 			}
 			else if (msg.pSender->GetName() == _T("Option02")) {
 				CTabLayoutUI * pTab = (CTabLayoutUI*)m_pm.FindControl(_T("TabLayoutMain"));
 				pTab->SelectItem(1);//1代表第二个Tab页
+
+				CTileLayoutUI* pTileLayout = static_cast<CTileLayoutUI*>(m_pm.FindControl(_T("software_list")));
+				LoadSoftwareFromJson(pTileLayout, "local_software.json");
 
 			}
 		}
@@ -619,6 +741,12 @@ public:
                     CPaintManagerUI::SetResourcePath(CPaintManagerUI::GetInstancePath());
                 CPaintManagerUI::ReloadSkin();
             }		
+			else if (msg.pSender->GetName() == _T("refresh_installed_software_button")){
+				CVerticalLayoutUI* pVerticalLayout = static_cast<CVerticalLayoutUI*>(m_pm.FindControl(_T("installed_software_container")));
+				LoadLocalSoftwareFromJson(pVerticalLayout, "installed_software.json");
+
+				//MessageBox(NULL, _T("加载所有软件！"), _T("提示"), MB_OK);
+			}
 			else if (msg.pSender->GetName() == _T("load_all_button")){
 				CTileLayoutUI* pTileLayout = static_cast<CTileLayoutUI*>(m_pm.FindControl(_T("software_list")));
 				LoadSoftwareFromJson(pTileLayout, "local_software.json");			
