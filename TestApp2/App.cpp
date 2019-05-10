@@ -189,6 +189,16 @@ typedef enum _MONITOR_DPI_TYPE {
 } Monitor_DPI_Type;
 #endif // _SHELLSCALINGAPI_H_
 
+// reply of the requery  
+size_t req_reply(void *ptr, size_t size, size_t nmemb, void *stream)
+{
+	cout << "----->reply" << endl;
+	string *str = (string*)stream;
+	cout << *str << endl;
+	(*str).append((char*)ptr, size*nmemb);
+	return size * nmemb;
+}
+
 class CDPI
 {
 public:
@@ -418,7 +428,7 @@ BOOL  UpdateIcons(HMODULE hModule, LPCTSTR lpszType, LPCTSTR lpszName, LONG lPar
 	ICONINFO icon_info;
 	::GetIconInfo(hIcon, &icon_info);
 
-	char icon_file_path[256];
+	TCHAR icon_file_path[256];
 	sprintf(icon_file_path, _T("%s\\%d_%dx%d.ico"), params->iconDir, index, CXICON, CYICON);
 
 	SaveIcon2(hIcon, icon_file_path);
@@ -699,6 +709,8 @@ public:
 		return 0;
 	}
 
+	
+
     void Notify(TNotifyUI& msg)
     {
 		if (msg.sType == _T("windowinit")) {
@@ -946,6 +958,76 @@ public:
 				::FreeLibrary(hModule);
 
 				MessageBox(NULL, _T("完成"), _T("导出图标"), MB_OK);
+			}
+			else if (msg.pSender->GetName() == _T("get_packageid_button")){
+				MessageBox(NULL, _T("开始获取！"), _T("提示"), MB_OK);
+
+				CURL *curl;
+				CURLcode res;
+
+				curl = curl_easy_init();
+				if (!curl)
+				{
+					MessageBox(NULL, _T("curl_easy_init 失败！"), _T("提示"), MB_OK);
+				}
+
+				curl_easy_setopt(curl, CURLOPT_POST, 1); // post req  
+				curl_easy_setopt(curl, CURLOPT_URL, "http://localhost:9999/client/dockpackage/new");
+
+				string postParams = "dp_name=8&dp_desc=1&os_name=1&os_version=picture&os_arch=98633779_hao_pg&os_arch=98633779_hao_pg&vendor_id=98633779_hao_pg&vendor_name=98633779_hao_pg&product_id=98633779_hao_pg&product_name=98633779_hao_pg&installer_name=98633779_hao_pg&installer_version=98633779_hao_pg&free_flag=1";
+				curl_easy_setopt(curl, CURLOPT_POSTFIELDS, postParams.c_str()); // params  
+
+				curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, req_reply);
+				string response;
+				curl_easy_setopt(curl, CURLOPT_WRITEDATA, (void *)&response);
+				curl_easy_setopt(curl, CURLOPT_NOSIGNAL, 1);
+
+				struct curl_slist *head = NULL;
+				head = curl_slist_append(head, "Content-Type:application/x-www-form-urlencoded;charset=UTF-8");
+				curl_easy_setopt(curl, CURLOPT_HTTPHEADER, head);
+			
+				curl_easy_setopt(curl, CURLOPT_HEADER, 0);
+				curl_easy_setopt(curl, CURLOPT_CONNECTTIMEOUT, 30);
+				curl_easy_setopt(curl, CURLOPT_TIMEOUT, 30);
+
+				
+				res = curl_easy_perform(curl);
+
+				if (res != CURLE_OK)
+					fprintf(stderr, "curl_easy_perform() failed: %s\n", curl_easy_strerror(res));
+
+				g_arrUploadFiles.clear();
+				ListFiles("E:\\gitee_proj\\DockBox");
+				curl_easy_setopt(curl, CURLOPT_URL, "http://localhost:9999/client/dockpackage/file/new");
+
+				char buf[1024];
+				for (int i = 0; i < g_arrUploadFiles.size(); i++)
+				{
+					std::string filedir = g_arrUploadFiles[i].dir;					
+					string filename = g_arrUploadFiles[i].name;
+					memset(buf, 0, 1024);
+					sprintf(buf, ("fileno=%d&packageid=%s&filepath=%s&filename=%s&fileext=%s&filesize=%d"), i, "dffdsfsf", filedir.c_str(), filename.c_str(), "", g_arrUploadFiles[i].size);
+					string postParams(buf);
+
+					string utf8str =  AsciiToUtf8(buf);
+
+					curl_easy_setopt(curl, CURLOPT_POSTFIELDS, utf8str.c_str()); // params  
+
+					res = curl_easy_perform(curl);
+
+					if (res != CURLE_OK)
+					{
+						MessageBox(NULL, _T("上传过程遇到问题！！"), _T("提示"), MB_OK);
+						break;
+					}
+				}
+
+				curl_slist_free_all(head);//记得要释放
+
+				curl_easy_cleanup(curl);
+
+
+				MessageBox(NULL, _T("获取成功！"), _T("提示"), MB_OK);
 			}
 			else if (msg.pSender->GetName() == _T("upload_button")){				
 				MessageBox(NULL, _T("开始上传！"), _T("提示"), MB_OK);

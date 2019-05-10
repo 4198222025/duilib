@@ -844,10 +844,10 @@ void SecUseMode(std::string strDriveName, std::string strVolumeName, std::string
 
 
 	//	¼ÓÔØ×¢²á±í×Ó¼ü
-	CHAR szPath[260];
+	char szPath[260];
 	//sprintf(szPath, "%s\\DockBox\\FB1028", strLetter);
-	sprintf(szPath, "%s\\DockBox\\FB1028", strDriveName.c_str());
-	RegLoadKey(HKEY_USERS, "FB1028", szPath);
+	sprintf(szPath, _T("%s\\DockBox\\FB1028"), strDriveName.c_str());
+	RegLoadKey(HKEY_USERS, _T("FB1028"), szPath);
 }
 void SecShutdownMode()
 {

@@ -30,6 +30,8 @@
 
 #include "dep\cJSON\cJSON.h"
 
+#include "dep\curl\curl.h"
+
 #include "SysUtil.h"
 
 using namespace DuiLib;
