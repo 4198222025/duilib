@@ -10,6 +10,8 @@ std::vector<std::string> GetSystemDrives();
 std::string GetVolumeName(std::string driveName);
 std::string GetUserId();
 
+bool DirIsValid(string dir);
+
 
 bool SecLoad(std::string strSysFile);
 
@@ -44,4 +46,6 @@ std::string CreateInstalledItemXml(VendorInfo& vendor);
 
 // Jsonœ‡πÿ
 std::vector<SoftwareInfo> PraseJson(std::string strJsonFile);
+
+void PrasePackageFileInfo(string packagefileinfostr);
 

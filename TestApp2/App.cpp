@@ -666,6 +666,12 @@ public:
 
 	bool ListFiles(std::string dir)
 	{
+		if (!DirIsValid(dir))
+		{
+			return false;
+		}
+
+
 		char dirNew[200];
 		strcpy(dirNew, dir.c_str());
 		strcat(dirNew, "\\*.*");    // 在目录后面加上"\\*.*"进行第一次搜索
@@ -675,7 +681,7 @@ public:
 
 		handle = _findfirsti64(dirNew, &findData);
 		if (handle == -1)        // 检查是否成功
-			return -1;
+			return false;
 
 		do
 		{
@@ -706,9 +712,45 @@ public:
 
 		_findclose(handle);    // 关闭搜索句柄
 
-		return 0;
+		return true;
 	}
 
+	bool SetContorlText(string controlName, string text)
+	{
+		CEditUI* pEdit = static_cast<CEditUI*>(m_pm.FindControl(controlName.c_str()));
+		if (pEdit)
+		{
+			pEdit->SetText(text.c_str());
+			return true;
+		}
+		return false;
+
+	}
+
+	bool SetContorlText(string controlName, int count)
+	{
+		char buf[128];
+		sprintf(buf, "%d", count);
+		CEditUI* pEdit = static_cast<CEditUI*>(m_pm.FindControl(controlName.c_str()));
+		if (pEdit)
+		{
+			pEdit->SetText(buf);
+			return true;
+		}
+		return false;
+
+	}
+	bool GetContorlText(string controlName, string& text)
+	{
+		CEditUI* pEdit = static_cast<CEditUI*>(m_pm.FindControl(controlName.c_str()));
+		if (pEdit)
+		{
+			text =  pEdit->GetText();
+			return true;
+		}
+		return false;
+
+	}
 	
 
     void Notify(TNotifyUI& msg)
@@ -962,6 +1004,15 @@ public:
 			else if (msg.pSender->GetName() == _T("get_packageid_button")){
 				MessageBox(NULL, _T("开始获取！"), _T("提示"), MB_OK);
 
+				string packagename = "";
+				GetContorlText("packagename_edit", packagename);
+
+				if (packagename.length() == 0)
+				{
+					MessageBox(NULL, _T("请输入packagename！"), _T("提示"), MB_OK);
+					return;
+				}
+
 				CURL *curl;
 				CURLcode res;
 
@@ -974,8 +1025,27 @@ public:
 				curl_easy_setopt(curl, CURLOPT_POST, 1); // post req  
 				curl_easy_setopt(curl, CURLOPT_URL, "http://localhost:9999/client/dockpackage/new");
 
-				string postParams = "dp_name=8&dp_desc=1&os_name=1&os_version=picture&os_arch=98633779_hao_pg&os_arch=98633779_hao_pg&vendor_id=98633779_hao_pg&vendor_name=98633779_hao_pg&product_id=98633779_hao_pg&product_name=98633779_hao_pg&installer_name=98633779_hao_pg&installer_version=98633779_hao_pg&free_flag=1";
-				curl_easy_setopt(curl, CURLOPT_POSTFIELDS, postParams.c_str()); // params  
+				string fmt = "dp_name=%s" \
+					"&dp_desc=商业分析软件最新版本！" \
+					"&os_name=Windows 7 家庭版" \
+					"&os_version=picture" \
+					"&os_arch = 98633779_hao_pg" \
+					"&os_arch=32位、64位" \
+					"&vendor_id=UDKS8923SD" \
+					"&vendor_name=商业分析有限公司" \
+					"&product_id=DIU839EW" \
+					"&product_name=商业分析系统" \
+					"&installer_name=abc.exe" \
+					"&installer_version=1.0.435" \
+					"&free_flag=1";
+
+				char requestbuf[1024];
+				memset(requestbuf, 0, 1024);
+				sprintf(requestbuf, fmt.c_str(), packagename.c_str());
+				
+
+				string utf8post = AsciiToUtf8(requestbuf);
+				curl_easy_setopt(curl, CURLOPT_POSTFIELDS, utf8post.c_str()); // params  
 
 				curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, req_reply);
 				string response;
@@ -987,17 +1057,36 @@ public:
 				curl_easy_setopt(curl, CURLOPT_HTTPHEADER, head);
 			
 				curl_easy_setopt(curl, CURLOPT_HEADER, 0);
-				curl_easy_setopt(curl, CURLOPT_CONNECTTIMEOUT, 30);
-				curl_easy_setopt(curl, CURLOPT_TIMEOUT, 30);
+				curl_easy_setopt(curl, CURLOPT_CONNECTTIMEOUT, 3);
+				curl_easy_setopt(curl, CURLOPT_TIMEOUT, 3);
 
 				
 				res = curl_easy_perform(curl);
 
-				if (res != CURLE_OK)
+				string packageid = "";
+				if (res != CURLE_OK){
+					MessageBox(NULL, _T("获取packageid过程中遇到问题！！"), _T("提示"), MB_OK);
 					fprintf(stderr, "curl_easy_perform() failed: %s\n", curl_easy_strerror(res));
+				}
+				else
+				{					
+					packageid = PrasePackageId(response);
+					MessageBox(NULL, packageid.c_str(), _T("提示"), MB_OK);
+					SetContorlText("packageid_edit", packageid);
+				}
 
+				/*
 				g_arrUploadFiles.clear();
-				ListFiles("E:\\gitee_proj\\DockBox");
+
+				string packageDir = "";
+				GetContorlText("package_dir_edit", packageDir);
+
+
+				ListFiles(packageDir);
+
+				SetContorlText("packageid_file_count_edit", g_arrUploadFiles.size());
+
+
 				curl_easy_setopt(curl, CURLOPT_URL, "http://localhost:9999/client/dockpackage/file/new");
 
 				char buf[1024];
@@ -1006,7 +1095,7 @@ public:
 					std::string filedir = g_arrUploadFiles[i].dir;					
 					string filename = g_arrUploadFiles[i].name;
 					memset(buf, 0, 1024);
-					sprintf(buf, ("fileno=%d&packageid=%s&filepath=%s&filename=%s&fileext=%s&filesize=%d"), i, "dffdsfsf", filedir.c_str(), filename.c_str(), "", g_arrUploadFiles[i].size);
+					sprintf(buf, ("fileno=%d&packageid=%s&filepath=%s&filename=%s&fileext=%s&filesize=%d"), i, packageid, filedir.c_str(), filename.c_str(), "", g_arrUploadFiles[i].size);
 					string postParams(buf);
 
 					string utf8str =  AsciiToUtf8(buf);
@@ -1021,6 +1110,7 @@ public:
 						break;
 					}
 				}
+				*/
 
 				curl_slist_free_all(head);//记得要释放
 
@@ -1032,19 +1122,102 @@ public:
 			else if (msg.pSender->GetName() == _T("upload_button")){				
 				MessageBox(NULL, _T("开始上传！"), _T("提示"), MB_OK);
 
+				string packageid = "";
+				GetContorlText("packageid_edit", packageid);
+
+				if (packageid.length() == 0)
+				{
+					MessageBox(NULL, "packageid为空！", _T("提示"), MB_OK);
+					return;
+				}
+
 				g_arrUploadFiles.clear();
-				ListFiles("E:\\gitee_proj\\DockBox");
+				string packageDir = "";
+				GetContorlText("package_dir_edit", packageDir);
+
+				if (packageDir.length() == 0)
+				{
+					MessageBox(NULL, "packagedir为空！", _T("提示"), MB_OK);
+					return;
+				}
+
+				if (!DirIsValid(packageDir))
+				{
+					MessageBox(NULL, "packagedir不存在！", _T("提示"), MB_OK);
+					return;
+				}
+
+				ListFiles(packageDir);
+
+				SetContorlText("package_file_count_edit", g_arrUploadFiles.size());
+
 
 				ObjectSample objectSample(g_strBucketName);
+
+				string indexfilecontent = "";
+				std::shared_ptr<std::stringstream> indexfilestream = std::make_shared<std::stringstream>();
+				*indexfilestream << "{filecount:" << g_arrUploadFiles.size() << " filelist:[";
+				for (int i = 0; i < g_arrUploadFiles.size(); i++)
+				{					
+					string tmpdir = g_arrUploadFiles[i].dir.substr(packageDir.length());
+					*indexfilestream << "{"
+						<< "fileno:\"" << i << "\" "
+						<< "filedir:\"" << tmpdir << "\" "
+						<< "filename:\"" << g_arrUploadFiles[i].name << "\""
+						<< "}";
+				}
+				*indexfilestream << "]}";
+
+				indexfilecontent = indexfilestream->str();
+
+				objectSample.PutObjectFromBuffer(packageid, indexfilecontent);
 
 				char buf[128];
 				for (int i = 0; i < g_arrUploadFiles.size(); i++)				
 				{
-					_stprintf(buf, "software1/%d", i);
+					_stprintf(buf, "%s/%d", packageid.c_str(), i);
 					objectSample.PutObjectFromFile(buf, g_arrUploadFiles[i].dir + "\\" + g_arrUploadFiles[i].name);
 				}
 
 				MessageBox(NULL, _T("上传成功！"), _T("提示"), MB_OK);
+			}
+			else if (msg.pSender->GetName() == _T("test_download_pkg_button")){
+				MessageBox(NULL, _T("开始下载！"), _T("提示"), MB_OK);
+
+				string packageid = "";
+				GetContorlText("packageid_edit", packageid);
+
+				if (packageid.length() == 0)
+				{
+					MessageBox(NULL, "packageid为空！", _T("提示"), MB_OK);
+					return;
+				}
+
+
+				string downloaddir = "";
+				GetContorlText("download_dir_edit", downloaddir);
+
+				if (downloaddir.length() == 0)
+				{
+					MessageBox(NULL, "downloaddir为空！", _T("提示"), MB_OK);
+					return;
+				}
+
+				if (!DirIsValid(downloaddir))
+				{
+					MessageBox(NULL, "downloaddir不存在！", _T("提示"), MB_OK);
+					return;
+				}
+
+				string packagefileinfo = "";
+
+				ObjectSample objectSample(g_strBucketName);
+
+				objectSample.GetObjectToFile(packageid, downloaddir + "\\" + packageid);
+
+				objectSample.GetObjectToBuffer(packageid, packagefileinfo);
+
+				PrasePackageFileInfo(packagefileinfo);
 			}
         }
     }

@@ -484,6 +484,12 @@
 		<!--  上传测试代码 -->
 		<VerticalLayout width="800" height="300" bkcolor="#FFCCCCCC" inset="20,10,20,10">
 			<HorizontalLayout height="30" >
+				<Text text="packagename" width="120" font="2" align="right" showhtml="true" padding="10,2,10,2" />
+				<Edit name="packagename_edit"  text="" />
+				<Control width="8"/>				
+			</HorizontalLayout>
+			<Control height="8"/>
+			<HorizontalLayout height="30" >
 				<Text text="packageid" width="120" font="2" align="right" showhtml="true" padding="10,2,10,2"  />
 				<Edit name="packageid_edit"  text="" />
 				<Control width="8"/>
@@ -492,9 +498,24 @@
 			<Control height="8"/>
 			<HorizontalLayout height="30" >
 				<Text text="目录" width="120" font="2" align="right" showhtml="true" padding="10,2,10,2" />
-				<Edit name="software_uuid_edit"  text="" />
+				<Edit name="package_dir_edit"  text="E:\gitee_proj\DockBox" />
+				<Control width="8"/>
+				
+			</HorizontalLayout>
+			<Control height="8"/>
+			<HorizontalLayout height="30" >
+				<Text text="文件数量" width="120" font="2" align="right" showhtml="true" padding="10,2,10,2" />
+				<Edit name="package_file_count_edit"  text="0" />
 				<Control width="8"/>
 				<Button name="upload_button"  width="60"  text="上传" />
+			</HorizontalLayout>
+			
+			<Control height="8"/>
+			<HorizontalLayout height="30" >
+				<Text text="下载目录" width="120" font="2" align="right" showhtml="true" padding="10,2,10,2" />
+				<Edit name="download_dir_edit"  text="E:\gitee_proj\test_download_pkg" />
+				<Control width="8"/>
+				<Button name="test_download_pkg_button"  width="60"  text="下载" />
 			</HorizontalLayout>
 		
 		</VerticalLayout>

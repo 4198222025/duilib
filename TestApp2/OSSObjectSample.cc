@@ -78,6 +78,24 @@ void ObjectSample::PutObjectFromBuffer()
     }
 }
 
+void ObjectSample::PutObjectFromBuffer(std::string key, std::string str)
+{
+	//std::shared_ptr<std::iostream> content = std::make_shared<std::stringstream>();
+	//*content << __FUNCTION__;
+
+	std::shared_ptr<std::iostream> content = std::make_shared<std::stringstream>();
+	*content << str;
+
+	PutObjectRequest request(bucket_, key, content);
+	auto outcome = client->PutObject(request);
+	if (outcome.isSuccess()) {
+		std::cout << __FUNCTION__ << " success, ETag:" << outcome.result().ETag() << std::endl;
+	}
+	else {
+		PrintError(__FUNCTION__, outcome.error());
+	}
+}
+
 void ObjectSample::PutObjectFromFile()
 {
     std::shared_ptr<std::iostream> content = std::make_shared<std::fstream>(__FILE__, std::ios::in);
@@ -114,6 +132,22 @@ void ObjectSample::GetObjectToBuffer()
     }
 }
 
+bool ObjectSample::GetObjectToBuffer(std::string key, std::string& str)
+{
+	GetObjectRequest request(bucket_, key);
+	auto outcome = client->GetObject(request);
+	if (outcome.isSuccess()) {
+		std::cout << __FUNCTION__ << " success, Content-Length:" << outcome.result().Metadata().ContentLength() << std::endl;
+		
+		*(outcome.result().Content) >> str;
+		return true;
+	}
+	else {
+		PrintError(__FUNCTION__, outcome.error());
+	}
+	return false;
+}
+
 void ObjectSample::GetObjectToFile()
 {
     GetObjectRequest request(bucket_, "PutObjectFromFile");
@@ -125,6 +159,21 @@ void ObjectSample::GetObjectToFile()
     else {
         PrintError(__FUNCTION__, outcome.error());
     }
+}
+
+bool ObjectSample::GetObjectToFile(std::string key, std::string filepath)
+{
+	GetObjectRequest request(bucket_, key);
+	request.setResponseStreamFactory([=]() {return std::make_shared<std::fstream>(filepath, std::ios_base::out | std::ios_base::in | std::ios_base::trunc | std::ios_base::binary); });
+	auto outcome = client->GetObject(request);
+	if (outcome.isSuccess()) {
+		std::cout << __FUNCTION__ << " success" << std::endl;
+		return true;
+	}
+	else {
+		PrintError(__FUNCTION__, outcome.error());
+	}
+	return false;
 }
 
 void ObjectSample::DeleteObject()

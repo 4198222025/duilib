@@ -26,6 +26,9 @@
     </ClCompile>
     <ClCompile Include="OSSConfig.cc" />
     <ClCompile Include="OSSObjectSample.cc" />
+    <ClCompile Include="YzHttpUtil.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="StdAfx.h">
@@ -53,6 +56,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="UploadFileInfo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="YzHttpUtil.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

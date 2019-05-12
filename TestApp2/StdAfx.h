@@ -33,6 +33,7 @@
 #include "dep\curl\curl.h"
 
 #include "SysUtil.h"
+#include "YzHttpUtil.h"
 
 using namespace DuiLib;
 using namespace AlibabaCloud::OSS;

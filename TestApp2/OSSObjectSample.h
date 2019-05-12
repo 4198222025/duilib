@@ -9,10 +9,13 @@ public:
     void DoesObjectExist();
     void PutFolder();
     void PutObjectFromBuffer();
+	void PutObjectFromBuffer(std::string key, std::string content);
     void PutObjectFromFile();
-	void PutObjectFromFile(std::string key, std::string filePaht);
+	void PutObjectFromFile(std::string key, std::string filepath);
     void GetObjectToBuffer();
+	bool GetObjectToBuffer(std::string key, std::string& content);
     void GetObjectToFile();
+	bool GetObjectToFile(std::string key, std::string filepath);
     void DeleteObject();
     void DeleteObjects();
     void HeadObject();

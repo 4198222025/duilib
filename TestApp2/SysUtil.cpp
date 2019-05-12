@@ -95,7 +95,10 @@ std::string GetUserId()
 	return strUserId;
 }
 
-
+bool DirIsValid(string dir)
+{
+	return ::PathFileExists(dir.c_str());
+}
 
 
 
@@ -1122,5 +1125,10 @@ std::vector<SoftwareInfo> PraseJson(std::string strJsonFile)
 	free(buffer);
 
 	return arrSoftware;
+}
+
+void PrasePackageFileInfo(string packagefileinfostr)
+{
+
 }
 
