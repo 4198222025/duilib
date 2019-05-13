@@ -1075,18 +1075,29 @@ public:
 					SetContorlText("packageid_edit", packageid);
 				}
 
-				/*
+				
 				g_arrUploadFiles.clear();
 
 				string packageDir = "";
 				GetContorlText("package_dir_edit", packageDir);
 
+				if (packageDir.length() == 0)
+				{
+					MessageBox(NULL, "packagedir为空！", _T("提示"), MB_OK);
+					return;
+				}
+
+				if (!DirIsValid(packageDir))
+				{
+					MessageBox(NULL, "packagedir不存在！", _T("提示"), MB_OK);
+					return;
+				}
 
 				ListFiles(packageDir);
 
-				SetContorlText("packageid_file_count_edit", g_arrUploadFiles.size());
+				SetContorlText("package_file_count_edit", g_arrUploadFiles.size());
 
-
+/*
 				curl_easy_setopt(curl, CURLOPT_URL, "http://localhost:9999/client/dockpackage/file/new");
 
 				char buf[1024];
@@ -1156,16 +1167,18 @@ public:
 
 				string indexfilecontent = "";
 				std::shared_ptr<std::stringstream> indexfilestream = std::make_shared<std::stringstream>();
-				*indexfilestream << "{filecount:" << g_arrUploadFiles.size() << " filelist:[";
-				for (int i = 0; i < g_arrUploadFiles.size(); i++)
+				*indexfilestream << "{\"filecount\":" << g_arrUploadFiles.size() << ",\"filelist\":[";
+				for (int i = 0; i < g_arrUploadFiles.size() - 1; i++)
 				{					
 					string tmpdir = g_arrUploadFiles[i].dir.substr(packageDir.length());
-					*indexfilestream << "{"
-						<< "fileno:\"" << i << "\" "
-						<< "filedir:\"" << tmpdir << "\" "
-						<< "filename:\"" << g_arrUploadFiles[i].name << "\""
-						<< "}";
+					*indexfilestream << "{" << "\"fileno\":\"" << i << "\"," << "\"filedir\":\"" << tmpdir << "\"," << "\"filename\":\"" << g_arrUploadFiles[i].name << "\"" << "},";
 				}
+				string tmpdir = g_arrUploadFiles[g_arrUploadFiles.size() - 1].dir.substr(packageDir.length());
+				*indexfilestream << "{"
+					<< "\"fileno\":\"" << (g_arrUploadFiles.size() - 1) << "\","
+					<< "\"filedir\":\"" << tmpdir << "\","
+					<< "\"filename\":\"" << g_arrUploadFiles[g_arrUploadFiles.size() - 1].name << "\""
+					<< "}";
 				*indexfilestream << "]}";
 
 				indexfilecontent = indexfilestream->str();
@@ -1183,6 +1196,8 @@ public:
 			}
 			else if (msg.pSender->GetName() == _T("test_download_pkg_button")){
 				MessageBox(NULL, _T("开始下载！"), _T("提示"), MB_OK);
+
+				DWORD t1 = ::GetTickCount();
 
 				string packageid = "";
 				GetContorlText("packageid_edit", packageid);
@@ -1213,11 +1228,29 @@ public:
 
 				ObjectSample objectSample(g_strBucketName);
 
-				objectSample.GetObjectToFile(packageid, downloaddir + "\\" + packageid);
+				objectSample.GetObjectToFile(packageid, downloaddir + "\\" + packageid + ".json");
 
 				objectSample.GetObjectToBuffer(packageid, packagefileinfo);
 
-				PrasePackageFileInfo(packagefileinfo);
+				std::replace(packagefileinfo.begin(), packagefileinfo.end(), '\\', '=');
+
+				std::vector<UploadFileInfo> fileList = PrasePackageFileInfo(packagefileinfo);
+				for (int i = 0; i < fileList.size(); i++)
+				{					
+					string filedir = fileList[i].dir;
+					std::replace(filedir.begin(), filedir.end(), '=', '\\');
+
+					string fulldir = downloaddir + "\\" + packageid + filedir;
+					CreateDir(fulldir.c_str());
+					objectSample.GetObjectToFile(packageid + "/" + fileList[i].uuid, fulldir + "\\" + fileList[i].name);
+				}
+
+				DWORD t2 = ::GetTickCount();
+
+				char buf[1024];
+				sprintf(buf, "下载完成，共耗时 %d.%d 秒", (t2 - t1) / 1000, (t2 - t1) % 1000);
+
+				MessageBox(NULL, buf, _T("提示"), MB_OK);
 			}
         }
     }

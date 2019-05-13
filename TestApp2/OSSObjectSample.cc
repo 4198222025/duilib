@@ -68,6 +68,8 @@ void ObjectSample::PutObjectFromBuffer()
 {
     std::shared_ptr<std::iostream> content = std::make_shared<std::stringstream>();
     *content << __FUNCTION__;
+	*content << "  ";
+	*content << __FUNCTION__;
     PutObjectRequest request(bucket_, "PutObjectFromBuffer", content);
     auto outcome = client->PutObject(request);
     if (outcome.isSuccess()) {
@@ -123,6 +125,7 @@ void ObjectSample::PutObjectFromFile(std::string key, std::string filePath)
 void ObjectSample::GetObjectToBuffer()
 {
     GetObjectRequest request(bucket_, "PutObjectFromBuffer");
+	request.setRange(0, 50);
     auto outcome = client->GetObject(request);
     if (outcome.isSuccess()) {
         std::cout << __FUNCTION__ << " success, Content-Length:" << outcome.result().Metadata().ContentLength() << std::endl;
@@ -134,12 +137,24 @@ void ObjectSample::GetObjectToBuffer()
 
 bool ObjectSample::GetObjectToBuffer(std::string key, std::string& str)
 {
-	GetObjectRequest request(bucket_, key);
-	auto outcome = client->GetObject(request);
+	std::shared_ptr<std::iostream> content = std::make_shared<std::stringstream>();
+	
+	auto outcome = client->GetObject(bucket_, key, content);
 	if (outcome.isSuccess()) {
-		std::cout << __FUNCTION__ << " success, Content-Length:" << outcome.result().Metadata().ContentLength() << std::endl;
+
 		
-		*(outcome.result().Content) >> str;
+
+		std::cout << __FUNCTION__ << " success, Content-Length:" << outcome.result().Metadata().ContentLength() << std::endl;
+
+		int len = outcome.result().Metadata().ContentLength();
+		
+		char * buf = new char[len + 1];
+		memset(buf, 0, len + 1);
+
+		(*content).read(buf, len);
+
+		str = buf;
+		delete[] buf;
 		return true;
 	}
 	else {

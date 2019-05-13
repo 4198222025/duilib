@@ -1,5 +1,6 @@
 #include "stdafx.h"
-#include <io.h>
+#include <direct.h> //_mkdir函数的头文件
+#include <io.h>     //_access函数的头文件
 #include <vector>
 #include <string>
 #include <algorithm>    // transform
@@ -93,6 +94,30 @@ std::string GetUserId()
 
 	std::string strUserId(userSID);
 	return strUserId;
+}
+
+void CreateDir(const char *dir)
+{
+	int m = 0, n;
+	string str1, str2;
+
+	str1 = dir;	
+	str2 = str1.substr(0, 2);
+	str1 = str1.substr(3, str1.size());
+	
+	while (m >= 0)
+	{
+		m = str1.find('\\');		
+		str2 += '\\' + str1.substr(0, m);	
+		n = _access(str2.c_str(), 0); //判断该目录是否存在
+		
+		if (n == -1)		
+		{		
+			_mkdir(str2.c_str());     //创建目录		
+		}
+		str1 = str1.substr(m + 1, str1.size());
+	
+	}
 }
 
 bool DirIsValid(string dir)
@@ -1127,8 +1152,5 @@ std::vector<SoftwareInfo> PraseJson(std::string strJsonFile)
 	return arrSoftware;
 }
 
-void PrasePackageFileInfo(string packagefileinfostr)
-{
 
-}
 
