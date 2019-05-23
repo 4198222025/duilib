@@ -13,12 +13,19 @@
 
 #include "VendorInfo.h"
 #include "UploadFileInfo.h"
+#include "GetWindowsInfo.h"
 
 using namespace yg_icon;
 
 std::string g_strWorkDir;
 std::string g_strBucketName;
 std::vector<UploadFileInfo> g_arrUploadFiles;
+
+DWORD g_dwMajorVersion;
+DWORD g_dwMinorVersion;
+DWORD g_dwBuildNumber;
+std::string g_strWindowsName;
+DWORD g_dwProcessorArchitecture;  
 
 #ifndef _DWMAPI_H_
 typedef struct DWM_BLURBEHIND
@@ -1027,10 +1034,10 @@ public:
 
 				string fmt = "dp_name=%s" \
 					"&dp_desc=商业分析软件最新版本！" \
-					"&os_name=Windows 7 家庭版" \
-					"&os_version=picture" \
-					"&os_arch = 98633779_hao_pg" \
-					"&os_arch=32位、64位" \
+					"&os_name=%s" \
+					"&os_version=%d.%d.%d" \
+					"&os_buildnumber=%d" \
+					"&os_arch=%d" \
 					"&vendor_id=UDKS8923SD" \
 					"&vendor_name=商业分析有限公司" \
 					"&product_id=DIU839EW" \
@@ -1041,7 +1048,7 @@ public:
 
 				char requestbuf[1024];
 				memset(requestbuf, 0, 1024);
-				sprintf(requestbuf, fmt.c_str(), packagename.c_str());
+				sprintf(requestbuf, fmt.c_str(), packagename.c_str(), g_strWindowsName.c_str(), g_dwMajorVersion, g_dwMinorVersion, g_dwBuildNumber, g_dwBuildNumber, g_dwProcessorArchitecture);
 				
 
 				string utf8post = AsciiToUtf8(requestbuf);
@@ -1431,6 +1438,15 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 	g_strWorkDir = tmpCurDir.substr(0, tmpCurDir.rfind('\\') + 1);
 
 	//MessageBox(NULL, g_strWorkDir.c_str(), _T("Arglist contents"), MB_OK);
+
+	// 获取操作系统信息
+	getOsInfo();
+
+	
+	BOOL ret = GetNtVersionNumbers(g_dwMajorVersion, g_dwMinorVersion,g_dwBuildNumber);
+
+	
+	ret = GetOperatingSystemName(g_strWindowsName, g_dwProcessorArchitecture);
 
 	// OSS
 	InitializeSdk();
