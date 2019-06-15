@@ -513,7 +513,7 @@ public:
 		m_pm.AddPreMessageFilter(this);
 		CDialogBuilder builder;
 		CDialogBuilderCallbackEx cb;
-		CControlUI* pRoot = builder.Create(_T("login.xml"), (UINT)0, &cb, &m_pm);
+		CControlUI* pRoot = builder.Create(_T("./skin/YouziRes/login.xml"), (UINT)0, &cb, &m_pm);
 		ASSERT(pRoot && "Failed to parse XML");
 		m_pm.AttachDialog(pRoot);
 		m_pm.AddNotifier(this);
@@ -957,6 +957,41 @@ public:
 				LoadSoftwareFromJson(pTileLayout, "local_software.json");
 
 			}
+			else if (msg.pSender->GetName() == _T("Option03")) {
+				CTabLayoutUI * pTab = (CTabLayoutUI*)m_pm.FindControl(_T("TabLayoutMain"));
+				pTab->SelectItem(2);//2代表第三个Tab页
+
+				
+
+			}
+			else if (msg.pSender->GetName() == _T("Option04")) {
+				CTabLayoutUI * pTab = (CTabLayoutUI*)m_pm.FindControl(_T("TabLayoutMain"));
+				pTab->SelectItem(3);//1代表第四个Tab页
+
+				
+
+			}
+			else if (msg.pSender->GetName() == _T("Option05")) {
+				CTabLayoutUI * pTab = (CTabLayoutUI*)m_pm.FindControl(_T("TabLayoutMain"));
+				pTab->SelectItem(4);//1代表第五个Tab页
+
+
+
+			}
+			else if (msg.pSender->GetName() == _T("Option06")) {
+				CTabLayoutUI * pTab = (CTabLayoutUI*)m_pm.FindControl(_T("TabLayoutMain"));
+				pTab->SelectItem(5);//1代表第六个Tab页
+
+
+
+			}
+			else if (msg.pSender->GetName() == _T("Option07")) {
+				CTabLayoutUI * pTab = (CTabLayoutUI*)m_pm.FindControl(_T("TabLayoutMain"));
+				pTab->SelectItem(6);//1代表第七个Tab页
+
+
+
+			}
 		}
 		else if (msg.sType == _T("itemselect")) {
 			if (msg.pSender->GetName() == _T("system_drive_combo")) {
@@ -1155,6 +1190,10 @@ public:
 			else if (msg.pSender->GetName() == _T("get_packageid_button")){
 				MessageBox(NULL, _T("开始获取！"), _T("提示"), MB_OK);
 
+				string serverurl = "";
+				GetContorlText("serverurl_edit", serverurl);
+
+
 				string packagename = "";
 				GetContorlText("packagename_edit", packagename);
 
@@ -1174,7 +1213,7 @@ public:
 				}
 
 				curl_easy_setopt(curl, CURLOPT_POST, 1); // post req  
-				curl_easy_setopt(curl, CURLOPT_URL, "http://localhost:9999/client/dockpackage/new");
+				curl_easy_setopt(curl, CURLOPT_URL, serverurl + "/client/dockpackage/new");
 
 				string fmt = "dp_name=%s" \
 					"&dp_desc=商业分析软件最新版本！" \
@@ -1517,7 +1556,7 @@ public:
 
             m_pm.Init(m_hWnd);
             CDialogBuilder builder;
-            CControlUI* pRoot = builder.Create(_T("test2.xml"), (UINT)0, NULL, &m_pm);
+            CControlUI* pRoot = builder.Create(_T("./skin/YouziRes/main.xml"), (UINT)0, NULL, &m_pm);
             ASSERT(pRoot && "Failed to parse XML");
             m_pm.AttachDialog(pRoot);
             m_pm.AddNotifier(this);
