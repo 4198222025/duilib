@@ -477,6 +477,7 @@
     </Bscmake>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ControlEx\UIPanel.cpp" />
     <ClCompile Include="Control\UIIcon.cpp" />
     <ClCompile Include="Control\UITreeView.cpp" />
     <ClCompile Include="StdAfx.cpp">
@@ -564,6 +565,7 @@
     <ClCompile Include="Control\UIWebBrowser.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ControlEx\UIPanel.h" />
     <ClInclude Include="Control\UIIcon.h" />
     <ClInclude Include="Control\UITreeView.h" />
     <ClInclude Include="StdAfx.h" />

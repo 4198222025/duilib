@@ -1051,6 +1051,40 @@ std::string CreateInstalledItemXml(VendorInfo& vendor)
 	xml += "</Container>";
 	xml += "</Window>";
 
+	xml = "";
+
+	xml += "<?xml version=\"1.0\" encoding=\"UTF-8\" ?> ";
+	xml += "<Window size=\"308, 500\" caption=\"0, 0, 0, 36\" roundcorner=\"4, 4\" >";
+	xml += "<Container bkcolor=\"#FFEEEEEE\" inset=\"0, 0, 0, 0\" height=\"" + tmp + "\" >";
+	xml += "<VerticalLayout bkcolor=\"#FFEEEEEE\" >";
+	xml += "<VerticalLayout height=\"40\"  bkcolor=\"#FFEEEEEE\">";
+	xml += "<Control />";
+	xml += "<Label text=\"" + vendor.name + "\" font=\"2\" textpadding=\"10, 0, 0, 0\" />";
+	xml += "<Control />";
+	xml += "</VerticalLayout>";
+	xml += "<TileLayout bkcolor=\"#FFEEEEEE\" height=\"" + tmp + "\"  inset=\"5, 5, 5, 5\" childpadding=\"10, 10, 10, 10\" childvpadding=\"10, 10, 10, 10\" name=\"software_list\" itemsize=\"220, 80\" columns=\"4\" vscrollbar=\"true\" hscrollbar=\"false\">";
+	for (int i = 0; i < vendor.arrSoftware.size(); i++)
+	{
+		xml += "<Container bkcolor=\"#FFDDDDDD\" inset=\"2, 2, 2, 2\" height=\"80\" tooltip=\"启动吗？\">";
+		xml += "<HorizontalLayout height=\"60\" >";
+		xml += "<Container bkcolor=\"#FFDDDDDD\"  inset=\"10, 10, 10, 10\" width=\"90\"  >";
+		xml += "<Panel name=\"software_icon\" float=\"0.6, 0.5, 0.6, 0.5\" pos=\" -24, -24, 24, 24\"  icon=\"" + vendor.arrSoftware[i].icon + "\" tooltip=\"这是图标，启动吗？\"/>";
+		xml += "</Container>";
+		xml += "<Control width=\"5\" />";
+		xml += "<VerticalLayout  bkcolor=\"#FFDDDDDD\" inset=\"0, 0, 0, 0\">";
+		xml += "<Text text=\"" + vendor.arrSoftware[i].name + "\" showhtml=\"true\" font=\"2\" height=\"50\" padding=\"2, 2, 0, 2\" />";
+		xml += "<Text text=\"" + vendor.arrSoftware[i].desc + "\" showhtml=\"true\" font=\"3\" height=\"30\" padding=\"2, 2, 0, 2\" />";
+		xml += "</VerticalLayout>";
+		xml += "</HorizontalLayout>";
+		xml += "</Container>";
+	}
+	xml += "</TileLayout>";
+	xml += "</VerticalLayout>";
+	xml += "</Container>";
+	xml += "</Window>";
+
+	
+
 	return xml;
 }
 

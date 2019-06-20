@@ -113,3 +113,5 @@
 //#include "Control/UIFlash.h"
 
 #include "Control/UIIcon.h"
+
+#include "ControlEx/UIPanel.h"

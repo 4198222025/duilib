@@ -37,6 +37,12 @@
       <UniqueIdentifier>{c6069066-0c47-4447-90dc-5ca0e3e72cc6}</UniqueIdentifier>
       <Extensions>ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe</Extensions>
     </Filter>
+    <Filter Include="Header Files\ControlEx">
+      <UniqueIdentifier>{b73db35f-fd60-4516-9806-e22a285e2cc3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\ControlEx">
+      <UniqueIdentifier>{c90e78bd-a2be-424b-a364-351302fd2be4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="StdAfx.cpp">
@@ -152,6 +158,9 @@
     </ClCompile>
     <ClCompile Include="Control\UIIcon.cpp">
       <Filter>Source Files\Control</Filter>
+    </ClCompile>
+    <ClCompile Include="ControlEx\UIPanel.cpp">
+      <Filter>Source Files\ControlEx</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -277,6 +286,9 @@
     </ClInclude>
     <ClInclude Include="Control\UIIcon.h">
       <Filter>Header Files\Control</Filter>
+    </ClInclude>
+    <ClInclude Include="ControlEx\UIPanel.h">
+      <Filter>Header Files\ControlEx</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
