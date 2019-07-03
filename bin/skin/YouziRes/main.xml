@@ -56,42 +56,42 @@
 					pushedimage=" file='winbk.bmp'  res='' restype='0' dest='20,5,55,40' source='0,0,40,40' corner='0,0,0,0' mask='#FF0000' fade='255' hole='false' xtiled='false' ytiled='false' "					
 					width="160" height="45"  textpadding="60,0,0,0" font="2" align="left" /> !-->
 
-				<Option name="Option01" float="false" text="本地软件" bkcolor="#FFCCCCCC"
+				<Option name="Option01" float="false" text="已安装" bkcolor="#FF20B2AA"
 					normalimage=" file='.\skin\YouziRes\tab_local_inactive.png'  res='' restype='0' dest='25,10,51,34' source='0,0,25,24' corner='0,0,0,0' mask='#FF0000' fade='255' hole='false' xtiled='false' ytiled='false' "
 					hotimage=" file='.\skin\YouziRes\tab_local_active.png'  res='' restype='0' dest='25,10,51,34' source='0,0,25,24' corner='0,0,0,0' mask='#FF0000' fade='255' hole='false' xtiled='false' ytiled='false' "
 					selectedimage=" file='.\skin\YouziRes\tab_local_active.png'  res='' restype='0' dest='25,10,51,34' source='0,0,25,24' corner='0,0,0,0' mask='#FF0000' fade='255' hole='false' xtiled='false' ytiled='false' "	
-					width="160" height="45" textcolor="#FF1c1c1c" font="1"  textpadding="35,0,0,0" disabledtextcolor="#FFA7A6AA" align="center" leftbordersize="1" bordercolor="#ff000000"  selectedtextcolor="#ff96cdcd" group="switch" selected="true" />
-				<Option name="Option02" float="false" text="云上软件" bkcolor="#FF00679F"
+					width="160" height="45" textcolor="#FF1c1c1c" font="1"  textpadding="35,0,0,0" disabledtextcolor="#FFA7A6AA" align="center" bordersize="0" bordercolor="#ffffff00"  focusbordercolor="#FFFF0000" selectedtextcolor="#ff96cdcd" group="switch" selected="true" />
+				<Option name="Option02" float="false" text="应用商店" bkcolor="#FF20B2AA"
 					normalimage=" file='.\skin\YouziRes\tab_cloud_inactive.png'  res='' restype='0' dest='25,10,51,34' source='0,0,26,24' corner='0,0,0,0' mask='#FF0000' fade='255' hole='false' xtiled='false' ytiled='false' "
 					hotimage=" file='.\skin\YouziRes\tab_cloud_active.png'  res='' restype='0' dest='25,10,51,34' source='0,0,24,26' corner='0,0,0,0' mask='#FF0000' fade='255' hole='false' xtiled='false' ytiled='false' "
 					selectedimage=" file='.\skin\YouziRes\tab_cloud_active.png'  res='' restype='0' dest='25,10,51,34' source='0,0,26,24' corner='0,0,0,0' mask='#FF0000' fade='255' hole='false' xtiled='false' ytiled='false' "	
-					width="160" height="45" textcolor="#FF1c1c1c" font="1" textpadding="35,0,0,0" disabledtextcolor="#FFA7A6AA" align="center" leftbordersize="1" bordercolor="#ff000000" selectedtextcolor="#ff96cdcd" group="switch" />
+					width="160" height="45" textcolor="#FF1c1c1c" font="1" textpadding="35,0,0,0" disabledtextcolor="#FFA7A6AA" align="center" bordersize="0" bordercolor="#ffffff00" focusbordercolor="#FFFF0000" selectedtextcolor="#ff96cdcd" group="switch" />
 					
-				<Option name="Option03" float="false" text="包管理" bkcolor="#FF00679F"
+				<Option name="Option03" float="false" text="包管理" bkcolor="#FF20B2AA"
 					normalimage=" file='.\skin\YouziRes\tab_package_inactive.png'  res='' restype='0' dest='25,10,51,34' source='0,0,26,24' corner='0,0,0,0' mask='#FF0000' fade='255' hole='false' xtiled='false' ytiled='false' "
 					hotimage=" file='.\skin\YouziRes\tab_package_active.png'  res='' restype='0' dest='25,10,51,34' source='0,0,24,26' corner='0,0,0,0' mask='#FF0000' fade='255' hole='false' xtiled='false' ytiled='false' "
 					selectedimage=" file='.\skin\YouziRes\tab_package_active.png'  res='' restype='0' dest='25,10,51,34' source='0,0,26,24' corner='0,0,0,0' mask='#FF0000' fade='255' hole='false' xtiled='false' ytiled='false' "	
 					width="160" height="45" textcolor="#FF1c1c1c" font="1" textpadding="35,0,0,0" disabledtextcolor="#FFA7A6AA" align="center" leftbordersize="1" bordercolor="#ff000000" selectedtextcolor="#ff96cdcd" group="switch" />
 				
-				<Option name="Option04" float="false" text="驱动管理" bkcolor="#FF00679F"
+				<Option name="Option04" float="false" text="驱动管理" bkcolor="#FF20B2AA"
 					normalimage=" file='.\skin\YouziRes\tab_driver_inactive.png'  res='' restype='0' dest='25,10,51,34' source='0,0,26,24' corner='0,0,0,0' mask='#FF0000' fade='255' hole='false' xtiled='false' ytiled='false' "
 					hotimage=" file='.\skin\YouziRes\tab_driver_active.png'  res='' restype='0' dest='25,10,51,34' source='0,0,24,26' corner='0,0,0,0' mask='#FF0000' fade='255' hole='false' xtiled='false' ytiled='false' "
 					selectedimage=" file='.\skin\YouziRes\tab_driver_active.png'  res='' restype='0' dest='25,10,51,34' source='0,0,26,24' corner='0,0,0,0' mask='#FF0000' fade='255' hole='false' xtiled='false' ytiled='false' "	
 					width="160" height="45" textcolor="#FF1c1c1c" font="1" textpadding="35,0,0,0" disabledtextcolor="#FFA7A6AA" align="center" leftbordersize="1" bordercolor="#ff000000" selectedtextcolor="#ff96cdcd" group="switch" />
 					
-				<Option name="Option05" float="false" text="图标工具" bkcolor="#FF00679F"
+				<Option name="Option05" float="false" text="图标工具" bkcolor="#FF20B2AA"
 					normalimage=" file='.\skin\YouziRes\tab_icon_inactive.png'  res='' restype='0' dest='25,10,51,34' source='0,0,26,24' corner='0,0,0,0' mask='#FF0000' fade='255' hole='false' xtiled='false' ytiled='false' "
 					hotimage=" file='.\skin\YouziRes\tab_icon_active.png'  res='' restype='0' dest='25,10,51,34' source='0,0,24,26' corner='0,0,0,0' mask='#FF0000' fade='255' hole='false' xtiled='false' ytiled='false' "
 					selectedimage=" file='.\skin\YouziRes\tab_icon_active.png'  res='' restype='0' dest='25,10,51,34' source='0,0,26,24' corner='0,0,0,0' mask='#FF0000' fade='255' hole='false' xtiled='false' ytiled='false' "	
 					width="160" height="45" textcolor="#FF1c1c1c" font="1" textpadding="35,0,0,0" disabledtextcolor="#FFA7A6AA" align="center" leftbordersize="1" bordercolor="#ff000000" selectedtextcolor="#ff96cdcd" group="switch" />
 					
-				<Option name="Option06" float="false" text="系统工具" bkcolor="#FF00679F"
+				<Option name="Option06" float="false" text="系统工具" bkcolor="#FF20B2AA"
 					normalimage=" file='.\skin\YouziRes\tab_tool_inactive.png'  res='' restype='0' dest='25,10,51,34' source='0,0,26,24' corner='0,0,0,0' mask='#FF0000' fade='255' hole='false' xtiled='false' ytiled='false' "
 					hotimage=" file='.\skin\YouziRes\tab_tool_active.png'  res='' restype='0' dest='25,10,51,34' source='0,0,24,26' corner='0,0,0,0' mask='#FF0000' fade='255' hole='false' xtiled='false' ytiled='false' "
 					selectedimage=" file='.\skin\YouziRes\tab_tool_active.png'  res='' restype='0' dest='25,10,51,34' source='0,0,26,24' corner='0,0,0,0' mask='#FF0000' fade='255' hole='false' xtiled='false' ytiled='false' "	
 					width="160" height="45" textcolor="#FF1c1c1c" font="1" textpadding="35,0,0,0" disabledtextcolor="#FFA7A6AA" align="center" leftbordersize="1" bordercolor="#ff000000" selectedtextcolor="#ff96cdcd" group="switch" />
 					
-				<Option name="Option07" float="false" text="学习" bkcolor="#FF00679F"
+				<Option name="Option07" float="false" text="学习" bkcolor="#FF20B2AA"
 					normalimage=" file='.\skin\YouziRes\tab_cloud.png'  res='' restype='0' dest='25,10,51,34' source='0,0,26,24' corner='0,0,0,0' mask='#FF0000' fade='255' hole='false' xtiled='false' ytiled='false' "
 					hotimage=" file='.\skin\YouziRes\tab_cloud.png'  res='' restype='0' dest='25,10,51,34' source='0,0,24,26' corner='0,0,0,0' mask='#FF0000' fade='255' hole='false' xtiled='false' ytiled='false' "
 					selectedimage=" file='.\skin\YouziRes\tab_cloud.png'  res='' restype='0' dest='25,10,51,34' source='0,0,26,24' corner='0,0,0,0' mask='#FF0000' fade='255' hole='false' xtiled='false' ytiled='false' "	

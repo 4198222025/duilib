@@ -29,6 +29,7 @@ namespace DuiLib
 	//////////////////////////////////////////////////////////////////////////
 	// CPanelUI
 	CPanelUI::CPanelUI(void)
+		: m_uButtonState(0)
 	{
 		m_bShowMask = 0;
 		memset(&m_rcInset, 0, sizeof(m_rcInset));
@@ -75,8 +76,24 @@ namespace DuiLib
 			rcInset.bottom = _tcstol(pstr + 1, &pstr, 10); ASSERT(pstr);
 			SetPos(rcInset);
 		}
+		else if (_tcscmp(pstrName, _T("maskcolor")) == 0)
+		{
+			if (*pstrValue == _T('#')) pstrValue = ::CharNext(pstrValue);
+			LPTSTR pstr = NULL;
+			DWORD clrColor = _tcstoul(pstrValue, &pstr, 16);
+			SetMaskColor(clrColor);
+		}
 		Invalidate();
 		__super::SetAttribute(pstrName, pstrValue);
+	}
+
+	void CPanelUI::SetMaskColor(DWORD dwColor)
+	{
+		m_dwMaskColor = dwColor;
+	}
+	DWORD CPanelUI::GetMaskColor() const
+	{
+		return m_dwMaskColor;
 	}
 
 	void CPanelUI::SetPos(RECT rc)
@@ -100,7 +117,23 @@ namespace DuiLib
 		{
 			Invalidate();
 		}
-
+		if (event.Type == UIEVENT_BUTTONDOWN || event.Type == UIEVENT_DBLCLICK)
+		{
+			if (::PtInRect(&m_rcItem, event.ptMouse) && IsEnabled()) {
+				m_uButtonState |= UISTATE_PUSHED | UISTATE_CAPTURED;
+				Invalidate();
+			}
+			return;
+		}
+		if (event.Type == UIEVENT_BUTTONUP)
+		{
+			if ((m_uButtonState & UISTATE_CAPTURED) != 0) {
+				if (::PtInRect(&m_rcItem, event.ptMouse) && IsEnabled()) Activate();
+				m_uButtonState &= ~(UISTATE_PUSHED | UISTATE_CAPTURED);
+				Invalidate();
+			}
+			return;
+		}
 		if (event.Type == UIEVENT_MOUSEENTER)
 		{
 			/*if (::PtInRect(&m_rcItem, event.ptMouse)) {
@@ -144,6 +177,13 @@ namespace DuiLib
 
 	}
 
+	bool CPanelUI::Activate()
+	{
+		if (!CControlUI::Activate()) return false;
+		if (m_pManager != NULL) m_pManager->SendNotify(this, DUI_MSGTYPE_CLICK);
+		return true;
+	}
+
 	void CPanelUI::SetVisible(bool bVisible)
 	{
 		CControlUI::SetVisible(bVisible);
@@ -157,18 +197,26 @@ namespace DuiLib
 
 	void CPanelUI::PaintTextY(HDC hDC)
 	{
+		
+
 		if (m_dwTextColor == 0) m_dwTextColor = m_pManager->GetDefaultFontColor();
 		if (m_dwDisabledTextColor == 0) m_dwDisabledTextColor = m_pManager->GetDefaultDisabledColor();
 
+		CRenderEngine::DrawColor(hDC, m_rcItem, m_dwMaskColor);
+
 		RECT rc = m_rcItem;
+		rc.bottom -= (m_rcItem.bottom - m_rcItem.top) / 3;
 		rc.left += m_rcTextPadding.left;
 		rc.right -= m_rcTextPadding.right;
 		rc.top += m_rcTextPadding.top;
 		rc.bottom -= m_rcTextPadding.bottom;
 
+		RECT rcButton = m_rcItem;
+		rcButton.top += (m_rcItem.bottom - m_rcItem.top) * 2 / 3;
+
 		//if (!GetEnabledEffect())
 		{
-			m_sText = "下载";
+			
 			m_iFont = 2;
 			m_uTextStyle = DT_SINGLELINE | DT_VCENTER | DT_CENTER;
 			m_dwTextColor = m_pManager->GetDefaultFontColor();
@@ -191,6 +239,9 @@ namespace DuiLib
 					CRenderEngine::DrawText(hDC, m_pManager, rc, m_sText, m_dwDisabledTextColor, \
 					m_iFont, m_uTextStyle);
 			}
+
+			CRenderEngine::DrawText(hDC, m_pManager, rcButton, _T("运行"), m_dwTextColor, \
+				m_iFont, m_uTextStyle);
 		}
 		//else
 		{
@@ -225,6 +276,10 @@ namespace DuiLib
 			rect.top = m_rcItem.top + m_rcInset.top;
 			rect.bottom = m_rcItem.bottom - m_rcInset.bottom;
 
+			int vmid = rect.top + rect.bottom;
+
+			rect.top = vmid / 2 - 24;
+			rect.bottom = vmid / 2 + 24;
 			
 			HDC dcCompatible;
 			dcCompatible = ::CreateCompatibleDC(hDC);  // 创建与当前DC（pDC）兼容的DC

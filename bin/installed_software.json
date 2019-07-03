@@ -1,10 +1,10 @@
 {"softwares":[
 	{"name":"Microsoft Office 2013", "exeList":[
-		{"name":"Excel 2013", "icon":"f:\\github\\duilib\\bin\\IconFromPE\\WeChat\\3_48x48.ico", "desc":"因你看见，所以存在！", "os":"Win7/8/9/10"}
+		{"name":"全民K歌", "icon":"f:\\github\\duilib\\bin\\IconFromPE\\WeChat\\3_48x48.ico", "desc":"因你看见，所以存在！", "os":"Win7/8/9/10"}
 		,{"name":"Word 2013", "icon":"f:\\github\\duilib\\bin\\IconFromPE\\YoudaoDict\\5_48x48.ico", "desc":"翻译就用我", "os":"Win7/8/9/10"}]}
 	,{"name":"Microsoft Office 2013", "exeList":[
 		{"name":"Excel 2013", "icon":"E:\\github\\duilib\\bin\\IconFromPE\\WeChat\\3_48x48.ico", "desc":"因你看见，所以存在！", "os":"Win7/8/9/10"}
-		,{"name":"Word 2013", "icon":"E:\\github\\duilib\\bin\\IconFromPE\\YoudaoDict\\5_48x48.ico", "desc":"翻译就用我", "os":"Win7/8/9/10"}]}
+		,{"name":"千千音乐", "icon":"E:\\github\\duilib\\bin\\IconFromPE\\YoudaoDict\\5_48x48.ico", "desc":"翻译就用我", "os":"Win7/8/9/10"}]}
 	,{"name":"Microsoft Office 2013", "exeList":[
 		{"name":"Excel 2013", "icon":"E:\\github\\duilib\\bin\\IconFromPE\\WeChat\\3_48x48.ico", "desc":"因你看见，所以存在！", "os":"Win7/8/9/10"}
 		,{"name":"Word 2013", "icon":"E:\\github\\duilib\\bin\\IconFromPE\\WeChat\\5_48x48.ico", "desc":"翻译就用我", "os":"Win7/8/9/10"}
@@ -26,4 +26,4 @@
 		,{"name":"Word 2013", "icon":"E:\\github\\duilib\\bin\\IconFromPE\\YoudaoDict\\5_48x48.ico", "desc":"翻译就用我", "os":"Win7/8/9/10"}]}
 	,{"name":"Tentent", "exeList":[
 		{"name":"QQ", "icon":"f:\\github\\duilib\\bin\\IconFromPE\\WeChat\\3_48x48.ico", "desc":"因你看见，所以存在！", "os":"Win7/8/9/10"}
-		,{"name":"REDFGD", "icon":"f:\\github\\duilib\\bin\\IconFromPE\\YoudaoDict\\5_48x48.ico", "desc":"翻译就用我", "os":"Win7/8/9/10"}]}]}
+		,{"name":"Axure RP8", "icon":"f:\\github\\duilib\\bin\\IconFromPE\\YoudaoDict\\5_48x48.ico", "desc":"翻译就用我", "os":"Win7/8/9/10"}]}]}

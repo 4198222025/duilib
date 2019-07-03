@@ -23,14 +23,24 @@ namespace DuiLib
 		void	SetVisible(bool bVisible);
 		void	SetInternVisible(bool bVisible);
 		//void	DoPaint(HDC hDC, const RECT& rcPaint);
+		bool    Activate();
 		void    PaintBkImage(HDC hDC);
 		void    PaintTextY(HDC hDC);
 		void    DoEvent(TEventUI& event);
+
+
+		void SetMaskColor(DWORD dwColor);
+		DWORD GetMaskColor() const;
 	private:
 		DuiLib::CDuiString	m_sIcoImage;
 		RECT				m_rcInset;
 
 		UINT   m_bShowMask;
+
+		UINT m_uButtonState;
+
+
+		DWORD	m_dwMaskColor;
 
 		LPWSTR  m_pWideText;
 		DWORD	m_dwTextColor;

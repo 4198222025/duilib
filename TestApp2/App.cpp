@@ -1005,6 +1005,8 @@ public:
 			}
 		}
         else if( msg.sType == _T("click") ) {
+
+			
             if( msg.pSender->GetName() == _T("insertimagebtn") ) {
                 CRichEditUI* pRich = static_cast<CRichEditUI*>(m_pm.FindControl(_T("testrichedit")));
                 if( pRich ) {
@@ -1013,7 +1015,10 @@ public:
 			}
 			else if (msg.pSender == m_pMinBtn) {
 				SendMessage(WM_SYSCOMMAND, SC_MINIMIZE, 0); return;
-			}			
+			}		
+			else if (strcmp(msg.pSender->GetClass(), _T("PanelUI")) == 0) {
+				MessageBox(this->GetHWND(), _T("你要运行这个程序吗？"), _T("提示"), MB_OK); return;
+			}
 			else if (msg.pSender->GetName() == _T("close_button")) {				
 				COptionUI* pControl = static_cast<COptionUI*>(m_pm.FindControl(_T("hallswitch")));
 				if (pControl && pControl->IsSelected() == false) {
