@@ -45,6 +45,8 @@ std::string CreateItemXml(std::string strIcon, std::string strName, std::string 
 
 std::string CreateInstalledItemXml(VendorInfo& vendor);
 
+std::string CreateIconListItemXml(std::string strIcon, std::string strName, std::string strOS, std::string strDesc);
+
 // Jsonœ‡πÿ
 std::vector<SoftwareInfo> PraseJson(std::string strJsonFile);
 

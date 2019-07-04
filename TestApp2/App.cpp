@@ -397,17 +397,20 @@ void SaveIcon(HICON hIconToSave, LPCTSTR sIconFileName)
 typedef struct tagEnumResourceNamesParams {
 	int i;
 	int j;
-	int k;
+	int count;
 	char iconDir[1024];
+	std::vector<string> iconPath;
 } ENUMRESOURCENAMESPARAMS, *PENUMRESOURCENAMESPARAMS;
 
-BOOL  UpdateIcons(HMODULE hModule, LPCTSTR lpszType, LPCTSTR lpszName, LONG lParam)
+BOOL  UpdateIcons(HMODULE hModule, LPCTSTR lpszType, LPCTSTR lpszName, PENUMRESOURCENAMESPARAMS lParam)
 {
 	ENUMRESOURCENAMESPARAMS *params = (ENUMRESOURCENAMESPARAMS *)lParam;
 	HRSRC hRes = FindResourceA(hModule, lpszName, lpszType);
 	HGLOBAL hResLoaded = LoadResource(hModule, hRes);
 	void* pData = LockResource(hResLoaded);
 	int nSizeOfIconRes = SizeofResource(hModule, hRes);
+
+	params->count++;
 
 	int nWidth = ((byte*)pData)[4];
 
@@ -440,6 +443,8 @@ BOOL  UpdateIcons(HMODULE hModule, LPCTSTR lpszType, LPCTSTR lpszName, LONG lPar
 
 	SaveIcon2(hIcon, icon_file_path);
 	
+
+	params->iconPath.push_back(icon_file_path);
 	
 
 	UnlockResource(hResLoaded);
@@ -855,6 +860,26 @@ public:
 		}
 	}
 
+	void ShowExeFileIconList(CHorizontalLayoutUI* pTileLayout, std::vector<std::string> iconFileList)
+	{
+		pTileLayout->RemoveAll();
+
+		
+		for (int i = 0; i < iconFileList.size(); i++){
+
+			std::string iconFile = iconFileList[i];
+
+			CContainerUI* pTileElement = NULL;
+			CDialogBuilder builder;
+			if (!builder.GetMarkup()->IsValid()) {
+				//pTileElement = static_cast<CContainerUI*>(builder.Create(_T("test2_item.xml"), (UINT)0, NULL, &m_pm));
+				pTileElement = static_cast<CContainerUI*>(builder.Create(CreateIconListItemXml(iconFile.c_str(), iconFile.c_str(), iconFile.c_str(), iconFile.c_str()).c_str(), (UINT)0, NULL, &m_pm));
+			}
+
+			pTileLayout->AddAt(pTileElement, i);
+		}
+	}
+
 	bool ListFiles(std::string dir)
 	{
 		if (!DirIsValid(dir))
@@ -1170,6 +1195,55 @@ public:
 				SecFinish();
 				MessageBox(NULL, _T("制作完成操作结束！"), _T("提示"), MB_OK);
 			}
+			else if (msg.pSender->GetName() == _T("select_exe_button")){
+				
+				OPENFILENAME ofn;
+				TCHAR szOpenFileNames[80 * MAX_PATH] = { 0 };
+				TCHAR szPath[MAX_PATH] = { 0 };
+				TCHAR szFileName[80 * MAX_PATH] = { 0 };
+				TCHAR* p;
+				int nLen = 0;
+				ZeroMemory(&ofn, sizeof(ofn));
+				ofn.Flags = OFN_EXPLORER;// | OFN_ALLOWMULTISELECT;
+				ofn.lStructSize = sizeof(ofn);
+				ofn.lpstrFile = szOpenFileNames;
+				ofn.nMaxFile = sizeof(szOpenFileNames);
+				ofn.lpstrFile[0] = '\0';
+				ofn.lpstrFilter = TEXT("All Files(*.*)\0*.*\0");
+				if (GetOpenFileName(&ofn))
+				{
+					/*
+					//把第一个文件名前的复制到szPath,即:
+					//如果只选了一个文件,就复制到最后一个'/'
+					//如果选了多个文件,就复制到第一个NULL字符
+					lstrcpyn(szPath, szOpenFileNames, ofn.nFileOffset);
+					//当只选了一个文件时,下面这个NULL字符是必需的.
+					//这里不区别对待选了一个和多个文件的情况
+					szPath[ofn.nFileOffset] = '\0';
+					nLen = lstrlen(szPath);
+
+					if (szPath[nLen - 1] != '\\')   //如果选了多个文件,则必须加上'//'
+					{
+						lstrcat(szPath, TEXT("\\"));
+					}
+
+					p = szOpenFileNames + ofn.nFileOffset; //把指针移到第一个文件
+
+					ZeroMemory(szFileName, sizeof(szFileName));
+					while (*p)
+					{
+						lstrcat(szFileName, szPath);  //给文件名加上路径  
+						lstrcat(szFileName, p);    //加上文件名  
+						lstrcat(szFileName, TEXT("\n")); //换行   
+						p += lstrlen(p) + 1;     //移至下一个文件
+					}
+					//MessageBox(NULL, szFileName, TEXT("MultiSelect"), MB_OK);
+
+					*/
+
+					SetContorlText("exe_file_path_edit", szOpenFileNames);
+				}
+			}
 			else if (msg.pSender->GetName() == _T("get_icon_button")){
 				
 				CEditUI* pEdit = static_cast<CEditUI*>(m_pm.FindControl(_T("exe_file_path_edit")));
@@ -1196,21 +1270,30 @@ public:
 				sprintf(newIconDir, _T("%s\\%s"), iconDir, fname);
 				CreateDirectory(newIconDir, NULL);
 				
-				MessageBox(NULL, exePath, _T("可执行程序路径"), MB_OK);
-				MessageBox(NULL, iconDir, _T("图标存放目录"), MB_OK);
+				//MessageBox(NULL, exePath, _T("可执行程序路径"), MB_OK);
+				//MessageBox(NULL, iconDir, _T("图标存放目录"), MB_OK);
 
 				CButtonUI* pButton = static_cast<CButtonUI*>(m_pm.FindControl(_T("get_icon_button")));
 
 				ENUMRESOURCENAMESPARAMS params;
+				params.count = 0;
 				memset(params.iconDir, 0, 1024);
 				memcpy(params.iconDir, newIconDir, strlen(newIconDir));
 
 				idx = 0;
 				HMODULE hModule = LoadLibraryExA(exePath, NULL, LOAD_LIBRARY_AS_DATAFILE);//::LoadLibraryA(appName.toLocal8Bit().data());
-				EnumResourceNamesA(hModule, RT_ICON, (ENUMRESNAMEPROCA)UpdateIcons, (long)&params);
+				EnumResourceNamesA(hModule, RT_ICON, (ENUMRESNAMEPROCA)UpdateIcons, (LONG_PTR)&params);
 				::FreeLibrary(hModule);
 
-				MessageBox(NULL, _T("完成"), _T("导出图标"), MB_OK);
+				
+				CHorizontalLayoutUI* pTileLayout = static_cast<CHorizontalLayoutUI*>(m_pm.FindControl(_T("exe_file_icon_list")));
+
+				ShowExeFileIconList(pTileLayout, params.iconPath);
+
+				char msg[1024];
+				sprintf(msg, _T("共 %d 个图标！"), params.count);
+
+				MessageBox(NULL, msg, _T("导出图标"), MB_OK);
 			}
 			else if (msg.pSender->GetName() == _T("get_packageid_button")){
 				MessageBox(NULL, _T("开始获取！"), _T("提示"), MB_OK);

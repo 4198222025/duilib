@@ -23,6 +23,8 @@
 #include <objbase.h> 
 #include <shlobj.h>
 
+#include <CommDlg.h>
+
 #include <alibabacloud/oss/OssClient.h>
 
 #pragma comment(lib, "Shlwapi.lib")

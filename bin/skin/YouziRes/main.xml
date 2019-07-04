@@ -453,12 +453,13 @@
 					<VerticalLayout width="1311" height="800" bkcolor="#FFCC99CC" inset="20,10,20,10">
 						<HorizontalLayout height="30" >
 							<Text text="文件路径" width="120" font="2" align="right" showhtml="true" padding="10,2,10,2" />		
-							<Edit name="exe_file_path_edit"  height="30" text="C:\Program Files (x86)\Tencent\QQ\Bin\QQ.exe" />
+							<Edit name="exe_file_path_edit" width="600" height="30" text="C:\Program Files (x86)\Tencent\QQ\Bin\QQ.exe" />
+							<Button name="select_exe_button"  width="100"  text="选择文件" />
 						</HorizontalLayout>
 						<Control height="8"/>
 						<HorizontalLayout height="30" >
 							<Text text="图标存放目录" width="120" font="2" align="right" showhtml="true" padding="10,2,10,2" />		
-							<Edit name="icon_dir_edit" height="30" text="F:\github\duilib\bin\IconFromPE" />
+							<Edit name="icon_dir_edit" height="30" text="E:\github\duilib\bin\IconFromPE" />
 						</HorizontalLayout>
 						
 						<HorizontalLayout height="60" >
@@ -469,10 +470,7 @@
 						
 						<Icon name="qq_icon" width="68" height="68" inset="10,10,10,10"  icon=".\IconFromPE\qq\5_48x48.ico" />
 						<Control height="8" bkcolor="#FF8DD3FF" />
-						<HorizontalLayout height="160" >
-							<Icon name="wechat_icon" width="148" height="148" inset="10,10,10,10"  icon=".\IconFromPE\wechat\2_128x128.ico" />					
-							<Icon name="qq_icon" width="68" height="68" inset="10,10,10,10"  icon=".\IconFromPE\wechat\3_48x48.ico" />
-							<Icon name="qq_icon" width="52" height="52" inset="10,10,10,10"  icon=".\IconFromPE\wechat\4_32x32.ico" />
+						<HorizontalLayout name="exe_file_icon_list" height="160" >
 						</HorizontalLayout>
 						
 						

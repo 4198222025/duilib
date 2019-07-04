@@ -1105,6 +1105,22 @@ std::string CreateItemXml(std::string strIcon, std::string strName, std::string 
 	return xml;
 }
 
+std::string CreateIconListItemXml(std::string strIcon, std::string strName, std::string strOS, std::string strDesc)
+{
+	std::string xml;
+	xml += "<?xml version=\"1.0\" encoding=\"UTF-8\" ?> ";
+	xml += "<Window size=\"308, 228\" caption=\"0, 0, 0, 36\" roundcorner=\"4, 4\" >";
+	xml += "<Container bkcolor=\"#FFEEEEEE\" inset=\"5, 5, 5, 5\" height=\"60\" >";
+	
+	
+	xml += "<Icon float=\"0.5, 0.5, 0.5, 0.5\" pos=\" -24, -24, 24, 24\"  icon=\"" + strIcon + "\" userdata=\"this_is_can_hover\" />";
+
+	xml += "</Container>";
+	xml += "</Window>";
+
+	return xml;
+}
+
 std::vector<SoftwareInfo> PraseJson(std::string strJsonFile)
 {
 	std::vector<SoftwareInfo>  arrSoftware;

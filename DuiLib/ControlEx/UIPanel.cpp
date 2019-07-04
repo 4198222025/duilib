@@ -217,7 +217,7 @@ namespace DuiLib
 		//if (!GetEnabledEffect())
 		{
 			
-			m_iFont = 2;
+			m_iFont = 1;
 			m_uTextStyle = DT_SINGLELINE | DT_VCENTER | DT_CENTER;
 			m_dwTextColor = m_pManager->GetDefaultFontColor();
 
@@ -241,7 +241,7 @@ namespace DuiLib
 			}
 
 			CRenderEngine::DrawText(hDC, m_pManager, rcButton, _T("运行"), m_dwTextColor, \
-				m_iFont, m_uTextStyle);
+				3, m_uTextStyle);
 		}
 		//else
 		{
@@ -278,8 +278,14 @@ namespace DuiLib
 
 			int vmid = rect.top + rect.bottom;
 
-			rect.top = vmid / 2 - 24;
-			rect.bottom = vmid / 2 + 24;
+			RECT rcIcon;
+
+			rcIcon.top = vmid / 2 - 24;
+			rcIcon.bottom = vmid / 2 + 24;
+			rcIcon.left = rect.left + (rect.right - rect.left) / 6 - 24;
+			rcIcon.right = rect.left + (rect.right - rect.left) / 6 + 24;
+
+			
 			
 			HDC dcCompatible;
 			dcCompatible = ::CreateCompatibleDC(hDC);  // 创建与当前DC（pDC）兼容的DC
@@ -292,8 +298,25 @@ namespace DuiLib
 			//BitBlt(hDC, rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top, dcCompatible, 0, 0, SRCCOPY);
 			//StretchBlt(hDC, rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top, dcCompatible, 0, 0, bmp.bmWidth, bmp.bmHeight, SRCCOPY);
 			
-			::DrawIconEx(hDC, rect.left, rect.top, hIcon, bmp.bmWidth, bmp.bmHeight, 0, NULL, DI_NORMAL);
+			::DrawIconEx(hDC, rcIcon.left, rcIcon.top, hIcon, bmp.bmWidth, bmp.bmHeight, 0, NULL, DI_NORMAL);
 			::DeleteObject(hIcon);
+
+
+			{
+				RECT rcText;
+				rcText.top = vmid / 2 - 24;
+				rcText.bottom = vmid / 2 + 24;
+				rcText.left = rect.left + (rect.right - rect.left) / 3;
+				rcText.right = rect.right;
+
+				m_iFont = 2;
+				m_uTextStyle = DT_SINGLELINE | DT_VCENTER | DT_LEFT;
+				m_dwTextColor = m_pManager->GetDefaultFontColor();
+
+				if (m_sText.IsEmpty()) return;				
+
+				CRenderEngine::DrawText(hDC, m_pManager, rcText, m_sText, m_dwTextColor, m_iFont, m_uTextStyle);
+			}
 		}
 	}
 
