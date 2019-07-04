@@ -1,0 +1,20 @@
+{"softwares":[
+	{"name":"爱奇艺", "exeList":[
+		{"id":"", "name":"爱奇艺", "icon":"f:\\github\\duilib\\bin\\IconFromPE\\WeChat\\3_48x48.ico", "desc":"因你看见，所以存在！", "path":"C:\\Program Files (x86)\\IQIYI Video\\LStyle\\6.8.89.6786\\QyClient.exe", "args":"desktoprun", "os":"Win7/8/9/10"}
+		,{"id":"", "name":"爱奇艺万能播放器", "icon":"f:\\github\\duilib\\bin\\IconFromPE\\YoudaoDict\\5_48x48.ico", "desc":"翻译就用我", "path":"C:\\Program Files (x86)\\IQIYI Video\\GeePlayer\\5.1.55.4941\\GeePlayer.exe", "args":"-runfrom desktoprun", "os":"Win7/8/9/10"}]}
+	,{"name":"金山 WPS 2019", "exeList":[
+		{"id":"", "name":"WPS 2019", "icon":"E:\\github\\duilib\\bin\\IconFromPE\\WeChat\\3_48x48.ico", "desc":"因你看见，所以存在！", "path":"C:\\Users\\王磊\\AppData\\Local\\Kingsoft\\WPS Office\\ksolaunch.exe", "args":"/prometheus /fromksolaunch /from=desktop_shortcut", "os":"Win7/8/9/10"}]}	
+	,{"name":"网易云音乐", "exeList":[
+		{"id":"", "name":"网易云音乐", "icon":"E:\\github\\duilib\\bin\\IconFromPE\\WeChat\\3_48x48.ico", "desc":"因你看见，所以存在！", "path":"C:\\Program Files (x86)\\网易云音乐PC版\\cloudmusic.exe", "args":"", "os":"Win7/8/9/10"}]}
+	,{"name":"Microsoft Office 2013", "exeList":[
+		{"id":"", "name":"Excel 2013", "icon":"E:\\github\\duilib\\bin\\IconFromPE\\WeChat\\3_48x48.ico", "desc":"因你看见，所以存在！", "path":"", "args":"", "os":"Win7/8/9/10"}
+		,{"id":"", "name":"Word 2013", "icon":"E:\\github\\duilib\\bin\\IconFromPE\\YoudaoDict\\5_48x48.ico", "desc":"翻译就用我", "path":"", "args":"", "os":"Win7/8/9/10"}]}
+	,{"name":"Microsoft Office 2013", "exeList":[
+		{"id":"", "name":"Excel 2013", "icon":"E:\\github\\duilib\\bin\\IconFromPE\\WeChat\\3_48x48.ico", "desc":"因你看见，所以存在！", "path":"", "args":"", "os":"Win7/8/9/10"}
+		,{"id":"", "name":"Word 2013", "icon":"E:\\github\\duilib\\bin\\IconFromPE\\YoudaoDict\\5_48x48.ico", "desc":"翻译就用我", "path":"", "args":"", "os":"Win7/8/9/10"}]}
+	,{"name":"Microsoft Office 2013", "exeList":[
+		{"id":"", "name":"Excel 2013", "icon":"E:\\github\\duilib\\bin\\IconFromPE\\WeChat\\3_48x48.ico", "desc":"因你看见，所以存在！", "path":"", "args":"", "os":"Win7/8/9/10"}
+		,{"id":"", "name":"Word 2013", "icon":"E:\\github\\duilib\\bin\\IconFromPE\\YoudaoDict\\5_48x48.ico", "desc":"翻译就用我", "path":"", "args":"", "os":"Win7/8/9/10"}]}	
+	,{"name":"Tentent", "exeList":[
+		{"id":"", "name":"QQ", "icon":"f:\\github\\duilib\\bin\\IconFromPE\\WeChat\\3_48x48.ico", "desc":"因你看见，所以存在！", "path":"", "args":"", "os":"Win7/8/9/10"}
+		,{"id":"", "name":"Axure RP8", "icon":"f:\\github\\duilib\\bin\\IconFromPE\\YoudaoDict\\5_48x48.ico", "desc":"翻译就用我", "path":"", "args":"", "os":"Win7/8/9/10"}]}]}

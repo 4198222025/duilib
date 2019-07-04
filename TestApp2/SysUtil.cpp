@@ -1066,7 +1066,7 @@ std::string CreateInstalledItemXml(VendorInfo& vendor)
 	for (int i = 0; i < vendor.arrSoftware.size(); i++)
 	{
 		xml += "<Container bkcolor=\"#FFDDDDDD\" inset=\"2, 2, 2, 2\" height=\"80\" tooltip=\"启动吗？\">";		
-		xml += "<Panel bkcolor=\"#FFDDDDDD\"  name=\"software_icon\"  maskcolor=\"#FF4682B4\"  icon=\"" + vendor.arrSoftware[i].icon + "\" text=\"" + vendor.arrSoftware[i].name + "\" desc=\"" + vendor.arrSoftware[i].desc + "\" tooltip=\"这是图标，启动吗？\"/>";
+		xml += "<Panel bkcolor=\"#FFDDDDDD\"  name=\"software_icon\"  maskcolor=\"#FF4682B4\"  icon=\"" + vendor.arrSoftware[i].icon + "\" text=\"" + vendor.arrSoftware[i].name + "\" desc=\"" + vendor.arrSoftware[i].desc + "\" userdata=\"" + vendor.arrSoftware[i].path + "\" tooltip=\"这是图标，启动吗？\"/>";
 		xml += "</Container>";
 		
 	}

@@ -710,7 +710,7 @@ public:
 
 		// 显示本地已安装的软件
 		CVerticalLayoutUI* pVerticalLayout = static_cast<CVerticalLayoutUI*>(m_pm.FindControl(_T("installed_software_container")));
-		LoadLocalSoftwareFromJson(pVerticalLayout, "installed_software.json");
+		LoadLocalSoftwareFromJson(pVerticalLayout, "./data/installed_software.json");
 		
 		
     }
@@ -781,16 +781,22 @@ public:
 				{
 					cJSON * exe = cJSON_GetArrayItem(exeArr, j);
 
+					cJSON * idProp = cJSON_GetObjectItem(exe, "id");
 					cJSON * nameProp = cJSON_GetObjectItem(exe, "name");
 					cJSON * iconProp = cJSON_GetObjectItem(exe, "icon");
 					cJSON * osProp = cJSON_GetObjectItem(exe, "os");
 					cJSON * descProp = cJSON_GetObjectItem(exe, "desc");
+					cJSON * pathProp = cJSON_GetObjectItem(exe, "path");
+					cJSON * argsProp = cJSON_GetObjectItem(exe, "args");
 
 					SoftwareInfo software;
+					software.id = idProp->valuestring;
 					software.name = nameProp->valuestring;
 					software.icon = iconProp->valuestring;
 					software.os = osProp->valuestring;
 					software.desc = descProp->valuestring;
+					software.path = pathProp->valuestring;
+					software.args = argsProp->valuestring;
 
 					vendor.arrSoftware.push_back(software);
 
@@ -823,7 +829,7 @@ public:
 				pTileElement = static_cast<CContainerUI*>(builder.Create(CreateInstalledItemXml(vendor).c_str(), (UINT)0, NULL, &m_pm));
 			}
 
-			pVerticalLayout->AddAt(pTileElement, 0);
+			pVerticalLayout->AddAt(pTileElement, i);
 		}
 		
 	}
@@ -845,7 +851,7 @@ public:
 				pTileElement = static_cast<CContainerUI*>(builder.Create(CreateItemXml(software.icon.c_str(), software.name.c_str(), software.os.c_str(), software.desc.c_str()).c_str(), (UINT)0, NULL, &m_pm));
 			}
 
-			pTileLayout->AddAt(pTileElement, 0);
+			pTileLayout->AddAt(pTileElement, i);
 		}
 	}
 
@@ -950,14 +956,14 @@ public:
 				pTab->SelectItem(0);//1代表第二个Tab页
 
 				CVerticalLayoutUI* pVerticalLayout = static_cast<CVerticalLayoutUI*>(m_pm.FindControl(_T("installed_software_container")));
-				LoadLocalSoftwareFromJson(pVerticalLayout, "installed_software.json");
+				LoadLocalSoftwareFromJson(pVerticalLayout, "./data/installed_software.json");
 			}
 			else if (msg.pSender->GetName() == _T("Option02")) {
 				CTabLayoutUI * pTab = (CTabLayoutUI*)m_pm.FindControl(_T("TabLayoutMain"));
 				pTab->SelectItem(1);//1代表第二个Tab页
 
 				CTileLayoutUI* pTileLayout = static_cast<CTileLayoutUI*>(m_pm.FindControl(_T("remote_software_list")));
-				LoadSoftwareFromJson(pTileLayout, "local_software.json");
+				LoadSoftwareFromJson(pTileLayout, "./data/local_software.json");
 
 			}
 			else if (msg.pSender->GetName() == _T("Option03")) {
@@ -1017,7 +1023,16 @@ public:
 				SendMessage(WM_SYSCOMMAND, SC_MINIMIZE, 0); return;
 			}		
 			else if (strcmp(msg.pSender->GetClass(), _T("PanelUI")) == 0) {
-				MessageBox(this->GetHWND(), _T("你要运行这个程序吗？"), _T("提示"), MB_OK); return;
+
+				
+				MessageBox(this->GetHWND(), msg.pSender->GetUserData(), _T("提示"), MB_OK);
+
+				if (!PathFileExists(msg.pSender->GetUserData()))
+				{
+					MessageBox(this->GetHWND(), msg.pSender->GetUserData() + " 不存在！", _T("提示"), MB_OK);
+				}
+
+				ShellExecute(NULL, "open", msg.pSender->GetUserData(), NULL, NULL, SW_SHOWMAXIMIZED);
 			}
 			else if (msg.pSender->GetName() == _T("close_button")) {				
 				COptionUI* pControl = static_cast<COptionUI*>(m_pm.FindControl(_T("hallswitch")));
@@ -1045,31 +1060,31 @@ public:
             }		
 			else if (msg.pSender->GetName() == _T("refresh_installed_software_button")){
 				CVerticalLayoutUI* pVerticalLayout = static_cast<CVerticalLayoutUI*>(m_pm.FindControl(_T("installed_software_container")));
-				LoadLocalSoftwareFromJson(pVerticalLayout, "installed_software.json");
+				LoadLocalSoftwareFromJson(pVerticalLayout, "./data/installed_software.json");
 
 				//MessageBox(NULL, _T("加载所有软件！"), _T("提示"), MB_OK);
 			}
 			else if (msg.pSender->GetName() == _T("load_all_button")){
 				CTileLayoutUI* pTileLayout = static_cast<CTileLayoutUI*>(m_pm.FindControl(_T("remote_software_list")));
-				LoadSoftwareFromJson(pTileLayout, "local_software.json");			
+				LoadSoftwareFromJson(pTileLayout, "./data/local_software.json");			
 
 				//MessageBox(NULL, _T("加载所有软件！"), _T("提示"), MB_OK);
 			}
 			else if (msg.pSender->GetName() == _T("load_office_button")){
 				CTileLayoutUI* pTileLayout = static_cast<CTileLayoutUI*>(m_pm.FindControl(_T("remote_software_list")));
-				LoadSoftwareFromJson(pTileLayout, "local_software_office.json");
+				LoadSoftwareFromJson(pTileLayout, "./data/local_software_office.json");
 
 				//MessageBox(NULL, _T("加载办公软件！"), _T("提示"), MB_OK);
 			}
 			else if (msg.pSender->GetName() == _T("load_music_button")){
 				CTileLayoutUI* pTileLayout = static_cast<CTileLayoutUI*>(m_pm.FindControl(_T("remote_software_list")));
-				LoadSoftwareFromJson(pTileLayout, "local_software_music.json");
+				LoadSoftwareFromJson(pTileLayout, "./data/local_software_music.json");
 
 				//MessageBox(NULL, _T("加载音乐软件！"), _T("提示"), MB_OK);
 			}
 			else if (msg.pSender->GetName() == _T("load_other_button")){
 				CTileLayoutUI* pTileLayout = static_cast<CTileLayoutUI*>(m_pm.FindControl(_T("remote_software_list")));
-				LoadSoftwareFromJson(pTileLayout, "local_software_other.json");
+				LoadSoftwareFromJson(pTileLayout, "./data/local_software_other.json");
 
 				//MessageBox(NULL, _T("加载其他软件！"), _T("提示"), MB_OK);
 			}
