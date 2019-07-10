@@ -1115,16 +1115,22 @@ public:
 			}
 			else if (msg.pSender->GetName() == _T("sec_load_button")){
 
-				bool bRet = SecLoad(g_strWorkDir + "sys\\SecMFDock.sys");
+				bool bRet = SecLoad(g_strWorkDir + "sys\\SecUFDock.sys");
 				if (bRet){
-					MessageBox(NULL, _T("加载文件驱动结束！"), _T("提示"), MB_OK);
+					MessageBox(NULL, _T("加载文件驱动成功！"), _T("提示"), MB_OK);
+				}
+				else
+				{
+					MessageBox(NULL, _T("加载文件驱动失败！"), _T("提示"), MB_OK);
 				}
 				
-				bRet = SecLoad(g_strWorkDir + "sys\\SecMKDock.sys");
+				bRet = SecLoad(g_strWorkDir + "sys\\SecUKDock.sys");
 				if (bRet){
-					MessageBox(NULL, _T("加载注册表驱动结束！"), _T("提示"), MB_OK);
+					MessageBox(NULL, _T("加载注册表驱动成功！"), _T("提示"), MB_OK);
 				}
-				MessageBox(NULL, _T("加载驱动结束！"), _T("提示"), MB_OK);
+				else{
+					MessageBox(NULL, _T("加载注册表驱动失败！"), _T("提示"), MB_OK);
+				}
 			}
 			else if (msg.pSender->GetName() == _T("sec_init_button")){
 
