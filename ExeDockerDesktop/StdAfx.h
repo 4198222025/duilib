@@ -10,6 +10,7 @@
 #include <windows.h>
 #include <objbase.h>
 
+
 #include "..\DuiLib\UIlib.h"
 
 using namespace DuiLib;

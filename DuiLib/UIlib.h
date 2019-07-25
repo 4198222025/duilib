@@ -115,3 +115,4 @@
 #include "Control/UIIcon.h"
 
 #include "ControlEx/UIPanel.h"
+#include "ControlEx/UIShortcut.h"

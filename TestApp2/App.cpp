@@ -1860,6 +1860,50 @@ void LogCallbackFunc(LogLevel level, const std::string &stream)
 	std::cout << stream;
 }
 
+
+static void DockWindow(CFrameWindowWnd* pFrame)
+{
+	HWND m_hWnd = pFrame->GetHWND();
+	ASSERT(::IsWindow(pFrame->GetHWND()));
+	ASSERT((GetWindowStyle(pFrame->GetHWND())&WS_CHILD) == 0);
+	RECT rcDlg = { 0 };
+	::GetWindowRect(pFrame->GetHWND(), &rcDlg);
+	RECT rcArea = { 0 };
+	RECT rcCenter = { 0 };
+	HWND hWnd = pFrame->GetHWND();
+	HWND hWndParent = ::GetParent(m_hWnd);
+	HWND hWndCenter = ::GetWindowOwner(m_hWnd);
+	if (hWndCenter != NULL)
+		hWnd = hWndCenter;
+
+	// 处理多显示器模式下屏幕居中
+	MONITORINFO oMonitor = {};
+	oMonitor.cbSize = sizeof(oMonitor);
+	::GetMonitorInfo(::MonitorFromWindow(hWnd, MONITOR_DEFAULTTONEAREST), &oMonitor);
+	rcArea = oMonitor.rcWork;
+
+	if (hWndCenter == NULL || IsIconic(hWndCenter))
+		rcCenter = rcArea;
+	else
+		::GetWindowRect(hWndCenter, &rcCenter);
+
+	int DlgWidth = rcDlg.right - rcDlg.left;
+	int DlgHeight = rcDlg.bottom - rcDlg.top;
+
+	// Find dialog's upper left based on rcCenter
+	int xLeft = rcCenter.right - DlgWidth;
+	int yTop = 0;
+
+	int cy = rcCenter.bottom - rcCenter.top;
+
+	// The dialog is outside the screen, move it inside
+	if (xLeft < rcArea.left) xLeft = rcArea.left;
+	else if (xLeft + DlgWidth > rcArea.right) xLeft = rcArea.right - DlgWidth;
+	if (yTop < rcArea.top) yTop = rcArea.top;
+	else if (yTop + DlgHeight > rcArea.bottom) yTop = rcArea.bottom - DlgHeight;
+	::SetWindowPos(m_hWnd, NULL, xLeft, yTop, DlgWidth, cy, SWP_NOZORDER | SWP_NOACTIVATE);
+}
+
 int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
 	// 处理命令行参数
@@ -1919,7 +1963,8 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
     CFrameWindowWnd* pFrame = new CFrameWindowWnd();
     if( pFrame == NULL ) return 0;
     pFrame->Create(NULL, _T("这是一个最简单的测试用exe，修改test1.xml就可以看到效果1000"), UI_WNDSTYLE_FRAME|WS_CLIPCHILDREN, WS_EX_WINDOWEDGE);
-    pFrame->CenterWindow();
+    //pFrame->CenterWindow();
+	DockWindow(pFrame);
     pFrame->ShowWindow(true);
     CPaintManagerUI::MessageLoop();
 

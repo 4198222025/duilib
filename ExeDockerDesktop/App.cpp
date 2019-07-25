@@ -1,4 +1,4 @@
-// App.cpp : Defines the entry point for the application.
+Ôªø// App.cpp : Defines the entry point for the application.
 //
 
 #include "stdafx.h"
@@ -376,6 +376,18 @@ public:
                     pRich->RemoveAll();
                 }
             }
+			else if (strcmp(msg.pSender->GetClass(), _T("ShortcutUI")) == 0) {
+
+
+				MessageBox(this->GetHWND(), msg.pSender->GetUserData(), _T("ÊèêÁ§∫"), MB_OK);
+
+				/*if (!PathFileExists(msg.pSender->GetUserData()))
+				{
+					MessageBox(this->GetHWND(), msg.pSender->GetUserData() + " ‰∏çÂ≠òÂú®ÔºÅ", _T("ÊèêÁ§∫"), MB_OK);
+				}
+
+				ShellExecute(NULL, "open", msg.pSender->GetUserData(), NULL, NULL, SW_SHOWMAXIMIZED);*/
+			}
             else if( msg.pSender->GetName() == _T("changeskinbtn") ) {
                 if( CPaintManagerUI::GetResourcePath() == CPaintManagerUI::GetInstancePath() )
                     CPaintManagerUI::SetResourcePath(CPaintManagerUI::GetInstancePath() + _T("skin\\FlashRes"));
@@ -383,17 +395,66 @@ public:
                     CPaintManagerUI::SetResourcePath(CPaintManagerUI::GetInstancePath());
                 CPaintManagerUI::ReloadSkin();
             }
+			else if (msg.pSender->GetName() == _T("close_button")) {
+				COptionUI* pControl = static_cast<COptionUI*>(m_pm.FindControl(_T("hallswitch")));
+				if (pControl && pControl->IsSelected() == false) {
+					CControlUI* pFadeControl = m_pm.FindControl(_T("fadeEffect"));
+					if (pFadeControl) pFadeControl->SetVisible(true);
+				}
+				else {
+					/*Close()*/PostQuitMessage(0); // Âõ†‰∏∫activexÁöÑÂéüÂõ†Ôºå‰ΩøÁî®closeÂèØËÉΩ‰ºöÂá∫Áé∞ÈîôËØØ
+				}
+			}
         }
     }
 
+	LRESULT OnSize(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)
+	{
+		SIZE szRoundCorner = m_pm.GetRoundCorner();
+		if (!::IsIconic(*this) && (szRoundCorner.cx != 0 || szRoundCorner.cy != 0)) {
+			CDuiRect rcWnd;
+			::GetWindowRect(*this, &rcWnd);
+			rcWnd.Offset(-rcWnd.left, -rcWnd.top);
+			rcWnd.right++; rcWnd.bottom++;
+			HRGN hRgn = ::CreateRoundRectRgn(rcWnd.left, rcWnd.top, rcWnd.right, rcWnd.bottom, szRoundCorner.cx, szRoundCorner.cy);
+			::SetWindowRgn(*this, hRgn, TRUE);
+			::DeleteObject(hRgn);
+		}
+
+		bHandled = FALSE;
+		return 0;
+	}
+
+	LRESULT OnDestroy(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)
+	{
+		::PostQuitMessage(0L);
+
+		bHandled = FALSE;
+		return 0;
+	}
+	LRESULT OnNcActivate(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)
+	{
+		if (::IsIconic(*this)) bHandled = FALSE;
+		return (wParam == 0) ? TRUE : FALSE;
+	}
+
+	LRESULT OnNcCalcSize(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)
+	{
+		return 0;
+	}
     LRESULT HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
     {
+		LRESULT lRes = 0;
+		BOOL bHandled = TRUE;
+
         if( uMsg == WM_CREATE ) {
 
-			// »•µÙWINDOWSµƒÕ‚øÚ
+			// ÂéªÊéâWINDOWSÁöÑÂ§ñÊ°Ü
 			LONG styleValue = ::GetWindowLong(*this, GWL_STYLE);
 			styleValue &= ~WS_CAPTION;
 			::SetWindowLong(*this, GWL_STYLE, styleValue | WS_CLIPSIBLINGS | WS_CLIPCHILDREN);
+
+			
 
             m_pm.Init(m_hWnd);
             CDialogBuilder builder;
@@ -424,15 +485,40 @@ public:
             Init();
             return 0;
         }
-        else if( uMsg == WM_DESTROY ) {
-            ::PostQuitMessage(0L);
-        }
-        else if( uMsg == WM_NCACTIVATE ) {
-            if( !::IsIconic(*this) ) return (wParam == 0) ? TRUE : FALSE;
-        }
-        LRESULT lRes = 0;
-        if( m_pm.MessageHandler(uMsg, wParam, lParam, lRes) ) return lRes;
-        return CWindowWnd::HandleMessage(uMsg, wParam, lParam);
+
+		else
+		{
+
+
+			switch (uMsg) {
+			//case WM_CLOSE:         lRes = OnClose(uMsg, wParam, lParam, bHandled); break;
+			case WM_DESTROY:       lRes = OnDestroy(uMsg, wParam, lParam, bHandled); break;
+			case WM_NCACTIVATE:    lRes = OnNcActivate(uMsg, wParam, lParam, bHandled); break;
+			case WM_NCCALCSIZE:    lRes = OnNcCalcSize(uMsg, wParam, lParam, bHandled); break;
+			//case WM_NCPAINT:       lRes = OnNcPaint(uMsg, wParam, lParam, bHandled); break;
+			//case WM_NCHITTEST:     lRes = OnNcHitTest(uMsg, wParam, lParam, bHandled); break;
+			//case WM_MOUSEHOVER:     lRes = OnMouseHover(uMsg, wParam, lParam, bHandled); break;
+			//case WM_SIZE:          lRes = OnSize(uMsg, wParam, lParam, bHandled); break;
+			//case WM_GETMINMAXINFO: lRes = OnGetMinMaxInfo(uMsg, wParam, lParam, bHandled); break;
+			//case WM_SYSCOMMAND:    lRes = OnSysCommand(uMsg, wParam, lParam, bHandled); break;
+			default:
+				bHandled = FALSE;
+			}
+		}
+
+		if (bHandled){
+			return lRes;
+		}
+
+		if (m_pm.MessageHandler(uMsg, wParam, lParam, lRes))
+		{
+			return lRes;
+		}
+		return CWindowWnd::HandleMessage(uMsg, wParam, lParam);
+
+
+        
+        
     }
 
 public:
@@ -440,9 +526,87 @@ public:
     CWndShadow* m_pWndShadow;
 };
 
+static HWND FindDTWindow()
+{
+	HWND hWnd = ::FindWindow(_T("Progman"), _T("Program Manager"));
+	static DWORD dResult = 0;
+
+	SendMessageTimeout(hWnd, 0x052C, 0, NULL, SMTO_NORMAL, 1000, (PDWORD_PTR)&dResult);
+
+	HWND hwndWorkW = NULL;
+	do
+	{
+		hwndWorkW = ::FindWindowEx(NULL, hwndWorkW, _T("WorkerW"), NULL);
+		if (NULL == hwndWorkW)
+		{
+			continue;
+		}
+
+		HWND hView = ::FindWindowEx(hwndWorkW, NULL, _T("SHELLDLL_DefView"), NULL);
+		if (NULL == hView)
+		{
+			continue;
+		}
+
+		HWND h = ::FindWindowEx(NULL, hwndWorkW, _T("WorkerW"), NULL);
+		while (NULL != h)
+		{
+			SendMessage(h, WM_CLOSE, 0, 0);
+			h = ::FindWindowEx(NULL, hwndWorkW, _T("WorkerW"), NULL);
+		}
+		break;
+
+	} while (true);
+
+	return hWnd;
+
+}
+
 static void DockWindow(CFrameWindowWnd* pFrame)
 {
 	HWND m_hWnd = pFrame->GetHWND();
+
+	HWND hWndProgram = NULL;
+	HWND hWndShellDLL = NULL;
+
+	hWndProgram = ::FindWindow(_T("Progman"), _T("Program Manager"));
+	if (hWndProgram != NULL)
+	{
+		hWndShellDLL = FindWindowEx(hWndProgram, NULL, _T("SHELLDLL_DefView"), NULL);
+	}
+
+	if (hWndShellDLL == NULL)
+	{
+		hWndProgram = FindWindowEx(NULL, NULL, "WorkerW", NULL);
+
+		while (hWndProgram != NULL)
+		{			
+
+			if (::GetWindowLong(hWndProgram, GWL_STYLE) & WS_VISIBLE)
+			{
+				break;
+			}
+
+			hWndProgram = FindWindowEx(NULL, hWndProgram, "WorkerW", NULL);
+		}
+
+		hWndShellDLL = FindWindowEx(hWndProgram, NULL, "SHELLDLL_DefView", NULL);		
+	}
+
+
+	if (hWndShellDLL != NULL	&& hWndShellDLL != ::GetParent(m_hWnd))
+	{
+		::SetWindowLong(m_hWnd, GWLP_HWNDPARENT, (LONG)hWndShellDLL);
+	}
+
+	HWND hDesktop = FindDTWindow();
+
+	if (hDesktop != NULL	&& hDesktop != ::GetParent(m_hWnd))
+	{
+		::SetWindowLong(m_hWnd, GWLP_HWNDPARENT, (LONG)hDesktop);
+	}
+
+	
 	ASSERT(::IsWindow(pFrame->GetHWND()));
 	ASSERT((GetWindowStyle(pFrame->GetHWND())&WS_CHILD) == 0);
 	RECT rcDlg = { 0 };
@@ -455,7 +619,7 @@ static void DockWindow(CFrameWindowWnd* pFrame)
 	if (hWndCenter != NULL)
 		hWnd = hWndCenter;
 
-	// ¥¶¿Ì∂‡œ‘ æ∆˜ƒ£ Ωœ¬∆¡ƒªæ”÷–
+	// Â§ÑÁêÜÂ§öÊòæÁ§∫Âô®Ê®°Âºè‰∏ãÂ±èÂπïÂ±Ö‰∏≠
 	MONITORINFO oMonitor = {};
 	oMonitor.cbSize = sizeof(oMonitor);
 	::GetMonitorInfo(::MonitorFromWindow(hWnd, MONITOR_DEFAULTTONEAREST), &oMonitor);
@@ -470,10 +634,10 @@ static void DockWindow(CFrameWindowWnd* pFrame)
 	int DlgHeight = rcDlg.bottom - rcDlg.top;
 
 	// Find dialog's upper left based on rcCenter
-	int xLeft = rcCenter.right - DlgWidth;
-	int yTop = 0;
+	int xLeft = rcCenter.right - DlgWidth - 5;
+	int yTop = 5;
 
-	int cy = rcCenter.bottom - rcCenter.top;
+	int cy = rcCenter.bottom - rcCenter.top - 10;
 
 	// The dialog is outside the screen, move it inside
 	if (xLeft < rcArea.left) xLeft = rcArea.left;
@@ -481,6 +645,10 @@ static void DockWindow(CFrameWindowWnd* pFrame)
 	if (yTop < rcArea.top) yTop = rcArea.top;
 	else if (yTop + DlgHeight > rcArea.bottom) yTop = rcArea.bottom - DlgHeight;
 	::SetWindowPos(m_hWnd, NULL, xLeft, yTop, DlgWidth, cy, SWP_NOZORDER | SWP_NOACTIVATE);
+
+	SetWindowLong(m_hWnd, GWL_EXSTYLE, GetWindowLong(m_hWnd, GWL_EXSTYLE) | 0x08000000);
+
+	SetWindowPos(m_hWnd, HWND_BOTTOM, 0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE | SWP_NOACTIVATE | SWP_SHOWWINDOW);
 }
 
 int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE /*hPrevInstance*/, LPSTR /*lpCmdLine*/, int nCmdShow)
@@ -498,8 +666,10 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE /*hPrevInstance*/, LPSTR /*l
     pFrame->Create(NULL, _T("ExeDocker v1.0.0"), UI_WNDSTYLE_FRAME|WS_CLIPCHILDREN, WS_EX_WINDOWEDGE);
    
 	DockWindow(pFrame);
+	
 	//pFrame->CenterWindow();
     pFrame->ShowWindow(true);
+	
     CPaintManagerUI::MessageLoop();
 
     ::CoUninitialize();

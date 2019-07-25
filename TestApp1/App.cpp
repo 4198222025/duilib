@@ -389,6 +389,12 @@ public:
     LRESULT HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
     {
         if( uMsg == WM_CREATE ) {
+
+			// È¥µôWINDOWSµÄÍâ¿ò
+			LONG styleValue = ::GetWindowLong(*this, GWL_STYLE);
+			styleValue &= ~WS_CAPTION;
+			::SetWindowLong(*this, GWL_STYLE, styleValue | WS_CLIPSIBLINGS | WS_CLIPCHILDREN);
+
             m_pm.Init(m_hWnd);
             CDialogBuilder builder;
             CControlUI* pRoot = builder.Create(_T("test1.xml"), (UINT)0, NULL, &m_pm);

@@ -162,6 +162,9 @@
     <ClCompile Include="ControlEx\UIPanel.cpp">
       <Filter>Source Files\ControlEx</Filter>
     </ClCompile>
+    <ClCompile Include="ControlEx\UIShortcut.cpp">
+      <Filter>Source Files\ControlEx</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="StdAfx.h">
@@ -288,6 +291,9 @@
       <Filter>Header Files\Control</Filter>
     </ClInclude>
     <ClInclude Include="ControlEx\UIPanel.h">
+      <Filter>Header Files\ControlEx</Filter>
+    </ClInclude>
+    <ClInclude Include="ControlEx\UIShortcut.h">
       <Filter>Header Files\ControlEx</Filter>
     </ClInclude>
   </ItemGroup>
