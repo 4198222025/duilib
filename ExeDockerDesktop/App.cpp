@@ -665,9 +665,9 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE /*hPrevInstance*/, LPSTR /*l
     if( pFrame == NULL ) return 0;
     pFrame->Create(NULL, _T("ExeDocker v1.0.0"), UI_WNDSTYLE_FRAME|WS_CLIPCHILDREN, WS_EX_WINDOWEDGE);
    
-	DockWindow(pFrame);
+	//DockWindow(pFrame);
 	
-	//pFrame->CenterWindow();
+	pFrame->CenterWindow();
     pFrame->ShowWindow(true);
 	
     CPaintManagerUI::MessageLoop();

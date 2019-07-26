@@ -839,6 +839,26 @@ public:
 		
 	}
 
+	void LoadSoftwareFromServer(CTileLayoutUI* pTileLayout, string category)
+	{
+		pTileLayout->RemoveAll();
+
+		std::vector<SoftwareInfo> softwareArr = CallQueryPackageService("", category, 1, 24);
+		for (int i = 0; i < softwareArr.size(); i++){
+
+			SoftwareInfo software = softwareArr[i];
+
+			CContainerUI* pTileElement = NULL;
+			CDialogBuilder builder;
+			if (!builder.GetMarkup()->IsValid()) {
+				//pTileElement = static_cast<CContainerUI*>(builder.Create(_T("test2_item.xml"), (UINT)0, NULL, &m_pm));
+				pTileElement = static_cast<CContainerUI*>(builder.Create(CreateItemXml(software.icon.c_str(), software.name.c_str(), software.os.c_str(), software.desc.c_str()).c_str(), (UINT)0, NULL, &m_pm));
+			}
+
+			pTileLayout->AddAt(pTileElement, i);
+		}
+	}
+
 
 	void LoadSoftwareFromJson(CTileLayoutUI* pTileLayout, std::string jsonFile)
 	{
@@ -1091,19 +1111,26 @@ public:
 			}
 			else if (msg.pSender->GetName() == _T("load_all_button")){
 				CTileLayoutUI* pTileLayout = static_cast<CTileLayoutUI*>(m_pm.FindControl(_T("remote_software_list")));
-				LoadSoftwareFromJson(pTileLayout, "./data/local_software.json");			
-
-				//MessageBox(NULL, _T("加载所有软件！"), _T("提示"), MB_OK);
+				
+				LoadSoftwareFromServer(pTileLayout, "");
+				
+				//LoadSoftwareFromJson(pTileLayout, "./data/local_software.json");	
 			}
 			else if (msg.pSender->GetName() == _T("load_office_button")){
 				CTileLayoutUI* pTileLayout = static_cast<CTileLayoutUI*>(m_pm.FindControl(_T("remote_software_list")));
-				LoadSoftwareFromJson(pTileLayout, "./data/local_software_office.json");
+				
+				LoadSoftwareFromServer(pTileLayout, "dfhhsgqgfsfgs");
+				
+				//LoadSoftwareFromJson(pTileLayout, "./data/local_software_office.json");
 
 				//MessageBox(NULL, _T("加载办公软件！"), _T("提示"), MB_OK);
 			}
 			else if (msg.pSender->GetName() == _T("load_music_button")){
 				CTileLayoutUI* pTileLayout = static_cast<CTileLayoutUI*>(m_pm.FindControl(_T("remote_software_list")));
-				LoadSoftwareFromJson(pTileLayout, "./data/local_software_music.json");
+
+				LoadSoftwareFromServer(pTileLayout, "34a1c7b0-2678-40a5-b752-eb8c95e5ddc5");
+
+				//LoadSoftwareFromJson(pTileLayout, "./data/local_software_music.json");
 
 				//MessageBox(NULL, _T("加载音乐软件！"), _T("提示"), MB_OK);
 			}
@@ -1963,8 +1990,8 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
     CFrameWindowWnd* pFrame = new CFrameWindowWnd();
     if( pFrame == NULL ) return 0;
     pFrame->Create(NULL, _T("这是一个最简单的测试用exe，修改test1.xml就可以看到效果1000"), UI_WNDSTYLE_FRAME|WS_CLIPCHILDREN, WS_EX_WINDOWEDGE);
-    //pFrame->CenterWindow();
-	DockWindow(pFrame);
+    pFrame->CenterWindow();
+	//DockWindow(pFrame);
     pFrame->ShowWindow(true);
     CPaintManagerUI::MessageLoop();
 

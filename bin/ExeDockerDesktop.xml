@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Window mininfo="200,360" size="400,400" caption="0,0,0,30">
+<Window mininfo="200,360" size="400,680" caption="0,0,0,30">
 	<Font shared="true" id="0" name="幼圆" size="12" default="true" />
 	<Font shared="true" id="1" name="微软雅黑" size="18" />
 	<Include source="scrollbar.xml" />
@@ -8,31 +8,53 @@
 	<Default shared="true" name="Option" value="textcolor=&quot;#FFbac0c5&quot; hottextcolor=&quot;#FF386382&quot; selectedtextcolor=&quot;#FF386382&quot; disabledtextcolor=&quot;#FFbac0c5&quot; textpadding=&quot;18,2,0,0&quot; align=&quot;left&quot; selectedimage=&quot;file='Button/RadioBtnSel.png' source='0,0,13,13' dest='0,5,14,19'&quot; normalimage=&quot;file='Button/RadioBtnNon.png' source='0,0,13,13' dest='0,5,14,19'&quot;" />
 	<Default shared="true" name="CheckBox" value="textcolor=&quot;#FFbac0c5&quot; hottextcolor=&quot;#FF386382&quot; selectedtextcolor=&quot;#FF386382&quot; disabledtextcolor=&quot;#FFbac0c5&quot; textpadding=&quot;20,2,0,0&quot; align=&quot;left&quot; selectedimage=&quot;file='Icon/checked.png' dest='0,2,16,18'&quot; normalimage=&quot;file='Icon/unchecked.png' dest='0,2,16,18'&quot;" />
 	
-	<VerticalLayout inset="8,20,8,8" bkcolor="#FF003080" colorhsl="false" >
-	
-		<Button name="close_button" height="20" text="关闭" maxwidth="120" />
+	<VerticalLayout inset="0,0,0,0" bkcolor="#FF003080" colorhsl="false" >
+		<HorizontalLayout height="48"  bkcolor="#FFDDDDDD" >
+			<Control width="10"/>
+			<Container bkcolor="#FFEEEEEE"  inset="0,0,0,0" width="48" height="48" >	
+				<Button name="logo_button" float="0.5,0.5,0.5,0.5" pos="-24,-24,24,24"  width="48" height="48" normalimage=".\skin\YouziRes\logo1.png" hotimage=".\skin\YouziRes\logo1.png" pushedimage=".\skin\YouziRes\logo1.png"  maxwidth="48" />
+			</Container>	
+			<VerticalLayout bkcolor="#FFEEEE00" width="120" height="48" >						
+				<Label text="柚子科技" align="left" valign="center" showhtml="true" font="1"  height="48" padding="5,2,0,2" />
+			</VerticalLayout>	
+				
+			<Control height="48"/>
+			
+			<VerticalLayout width="48" >
+				<Control />
+				<Button name="close_button" width="22" height="22" normalimage=".\skin\YouziRes\close_normal.png" hotimage=".\skin\YouziRes\close_over.png" pushedimage=".\skin\YouziRes\close_normal.png"  maxwidth="120" />
+				<Control />
+			</VerticalLayout>					
+			
+			
+			<Control width="10"/>
+		</HorizontalLayout>
+			
+		<VerticalLayout inset="8,0,8,8" bkcolor="#FF003080" colorhsl="false" >
 		
-		<Slider name="alpha_controlor" min="20" max="255" value="255"/>
-		<Control height="40"/>
-		<Slider name="h_controlor" max="360" value="180"/>
-		<Control height="8"/>
-		<Slider name="s_controlor" max="200" value="100"/>
-		<Control height="8"/>
-		<Slider name="l_controlor" max="200" value="100"/>
-		<Control height="8"/>
-		<Button name="changeskinbtn" height="20" text="换肤" maxwidth="120" />
-		<Control height="8"/>
+			
+			
+			<Slider name="alpha_controlor" min="20" max="255" value="255"/>
+			<Control height="40"/>
+			<Slider name="h_controlor" max="360" value="180"/>
+			<Control height="8"/>
+			<Slider name="s_controlor" max="200" value="100"/>
+			<Control height="8"/>
+			<Slider name="l_controlor" max="200" value="100"/>
+			<Control height="8"/>
+			<Button name="changeskinbtn" height="20" text="换肤" maxwidth="120" />
+			<Control height="8"/>
+			
+			<VerticalLayout vscrollbar="true" hscrollbar="false">			
+				<Shortcut inset="10,10,10,10" width="180" height="90" name="qq_icon" maskcolor="#FF00CCFF" text="音乐管家 1" userdata="我是音乐管家1" icon=".\IconFromPE\QQ\5_48x48.ico" />	
+				<Shortcut inset="10,10,10,10" width="180" height="90" name="qq_icon" maskcolor="#FF00CCFF" text="WPS 2019" userdata="我是WPS" icon=".\IconFromPE\wps\8_48x48.ico" />	
+				<Shortcut inset="10,10,10,10" width="180" height="90" name="qq_icon" maskcolor="#FF00CCFF" text="音乐管家 3"  icon=".\IconFromPE\GeePlayer\3_48x48.ico" />	
+				<Shortcut inset="10,10,10,10" width="180" height="90" name="qq_icon" maskcolor="#FF00CCFF" text="音乐管家 4"  icon=".\IconFromPE\MSACCESS\4_48x48.ico" />	
+				<Shortcut inset="10,10,10,10" width="180" height="90" name="qq_icon" maskcolor="#FF00CCFF" text="音乐管家 5"  icon=".\IconFromPE\ONENOTE\4_48x48.ico" />	
+				<Shortcut inset="10,10,10,10" width="180" height="90" name="qq_icon" maskcolor="#FF00CCFF" text="音乐管家 6"  icon=".\IconFromPE\WeChat\3_48x48.ico" />	
+				<Shortcut inset="10,10,10,10" width="180" height="90" name="qq_icon" maskcolor="#FF00CCFF" text="音乐管家 7"  icon=".\IconFromPE\EXCEL\4_48x48.ico" />			
+			</VerticalLayout>
 		
-		<VerticalLayout vscrollbar="true" hscrollbar="false">			
-			<Shortcut inset="10,10,10,10" width="180" height="90" name="qq_icon" maskcolor="#FF00CCFF" text="音乐管家 1" userdata="我是音乐管家1" icon=".\IconFromPE\QQ\5_48x48.ico" />	
-			<Shortcut inset="10,10,10,10" width="180" height="90" name="qq_icon" maskcolor="#FF00CCFF" text="WPS 2019" userdata="我是WPS" icon=".\IconFromPE\wps\8_48x48.ico" />	
-			<Shortcut inset="10,10,10,10" width="180" height="90" name="qq_icon" maskcolor="#FF00CCFF" text="音乐管家 3"  icon=".\IconFromPE\GeePlayer\3_48x48.ico" />	
-			<Shortcut inset="10,10,10,10" width="180" height="90" name="qq_icon" maskcolor="#FF00CCFF" text="音乐管家 4"  icon=".\IconFromPE\MSACCESS\4_48x48.ico" />	
-			<Shortcut inset="10,10,10,10" width="180" height="90" name="qq_icon" maskcolor="#FF00CCFF" text="音乐管家 5"  icon=".\IconFromPE\ONENOTE\4_48x48.ico" />	
-			<Shortcut inset="10,10,10,10" width="180" height="90" name="qq_icon" maskcolor="#FF00CCFF" text="音乐管家 6"  icon=".\IconFromPE\WeChat\3_48x48.ico" />	
-			<Shortcut inset="10,10,10,10" width="180" height="90" name="qq_icon" maskcolor="#FF00CCFF" text="音乐管家 7"  icon=".\IconFromPE\EXCEL\4_48x48.ico" />			
 		</VerticalLayout>
-		
-		
 	</VerticalLayout>
 </Window>
