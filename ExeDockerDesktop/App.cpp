@@ -314,7 +314,11 @@ public:
     UINT GetClassStyle() const { return UI_CLASSSTYLE_FRAME | CS_DBLCLKS; };
     void OnFinalMessage(HWND /*hWnd*/) { delete this; };
 
-    void Init() { }
+    void Init()
+	{ 
+		m_pm.SetOpacity(240);
+
+	}
 
     bool OnHChanged(void* param) {
         TNotifyUI* pMsg = (TNotifyUI*)param;

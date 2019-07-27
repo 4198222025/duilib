@@ -11,10 +11,10 @@
 	<VerticalLayout inset="0,0,0,0" bkcolor="#FF003080" colorhsl="false" >
 		<HorizontalLayout height="48"  bkcolor="#FFDDDDDD" >
 			<Control width="10"/>
-			<Container bkcolor="#FFEEEEEE"  inset="0,0,0,0" width="48" height="48" >	
-				<Button name="logo_button" float="0.5,0.5,0.5,0.5" pos="-24,-24,24,24"  width="48" height="48" normalimage=".\skin\YouziRes\logo1.png" hotimage=".\skin\YouziRes\logo1.png" pushedimage=".\skin\YouziRes\logo1.png"  maxwidth="48" />
+			<Container bkcolor="#FFDDDDDD"  inset="0,0,0,0" width="48" height="48" >	
+				<Button name="logo_button" float="0.5,0.5,0.5,0.5" pos="-16,-16,16,16"  width="32" height="32" normalimage=".\skin\YouziRes\logo_32.png" hotimage=".\skin\YouziRes\logo_32.png" pushedimage=".\skin\YouziRes\logo_32.png"  maxwidth="48" />
 			</Container>	
-			<VerticalLayout bkcolor="#FFEEEE00" width="120" height="48" >						
+			<VerticalLayout bkcolor="#FFDDDDDD" width="120" height="48" >						
 				<Label text="柚子科技" align="left" valign="center" showhtml="true" font="1"  height="48" padding="5,2,0,2" />
 			</VerticalLayout>	
 				
@@ -31,20 +31,6 @@
 		</HorizontalLayout>
 			
 		<VerticalLayout inset="8,0,8,8" bkcolor="#FF003080" colorhsl="false" >
-		
-			
-			
-			<Slider name="alpha_controlor" min="20" max="255" value="255"/>
-			<Control height="40"/>
-			<Slider name="h_controlor" max="360" value="180"/>
-			<Control height="8"/>
-			<Slider name="s_controlor" max="200" value="100"/>
-			<Control height="8"/>
-			<Slider name="l_controlor" max="200" value="100"/>
-			<Control height="8"/>
-			<Button name="changeskinbtn" height="20" text="换肤" maxwidth="120" />
-			<Control height="8"/>
-			
 			<VerticalLayout vscrollbar="true" hscrollbar="false">			
 				<Shortcut inset="10,10,10,10" width="180" height="90" name="qq_icon" maskcolor="#FF00CCFF" text="音乐管家 1" userdata="我是音乐管家1" icon=".\IconFromPE\QQ\5_48x48.ico" />	
 				<Shortcut inset="10,10,10,10" width="180" height="90" name="qq_icon" maskcolor="#FF00CCFF" text="WPS 2019" userdata="我是WPS" icon=".\IconFromPE\wps\8_48x48.ico" />	
