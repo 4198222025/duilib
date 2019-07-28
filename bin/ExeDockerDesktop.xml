@@ -20,7 +20,7 @@
 				
 			<Control height="48"/>
 			
-			<VerticalLayout width="48" >
+			<VerticalLayout width="30" >
 				<Control />
 				<Button name="close_button" width="22" height="22" normalimage=".\skin\YouziRes\close_normal.png" hotimage=".\skin\YouziRes\close_over.png" pushedimage=".\skin\YouziRes\close_normal.png"  maxwidth="120" />
 				<Control />
@@ -30,7 +30,7 @@
 			<Control width="10"/>
 		</HorizontalLayout>
 			
-		<VerticalLayout inset="8,0,8,8" bkcolor="#FF003080" colorhsl="false" >
+		<VerticalLayout inset="8,8,8,8" bkcolor="#FF003080" colorhsl="false" >
 			<VerticalLayout vscrollbar="true" hscrollbar="false">			
 				<Shortcut inset="10,10,10,10" width="180" height="90" name="qq_icon" maskcolor="#FF00CCFF" text="音乐管家 1" userdata="我是音乐管家1" icon=".\IconFromPE\QQ\5_48x48.ico" />	
 				<Shortcut inset="10,10,10,10" width="180" height="90" name="qq_icon" maskcolor="#FF00CCFF" text="WPS 2019" userdata="我是WPS" icon=".\IconFromPE\wps\8_48x48.ico" />	

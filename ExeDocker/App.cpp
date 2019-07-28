@@ -18,9 +18,17 @@
 using namespace yg_icon;
 
 std::string g_strWorkDir;
-std::string g_strBucketName;
+
+std::string g_strBucketName;			// OSS bucket名称
+
+
 std::vector<UploadFileInfo> g_arrUploadFiles;
 
+// 应用商店服务器地址
+std::string g_strServerName; // IP或者域名
+std::string g_strServerPort;
+
+// windows的版本信息
 DWORD g_dwMajorVersion;
 DWORD g_dwMinorVersion;
 DWORD g_dwBuildNumber;
@@ -843,7 +851,21 @@ public:
 	{
 		pTileLayout->RemoveAll();
 
-		std::vector<SoftwareInfo> softwareArr = CallQueryPackageService("", category, 1, 24);
+		std::vector<SoftwareInfo> softwareArr = YzHttpUtil::CallQueryPackageService("", category, 1, 24);
+
+		// 下载图标
+		for (int i = 0; i < softwareArr.size(); i++){
+			SoftwareInfo& software = softwareArr[i];
+
+			if (software.iconurl.length() > 0){
+
+				string local_file_path = ".\\data\\icons\\" + software.id + ".ico";
+				YzHttpUtil::DownloadFile(software.iconurl.c_str(), local_file_path);
+				software.icon = local_file_path;
+			}
+		}
+
+
 		for (int i = 0; i < softwareArr.size(); i++){
 
 			SoftwareInfo software = softwareArr[i];
@@ -1119,7 +1141,7 @@ public:
 			else if (msg.pSender->GetName() == _T("load_office_button")){
 				CTileLayoutUI* pTileLayout = static_cast<CTileLayoutUI*>(m_pm.FindControl(_T("remote_software_list")));
 				
-				LoadSoftwareFromServer(pTileLayout, "dfhhsgqgfsfgs");
+				LoadSoftwareFromServer(pTileLayout, "08c32931-efaa-48d0-92b5-d37f3a511d23");
 				
 				//LoadSoftwareFromJson(pTileLayout, "./data/local_software_office.json");
 
@@ -1128,18 +1150,21 @@ public:
 			else if (msg.pSender->GetName() == _T("load_music_button")){
 				CTileLayoutUI* pTileLayout = static_cast<CTileLayoutUI*>(m_pm.FindControl(_T("remote_software_list")));
 
-				LoadSoftwareFromServer(pTileLayout, "34a1c7b0-2678-40a5-b752-eb8c95e5ddc5");
+				LoadSoftwareFromServer(pTileLayout, "d48a93e0-354a-449a-9a83-ea374d9c7a5f");
 
 				//LoadSoftwareFromJson(pTileLayout, "./data/local_software_music.json");
 
 				//MessageBox(NULL, _T("加载音乐软件！"), _T("提示"), MB_OK);
 			}
-			else if (msg.pSender->GetName() == _T("load_other_button")){
+			else if (msg.pSender->GetName() == _T("load_video_button")){
 				CTileLayoutUI* pTileLayout = static_cast<CTileLayoutUI*>(m_pm.FindControl(_T("remote_software_list")));
-				LoadSoftwareFromJson(pTileLayout, "./data/local_software_other.json");
-
-				//MessageBox(NULL, _T("加载其他软件！"), _T("提示"), MB_OK);
+				LoadSoftwareFromServer(pTileLayout, "afb72b9c-20e8-4269-9772-ee361874338b");
 			}
+			else if (msg.pSender->GetName() == _T("load_image_button")){
+				CTileLayoutUI* pTileLayout = static_cast<CTileLayoutUI*>(m_pm.FindControl(_T("remote_software_list")));
+				LoadSoftwareFromServer(pTileLayout, "1d4a4b38-912d-4aee-bc10-7e117a6c3059");
+			}
+
 			else if (msg.pSender->GetName() == _T("sec_load_button")){
 
 				bool bRet = SecLoad(g_strWorkDir + "sys\\SecUFDock.sys");
@@ -1401,7 +1426,7 @@ public:
 				}
 				else
 				{					
-					packageid = PrasePackageId(response);
+					packageid = YzHttpUtil::PrasePackageId(response);
 					MessageBox(NULL, packageid.c_str(), _T("提示"), MB_OK);
 					SetContorlText("packageid_edit", packageid);
 				}
@@ -1565,7 +1590,7 @@ public:
 
 				std::replace(packagefileinfo.begin(), packagefileinfo.end(), '\\', '=');
 
-				std::vector<UploadFileInfo> fileList = PrasePackageFileInfo(packagefileinfo);
+				std::vector<UploadFileInfo> fileList = YzHttpUtil::PrasePackageFileInfo(packagefileinfo);
 				for (int i = 0; i < fileList.size(); i++)
 				{					
 					string filedir = fileList[i].dir;
@@ -1953,7 +1978,13 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 
 		return 0;
 	}
+
+
+	g_strServerName = "39.96.6.55";  //static string server = "http://39.96.6.55:9999";
+	g_strServerPort = "9999";
+	YzHttpUtil::InitServerInfo(g_strServerName, g_strServerPort);
 	
+	// 取当前目录
 	g_strWorkDir = "";
 
 	WCHAR szCurrentDir[MAX_PATH * 2] = { 0 };

@@ -213,9 +213,10 @@
 						<!--  顶部 - 类别导航条  !-->
 						<HorizontalLayout inset="10,10,10,10" height="55" bkcolor="#FFEEEEEE"  >				
 							<Button name="load_all_button" height="35" text="全部软件" maxwidth="120" bkcolor="#FFEEEEEE"/>				
-							<Button name="load_office_button" height="35" text="办公" maxwidth="120" bkcolor="#990099" />
-							<Button name="load_music_button" height="35" text="音乐" maxwidth="120" bkcolor="#FF33CC"/>
-							<Button name="load_other_button" height="35" text="其他" maxwidth="120" bkcolor="#3333FF"/>
+							<Button name="load_office_button" height="35" text="办公软件" maxwidth="120" bkcolor="#990099" />
+							<Button name="load_music_button" height="35" text="音乐软件" maxwidth="120" bkcolor="#FF33CC"/>
+							<Button name="load_video_button" height="35" text="视频软件" maxwidth="120" bkcolor="#3333FF"/>
+							<Button name="load_image_button" height="35" text="图形图像" maxwidth="120" bkcolor="#3333FF"/>
 							<Control height="60"/>
 							<Button name="changeskinbtn" width="35" height="35" text="<" maxwidth="120" />
 							<Button name="changeskinbtn" width="35" height="35" text=">" maxwidth="120" />

@@ -13,4 +13,8 @@ struct SoftwareInfo
 
 	std::string path;
 	std::string args;
+
+	std::string iconurl;
+
+	std::string packageid;
 };
